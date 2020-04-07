@@ -12,21 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SQLTrainApp.View.Pages;
 
-namespace SQLTrainApp
+namespace SQLTrainApp.View.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для ContentPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ContentPage : Page
     {
-        public MainWindow()
+        public ContentPage()
         {
             InitializeComponent();
-            mainFrame.Navigate(new SignOnPage());
         }
-
-        
     }
 }

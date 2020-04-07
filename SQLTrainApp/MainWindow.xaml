@@ -5,15 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SQLTrainApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="800">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-            <TextBlock x:Name="tbkOutput" Padding="20"
-                   HorizontalAlignment="Left" TextWrapping="Wrap" 
-                   Text="TextBlock" VerticalAlignment="Top"
-                   Background="#FFF5FFEE" LineHeight="30" Width="500"/>
-        </ScrollViewer>
-        
-
+        <Frame x:Name="mainFrame"/>
     </Grid>
 </Window>

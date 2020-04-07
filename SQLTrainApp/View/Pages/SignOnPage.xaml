@@ -1,0 +1,100 @@
+﻿<Page x:Class="SQLTrainApp.View.Pages.SignOnPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SQLTrainApp.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="800"
+      Title="SignOnPage">
+
+    <Grid>
+        <Grid>
+            <Border Height="450" Width="600" 
+                BorderBrush="Silver"
+                BorderThickness="2"
+                CornerRadius="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="РЕГИСТРАЦИЯ" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
+                               FontSize="40" FontWeight="Bold"
+                               Foreground="Gray"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                       />
+
+                    <TextBlock Text="E-mail:" Grid.Column="1" Grid.Row="1"
+                           FontSize="20" Foreground="Gray"
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       />
+                    <TextBox x:Name="tbxEmail" Grid.Column="1" Grid.Row="2"
+                         FontSize="26" Width="250"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                     />
+
+                    <TextBlock Text="Логин:" Grid.Column="1" Grid.Row="3"
+                           FontSize="20" Foreground="Gray"
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       />
+                    <TextBox x:Name="tbxLogin" Grid.Column="1" Grid.Row="4"
+                         FontSize="26" Width="250"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                     />
+
+                    <TextBlock Text="Пароль:" Grid.Column="1" Grid.Row="5"
+                           FontSize="20" Foreground="Gray"
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       />
+                    <PasswordBox x:Name="tbxPassword" Grid.Column="1" Grid.Row="6"
+                             FontSize="26" Width="250"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                     />
+
+                    <TextBlock Text="Повторите пароль:" Grid.Column="1" Grid.Row="7"
+                           FontSize="20" Foreground="Gray"
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       />
+                    <PasswordBox x:Name="tbxPasswordReplay" Grid.Column="1" Grid.Row="8"
+                             FontSize="26" Width="250"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                     />
+
+                    <Button x:Name="btnSignOn" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3"
+                        Content="Зарегистрироваться" FontSize="20"
+                        Height="35" Width="210"
+                        />
+
+                    <TextBlock Text="Забыли пароль?" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="3"
+                           Style="{StaticResource blueButton}"
+                           HorizontalAlignment="Center" VerticalAlignment="Top"
+                       />
+
+                    <Ellipse Grid.Column="0" Grid.Row="1" Grid.RowSpan="8"
+                            Height="250" Width="250">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="2020-04-03_18-51-52.png" Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

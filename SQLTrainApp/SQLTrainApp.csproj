@@ -70,6 +70,33 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="VewModel\MainWindowViewModel.cs" />
+    <Compile Include="View\Pages\ContentPage.xaml.cs">
+      <DependentUpon>ContentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\EditTaskPage.xaml.cs">
+      <DependentUpon>EditTaskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\SendingComplaintPage.xaml.cs">
+      <DependentUpon>SendingComplaintPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ShowComplaintsPages.xaml.cs">
+      <DependentUpon>ShowComplaintsPages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\SignInPage.xaml.cs">
+      <DependentUpon>SignInPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\SignOnPage.xaml.cs">
+      <DependentUpon>SignOnPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\TaskDecisionPage.xaml.cs">
+      <DependentUpon>TaskDecisionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\TheoryPage.xaml.cs">
+      <DependentUpon>TheoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\UserInfoPage.xaml.cs">
+      <DependentUpon>UserInfoPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,6 +109,42 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Pages\ContentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\EditTaskPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\SendingComplaintPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\ShowComplaintsPages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\SignInPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\SignOnPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\TaskDecisionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\TheoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\UserInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -112,13 +175,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\Commands\" />
-    <Folder Include="View\Pages\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SQLTrainDAL\SQLTrainDAL.csproj">
-      <Project>{7739fd9f-4d14-4681-8d29-c668ea6a2c43}</Project>
-      <Name>SQLTrainDAL</Name>
-    </ProjectReference>
+    <Resource Include="View\Images\2020-04-03_18-51-52.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
