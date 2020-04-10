@@ -41,7 +41,7 @@
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        />
                 <TextBox x:Name="tbxLogin" Grid.Column="1" Grid.Row="2"
-                         FontSize="26" Width="250"
+                         FontSize="20" Width="250"
                          HorizontalAlignment="Center" VerticalAlignment="Center"
                      />
 
@@ -64,8 +64,14 @@
                        />
                 <TextBlock Text="Регистрация" Grid.Column="1" Grid.Row="7"
                            Style="{StaticResource blueButton}"
-                           HorizontalAlignment="Center" VerticalAlignment="Top"
-                       />
+                           HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock.InputBindings>
+                        <MouseBinding Command="{Binding Path=DataContext.load,
+                                                RelativeSource={RelativeSource Mode=FindAncestor,
+                                                AncestorType={x:Type Window}}}"
+                                      MouseAction="LeftClick"/>
+                    </TextBlock.InputBindings>
+                </TextBlock>
 
 
             </Grid>

@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SQLTrainApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800">
+        Title="MainWindow" Height="500" Width="800"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}">
     <Grid>
-        <Frame x:Name="mainFrame"/>
+        <Frame x:Name="mainFrame"
+               Content="{Binding CurrentPage}"
+               NavigationUIVisibility="Hidden"
+               Opacity="{Binding FrameOpacity}"               
+               />
     </Grid>
 </Window>
