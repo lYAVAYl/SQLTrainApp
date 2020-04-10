@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using SQLTrainApp.View.Pages;
 
 namespace SQLTrainApp.ViewModel
@@ -18,6 +19,8 @@ namespace SQLTrainApp.ViewModel
             CurrentPage = new SignInPage();
         }
 
+        ICommand _loadSignOnPage = null;
+        //public ICommand LoadSignOnPage() => 
 
     }
 }

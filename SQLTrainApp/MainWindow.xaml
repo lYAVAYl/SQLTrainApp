@@ -11,7 +11,7 @@
         <Frame x:Name="mainFrame"
                Content="{Binding CurrentPage}"
                NavigationUIVisibility="Hidden"
-               Opacity="{Binding FrameOpacity}"               
+               Opacity="{Binding FrameOpacity}" 
                />
     </Grid>
 </Window>

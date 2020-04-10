@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SQLTrainApp.ViewModel;
 
 namespace SQLTrainApp.View.Pages
 {
@@ -23,6 +24,11 @@ namespace SQLTrainApp.View.Pages
         public SignInPage()
         {
             InitializeComponent();
+        }
+
+        private void loadAnothePage(object sender, MouseButtonEventArgs e)
+        {
+            NavigationService.Navigate(new SignOnPage());
         }
     }
 }

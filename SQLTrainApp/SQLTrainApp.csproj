@@ -71,7 +71,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Commands\CommandBase.cs" />
-    <Compile Include="Model\Commands\RegisterNewUser.cs" />
     <Compile Include="Model\Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\Pages\ContentPage.xaml.cs">
