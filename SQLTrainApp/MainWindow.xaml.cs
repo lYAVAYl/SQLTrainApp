@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SQLTrainApp.View.Pages;
 using SQLTrainApp.ViewModel;
 
 namespace SQLTrainApp
@@ -22,7 +21,7 @@ namespace SQLTrainApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
+        //public MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
 
         public MainWindow()
         {

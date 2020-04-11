@@ -4,14 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SQLTrainApp"
+        xmlns:context="clr-namespace:SQLTrainApp.ViewModel"        
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800"
-        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}">
+        Title="MainWindow" Height="500" Width="800">
     <Grid>
-        <Frame x:Name="mainFrame"
-               Content="{Binding CurrentPage}"
-               NavigationUIVisibility="Hidden"
-               Opacity="{Binding FrameOpacity}" 
-               />
+        <ContentControl Content="{Binding CurrentPageViewModel}" />        
     </Grid>
 </Window>

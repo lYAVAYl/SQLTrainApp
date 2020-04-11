@@ -52,6 +52,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,40 +72,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Commands\CommandBase.cs" />
+    <Compile Include="Model\Logic\EventArgs.cs" />
+    <Compile Include="Model\Logic\EventRaiser.cs" />
     <Compile Include="Model\Commands\RelayCommand.cs" />
+    <Compile Include="Model\Logic\IPageViewModel.cs" />
+    <Compile Include="Model\Logic\Mediator.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="View\Pages\ContentPage.xaml.cs">
-      <DependentUpon>ContentPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Pages\EditTaskPage.xaml.cs">
-      <DependentUpon>EditTaskPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Pages\SendingComplaintPage.xaml.cs">
-      <DependentUpon>SendingComplaintPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Pages\ShowComplaintsPages.xaml.cs">
-      <DependentUpon>ShowComplaintsPages.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Pages\SignInPage.xaml.cs">
+    <Compile Include="ViewModel\SignInPageViewModel.cs" />
+    <Compile Include="ViewModel\SignOnPageViewModel.cs" />
+    <Compile Include="View\UserControls\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\SignOnPage.xaml.cs">
+    <Compile Include="View\UserControls\SignOnPage.xaml.cs">
       <DependentUpon>SignOnPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\TaskDecisionPage.xaml.cs">
-      <DependentUpon>TaskDecisionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Pages\TheoryPage.xaml.cs">
-      <DependentUpon>TheoryPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Pages\UserInfoPage.xaml.cs">
-      <DependentUpon>UserInfoPage.xaml</DependentUpon>
-    </Compile>
-    <Page Include="General.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,39 +99,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\Pages\ContentPage.xaml">
+    <Page Include="View\UserControls\SignInPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Pages\EditTaskPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\SendingComplaintPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\ShowComplaintsPages.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\SignInPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\SignOnPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\TaskDecisionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\TheoryPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Pages\UserInfoPage.xaml">
+    <Page Include="View\UserControls\SignOnPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

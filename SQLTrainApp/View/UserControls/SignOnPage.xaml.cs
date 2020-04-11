@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SQLTrainApp.View.Pages
+namespace SQLTrainApp.View.UserControls
 {
     /// <summary>
-    /// Логика взаимодействия для TheoryPage.xaml
+    /// Логика взаимодействия для SignOnPage.xaml
     /// </summary>
-    public partial class TheoryPage : Page
+    public partial class SignOnPage : UserControl
     {
-        public TheoryPage()
+        public SignOnPage()
         {
             InitializeComponent();
         }
