@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLTrainApp", "SQLTrainApp\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControlLib", "..\WpfControlLib\WpfControlLib.csproj", "{570AE1DB-0E33-47E1-81B3-BB550255759A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainSQL_DAL", "TrainSQL_DAL\TrainSQL_DAL.csproj", "{15371463-9A0D-4E48-A0EF-1BBC5C438185}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmNavigation", "..\MvvmNavigation\MvvmNavigation\MvvmNavigation.csproj", "{CCBFDF21-158F-4D2B-8839-FF4FFC8CA9F3}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{570AE1DB-0E33-47E1-81B3-BB550255759A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{570AE1DB-0E33-47E1-81B3-BB550255759A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{570AE1DB-0E33-47E1-81B3-BB550255759A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15371463-9A0D-4E48-A0EF-1BBC5C438185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15371463-9A0D-4E48-A0EF-1BBC5C438185}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15371463-9A0D-4E48-A0EF-1BBC5C438185}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15371463-9A0D-4E48-A0EF-1BBC5C438185}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CCBFDF21-158F-4D2B-8839-FF4FFC8CA9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CCBFDF21-158F-4D2B-8839-FF4FFC8CA9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCBFDF21-158F-4D2B-8839-FF4FFC8CA9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU

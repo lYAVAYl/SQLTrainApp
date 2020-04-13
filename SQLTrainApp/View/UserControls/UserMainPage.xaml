@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="SQLTrainApp.View.UserControls.UserMainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SQLTrainApp.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Border BorderBrush="Silver"
+                BorderThickness="2"
+                CornerRadius="5"
+                Margin="50">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="280"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Ellipse Grid.Column="0" Grid.Row="0" Grid.RowSpan="6"
+                         Height="250" Width="250"
+                         HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="C:\CS_projects\SQLTrainApp\SQLTrainApp\View\Images\2020-04-03_18-51-52.png" Stretch="UniformToFill"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+
+                <TextBlock x:Name="tbkLogin" Grid.Column="1" Grid.Row="0"
+                           Text="Sofa226"
+                           FontSize="50" FontWeight="Bold"
+                           Foreground="Gray"
+                           HorizontalAlignment="Left"
+                       />
+                <TextBlock x:Name="tbkEmail" Grid.Column="1" Grid.Row="1"
+                           Text="someEmail@yandex.ru"
+                           FontSize="25"
+                           Foreground="Gray"
+                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                       />
+                <TextBlock x:Name="tbkRole" Grid.Column="1" Grid.Row="1"
+                           Text="Ученик"
+                           FontSize="25"
+                           Foreground="Gray"
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       />
+
+
+
+            </Grid>
+
+        </Border>
+    </Grid>
+</UserControl>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
@@ -11,7 +12,7 @@ using SQLTrainApp.Model.Logic;
 
 namespace SQLTrainApp.ViewModel
 {
-    public class MainWindowViewModel:BaseViewModel
+    public class MainWindowViewModel : BaseViewModel
     {
         #region My Shitcode
         //private Page _currPage = null;
@@ -82,6 +83,15 @@ namespace SQLTrainApp.ViewModel
         {
             ChangeViewModel(PageViewModels[0]);
         }
+        
+        
+        /// <summary>
+        /// Поиск пользователя
+        /// </summary>
+        private void FindUser(object obj)
+        {
+            
+        }
 
         public MainWindowViewModel()
         {
@@ -95,6 +105,7 @@ namespace SQLTrainApp.ViewModel
             // Установка команд
             Mediator.Subscribe("LoadSignOnPage", LoadSignOnPage);
             Mediator.Subscribe("LoadSignInPage", LoadSignInPage);
+            Mediator.Subscribe("FindUser", FindUser);
         }
 
 

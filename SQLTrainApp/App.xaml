@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SQLTrainApp"
              xmlns:viewmodels="clr-namespace:SQLTrainApp.ViewModel"
-             xmlns:view="clr-namespace:SQLTrainApp.View.UserControls">
+             xmlns:view="clr-namespace:SQLTrainApp.View.UserControls"
+             xmlns:logic="clr-namespace:SQLTrainApp.Model.Logic"
+             >
     <Application.Resources>
         <!--TextBlock в виде синей кнопки-->
         <Style x:Key="blueButton" TargetType="TextBlock">
@@ -25,5 +27,7 @@
         <DataTemplate DataType="{x:Type viewmodels:SignOnPageViewModel}">
             <view:SignOnPage />
         </DataTemplate>
+        
+        <logic:MultiValConverter x:Key="multivalueconverter"/>
     </Application.Resources>
 </Application>

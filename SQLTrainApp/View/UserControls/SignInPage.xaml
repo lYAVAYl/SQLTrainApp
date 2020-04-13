@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SQLTrainApp.View.UserControls"
-             xmlns:cmd="clr-namespace:SQLTrainApp.ViewModel"
+             xmlns:logic="clr-namespace:SQLTrainApp.Model.Logic"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -41,21 +41,26 @@
                        />
                 <TextBox x:Name="tbxLogin" Grid.Column="1" Grid.Row="2"
                          FontSize="20" Width="250"
-                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                     />
+                         HorizontalAlignment="Center" VerticalAlignment="Center"  
+                         Text="{Binding Path=myLog}"
+                        />
 
                 <TextBlock Text="Пароль:" Grid.Column="1" Grid.Row="3"
                            FontSize="20" Foreground="Gray"
-                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom"                           
                        />
                 <PasswordBox x:Name="tbxPassword" Grid.Column="1" Grid.Row="4"
                              FontSize="26" Width="250"
                              HorizontalAlignment="Center" VerticalAlignment="Center"
-                     />
+                             logic:PasswordBoxAssistant.BindPassword="True"
+                             logic:PasswordBoxAssistant.BoundPassword="{Binding Path=myPass, Mode=TwoWay, 
+                                                                                UpdateSourceTrigger=PropertyChanged}"                             
+                        />
                 <Button x:Name="btnSignIn" Grid.Column="1" Grid.Row="5"
                         Content="Войти" FontSize="20"
                         Height="35" Width="100"
-                        />
+                        Command="{Binding FindUser}">
+                </Button>
 
                 <TextBlock Text="Забыли пароль?" Grid.Column="1" Grid.Row="6"
                            Style="{StaticResource blueButton}"
@@ -70,6 +75,8 @@
                                       MouseAction="LeftClick"/>
                     </TextBlock.InputBindings>
                 </TextBlock>
+                
+                
 
 
             </Grid>

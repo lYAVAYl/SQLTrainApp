@@ -72,11 +72,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Logic\CurrentUser.cs" />
     <Compile Include="Model\Logic\EventArgs.cs" />
     <Compile Include="Model\Logic\EventRaiser.cs" />
     <Compile Include="Model\Commands\RelayCommand.cs" />
     <Compile Include="Model\Logic\IPageViewModel.cs" />
     <Compile Include="Model\Logic\Mediator.cs" />
+    <Compile Include="Model\Logic\MultiValConverter.cs" />
+    <Compile Include="Model\Logic\PasswordBoxAssistant.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SignInPageViewModel.cs" />
@@ -86,6 +89,9 @@
     </Compile>
     <Compile Include="View\UserControls\SignOnPage.xaml.cs">
       <DependentUpon>SignOnPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\UserMainPage.xaml.cs">
+      <DependentUpon>UserMainPage.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -104,6 +110,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\SignOnPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\UserMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -138,12 +148,6 @@
   <ItemGroup />
   <ItemGroup>
     <Resource Include="View\Images\2020-04-03_18-51-52.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TrainSQL_DAL\TrainSQL_DAL.csproj">
-      <Project>{15371463-9a0d-4e48-a0ef-1bbc5c438185}</Project>
-      <Name>TrainSQL_DAL</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
