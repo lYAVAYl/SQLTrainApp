@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="SQLTrainApp.View.UserControls.TaskDecisionPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SQLTrainApp.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="900">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Border Style="{StaticResource simpleBorder}"
+                    Margin="20"
+                    >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="210"/>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition MinWidth="290"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="80"/>
+                        <RowDefinition Height="3"/>
+                        <RowDefinition />
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+
+
+
+                    <TabControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" 
+                                Margin="0,0,3,0">
+                        <TabItem Header="Задание" FontSize="16">
+                            <Grid Background="LightSkyBlue">
+                                
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Отношения БД" FontSize="16">
+                            <Grid Background="LightYellow">
+                                
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                    <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="4"
+                                  ShowsPreview="False"
+                                  HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                                  Width="3"
+                                  />
+                    
+                    
+                    <Border Grid.Column="2" Grid.Row="0"
+                            Style="{StaticResource simpleBorder}"
+                            Padding="3,0,3,3">
+                        <Grid>
+                            <TextBlock Text="Запрос пользователя:"
+                               FontSize="25" FontWeight="Bold"
+                               Foreground="Gray"
+                               HorizontalAlignment="Center" VerticalAlignment="Top"
+                               />
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <TextBox x:Name="tbxUserQuery"
+                                         Text="{Binding Path=UserQuery}"
+                                         Margin="0,40,0,0"
+                                         FontSize="16"
+                                         Padding="10"
+                                         TextWrapping="WrapWithOverflow"
+                                         />
+                            </ScrollViewer>                            
+                        </Grid>
+                    </Border>
+                    <GridSplitter Grid.Column="2" Grid.Row="1"
+                                  ShowsPreview="False"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                  Height="3"
+                                  />
+                    <Border Grid.Column="2" Grid.Row="2"
+                            Style="{StaticResource simpleBorder}"
+                            Padding="3,0,3,3">
+                        <Grid>
+                            <TextBlock Text="Вывод:"
+                               FontSize="25" FontWeight="Bold"
+                               Foreground="Gray"
+                               HorizontalAlignment="Center" VerticalAlignment="Top"
+                               />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                <DataGrid x:Name="dgQueryResult"
+                                          ItemsSource="{Binding Source=ResultList}"
+                                          AutoGenerateColumns="True"
+                                          Margin="0,40,0,0"/>
+                            </ScrollViewer>
+
+                        </Grid>
+
+
+                    </Border>
+
+                    
+                    <WrapPanel Grid.Column="2" Grid.Row="5"
+                               HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                        <Button x:Name="btnSkipTask" DockPanel.Dock="Left"
+                                Content="Пропустить"                                
+                                FontSize="16"
+                                Margin="0,0,5,0"  Padding="3,0,3,0"
+                                
+                                />
+                        <Button x:Name="btnSendComplaint" DockPanel.Dock="Left"
+                                Content="Жалоба"
+                                FontSize="16"
+                                 Padding="3,0,3,0"
+                                />
+                        <Button x:Name="btnExecute" DockPanel.Dock="Left"
+                                Content="Выполнить" Margin="5,0,0,0"
+                                FontSize="16"
+                                Padding="3,0,3,0"
+                                Command="{Binding ExecuteCmd}"
+                                />
+                    </WrapPanel>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+
+
+
+    </Grid>
+</UserControl>

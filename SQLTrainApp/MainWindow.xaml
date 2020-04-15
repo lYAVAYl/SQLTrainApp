@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:SQLTrainApp"
         xmlns:context="clr-namespace:SQLTrainApp.ViewModel"        
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800">
+        Title="SQL Train" 
+        Height="500" Width="800"
+        MinHeight="500" MinWidth="900"
+        >
     <Grid>
         <ContentControl Content="{Binding CurrentPageViewModel}" />        
     </Grid>

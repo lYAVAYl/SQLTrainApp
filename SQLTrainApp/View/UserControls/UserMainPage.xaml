@@ -7,46 +7,47 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Border BorderBrush="Silver"
-                BorderThickness="2"
-                CornerRadius="5"
-                Margin="50">
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Border Style="{StaticResource simpleBorder}"                
+                    Margin="50,50,50,0"
+                    Padding="15"
+                    Height="290"
+                    VerticalAlignment="Top">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="280"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Ellipse Grid.Column="0" Grid.Row="0" Grid.RowSpan="6"
                          Height="250" Width="250"
-                         HorizontalAlignment="Center" VerticalAlignment="Top">
+                         HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="C:\CS_projects\SQLTrainApp\SQLTrainApp\View\Images\2020-04-03_18-51-52.png" Stretch="UniformToFill"/>
+                        <ImageBrush ImageSource="{Binding Path=UserPhoto}" Stretch="UniformToFill"/>
                     </Ellipse.Fill>
                 </Ellipse>
 
                 <TextBlock x:Name="tbkLogin" Grid.Column="1" Grid.Row="0"
-                           Text="Sofa226"
+                           Text="{Binding Path=UserLogin}"
                            FontSize="50" FontWeight="Bold"
                            Foreground="Gray"
                            HorizontalAlignment="Left"
                        />
                 <TextBlock x:Name="tbkEmail" Grid.Column="1" Grid.Row="1"
-                           Text="someEmail@yandex.ru"
+                           Text="{Binding Path=UserEmail}"
                            FontSize="25"
                            Foreground="Gray"
-                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        />
-                <TextBlock x:Name="tbkRole" Grid.Column="1" Grid.Row="1"
-                           Text="Ученик"
+                <TextBlock x:Name="tbkRole" Grid.Column="1" Grid.Row="2"
+                           Text="{Binding Path=UserRole}"
                            FontSize="25"
                            Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
@@ -57,5 +58,10 @@
             </Grid>
 
         </Border>
+            
+            
+        </ScrollViewer>
+
+
     </Grid>
 </UserControl>

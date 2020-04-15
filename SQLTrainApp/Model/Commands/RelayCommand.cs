@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SQLTrainApp.Model.Logic;
+using System;
 using System.Windows.Input;
-using SQLTrainApp.Model.Logic;
 
 namespace SQLTrainApp.Model.Commands
 {

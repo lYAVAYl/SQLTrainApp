@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Commands\TrainSQL_Commands.cs" />
     <Compile Include="Model\Logic\CurrentUser.cs" />
     <Compile Include="Model\Logic\EventArgs.cs" />
     <Compile Include="Model\Logic\EventRaiser.cs" />
@@ -84,11 +85,16 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SignInPageViewModel.cs" />
     <Compile Include="ViewModel\SignOnPageViewModel.cs" />
+    <Compile Include="ViewModel\TaskDecisionPageViewModel.cs" />
+    <Compile Include="ViewModel\UserMainPageViewModel.cs" />
     <Compile Include="View\UserControls\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\SignOnPage.xaml.cs">
       <DependentUpon>SignOnPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\TaskDecisionPage.xaml.cs">
+      <DependentUpon>TaskDecisionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\UserMainPage.xaml.cs">
       <DependentUpon>UserMainPage.xaml</DependentUpon>
@@ -110,6 +116,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\SignOnPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\TaskDecisionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,7 +155,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\TrainSQL_DAL\TrainSQL_DAL.csproj">
+      <Project>{326eb372-ccb5-4dc4-b4a8-5e5721de6dff}</Project>
+      <Name>TrainSQL_DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Images\2020-04-03_18-51-52.png" />
   </ItemGroup>

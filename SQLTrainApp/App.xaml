@@ -20,12 +20,24 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="simpleBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Silver"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Padding" Value="15"/>
+        </Style>
 
         <DataTemplate DataType="{x:Type viewmodels:SignInPageViewModel}">
             <view:SignInPage />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodels:SignOnPageViewModel}">
             <view:SignOnPage />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:UserMainPageViewModel}">
+            <view:UserMainPage />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:TaskDecisionPageViewModel}">
+            <view:TaskDecisionPage />
         </DataTemplate>
         
         <logic:MultiValConverter x:Key="multivalueconverter"/>

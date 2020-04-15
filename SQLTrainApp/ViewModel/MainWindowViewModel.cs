@@ -1,14 +1,6 @@
-﻿using System;
+﻿using SQLTrainApp.Model.Logic;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Navigation;
-using SQLTrainApp.Model.Commands;
-using SQLTrainApp.Model.Logic;
 
 namespace SQLTrainApp.ViewModel
 {
@@ -68,6 +60,14 @@ namespace SQLTrainApp.ViewModel
         }
 
         /// <summary>
+        /// Загрузка страницы Входа
+        /// </summary>
+        /// <param name="obj"></param>
+        private void LoadSignInPage(object obj)
+        {
+            ChangeViewModel(PageViewModels[0]);
+        }
+        /// <summary>
         /// Загрузка страницы Регистранции
         /// </summary>
         /// <param name="obj"></param>
@@ -76,21 +76,21 @@ namespace SQLTrainApp.ViewModel
             ChangeViewModel(PageViewModels[1]);
         }
         /// <summary>
-        /// Загрузка страницы Входа
+        /// Загрузка страницы с информацией о пользователе 
         /// </summary>
         /// <param name="obj"></param>
-        private void LoadSignInPage(object obj)
+        private void LoadUserMainPage(object obj)
         {
-            ChangeViewModel(PageViewModels[0]);
+            //ChangeViewModel(PageViewModels[2]);
+            ChangeViewModel(PageViewModels[3]);
         }
-        
-        
         /// <summary>
-        /// Поиск пользователя
+        /// Загрузка страницы решения заданий
         /// </summary>
-        private void FindUser(object obj)
+        /// <param name="obj"></param>
+        private void LoadTaskDecisionPage(object obj)
         {
-            
+            ChangeViewModel(PageViewModels[3]);
         }
 
         public MainWindowViewModel()
@@ -98,14 +98,17 @@ namespace SQLTrainApp.ViewModel
             // Добавить доступные страницы и установить команды
             PageViewModels.Add(new SignInPageViewModel());
             PageViewModels.Add(new SignOnPageViewModel());
+            PageViewModels.Add(new UserMainPageViewModel());
+            PageViewModels.Add(new TaskDecisionPageViewModel());
 
             // Загрузка первой страницы
-            CurrentPageViewModel = PageViewModels[0];
+            CurrentPageViewModel = PageViewModels[3];
 
             // Установка команд
             Mediator.Subscribe("LoadSignOnPage", LoadSignOnPage);
             Mediator.Subscribe("LoadSignInPage", LoadSignInPage);
-            Mediator.Subscribe("FindUser", FindUser);
+            Mediator.Subscribe("LoadUserMainPage", LoadUserMainPage);
+            Mediator.Subscribe("LoadTaskDecisionPage", LoadTaskDecisionPage);
         }
 
 
