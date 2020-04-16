@@ -20,6 +20,18 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="HeaderButtons" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="LightGray"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Отрисовка границы-->
         <Style x:Key="simpleBorder" TargetType="Border">
             <Setter Property="BorderBrush" Value="Silver"/>
             <Setter Property="BorderThickness" Value="2"/>
@@ -27,6 +39,16 @@
             <Setter Property="Padding" Value="15"/>
         </Style>
 
+        <!--Толстый текст-->
+        <Style x:Key="BigText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Gray"/>            
+        </Style>
+        
+        
+
+        <!--Страницы-->
         <DataTemplate DataType="{x:Type viewmodels:SignInPageViewModel}">
             <view:SignInPage />
         </DataTemplate>
@@ -38,6 +60,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodels:TaskDecisionPageViewModel}">
             <view:TaskDecisionPage />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:SendComplaintPageViewModel}">
+            <view:SendComplaintPage />
         </DataTemplate>
         
         <logic:MultiValConverter x:Key="multivalueconverter"/>

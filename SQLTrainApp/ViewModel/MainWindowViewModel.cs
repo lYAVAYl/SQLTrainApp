@@ -1,27 +1,19 @@
 ﻿using SQLTrainApp.Model.Logic;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace SQLTrainApp.ViewModel
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        #region My Shitcode
-        //private Page _currPage = null;
-        //public Page CurrentPage { get; set; } = new Page();
-
-        //public MainWindowViewModel()
-        //{
-        //    CurrentPage = new SignInPage();
-        //}
-
-        //ICommand _loadSignOnPage = null;
-        //public ICommand LoadSignOnPageCmd(object parametr) 
-        //    => _loadSignOnPage ?? (_loadSignOnPage = new LoadSignOnPage());
-        #endregion
-
         private IPageViewModel _currentPageViewModel;
         private List<IPageViewModel> _pageViewModels;
+
+
+        public BitmapImage UserPhoto { get; set; }
+        public string UserLogin { get; set; }
+
 
         // Список страниц, доступных для отрисовки
         public List<IPageViewModel> PageViewModels
@@ -81,8 +73,9 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadUserMainPage(object obj)
         {
-            //ChangeViewModel(PageViewModels[2]);
             ChangeViewModel(PageViewModels[3]);
+            UserPhoto = CurrentUser.Photo;
+            UserLogin = CurrentUser.Login;
         }
         /// <summary>
         /// Загрузка страницы решения заданий
@@ -90,25 +83,36 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadTaskDecisionPage(object obj)
         {
-            ChangeViewModel(PageViewModels[3]);
+            ChangeViewModel(PageViewModels[3]);        
         }
+        /// <summary>
+        /// Загрузка страницы отправки жалобы
+        /// </summary>
+        /// <param name="obj"></param>
+        private void LoadSendComplaintPage(object obj)
+        {
+            ChangeViewModel(PageViewModels[4]);           
+        }
+
 
         public MainWindowViewModel()
         {
             // Добавить доступные страницы и установить команды
-            PageViewModels.Add(new SignInPageViewModel());
-            PageViewModels.Add(new SignOnPageViewModel());
-            PageViewModels.Add(new UserMainPageViewModel());
-            PageViewModels.Add(new TaskDecisionPageViewModel());
+            PageViewModels.Add(new SignInPageViewModel());          // 0 Вход
+            PageViewModels.Add(new SignOnPageViewModel());          // 1 Регистрация
+            PageViewModels.Add(new UserMainPageViewModel());        // 2 Пользователь
+            PageViewModels.Add(new TaskDecisionPageViewModel());    // 3 Решение заданий
+            PageViewModels.Add(new SendComplaintPageViewModel());   // 4 Отправка жалобы
 
             // Загрузка первой страницы
-            CurrentPageViewModel = PageViewModels[3];
+            CurrentPageViewModel = PageViewModels[0];
 
             // Установка команд
             Mediator.Subscribe("LoadSignOnPage", LoadSignOnPage);
             Mediator.Subscribe("LoadSignInPage", LoadSignInPage);
             Mediator.Subscribe("LoadUserMainPage", LoadUserMainPage);
             Mediator.Subscribe("LoadTaskDecisionPage", LoadTaskDecisionPage);
+            Mediator.Subscribe("LoadSendComplaintPage", LoadSendComplaintPage);
         }
 
 

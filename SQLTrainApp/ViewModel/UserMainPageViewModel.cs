@@ -12,6 +12,5 @@ namespace SQLTrainApp.ViewModel
         public string UserRole { get { return CurrentUser.Role;} }
 
 
-
     }
 }

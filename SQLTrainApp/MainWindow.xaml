@@ -11,6 +11,61 @@
         MinHeight="500" MinWidth="900"
         >
     <Grid>
-        <ContentControl Content="{Binding CurrentPageViewModel}" />        
+        <Grid x:Name="headerGrid" Height="40"
+              VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#FF1C8ADB"
+              >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="tbkThemes" Grid.Column="0"
+                       Style="{StaticResource HeaderButtons}"                       
+                       Text="Содержание"
+                       FontSize="20" Margin="5,0"                       
+                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                       />
+            <TextBlock x:Name="tbktasks" Grid.Column="1"
+                       Style="{StaticResource HeaderButtons}"                       
+                       Text="Задания"
+                       FontSize="20"                       
+                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                       />
+            
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock x:Name="tbkComplaints"
+                       Style="{StaticResource HeaderButtons}"                       
+                       Text="Жалобы"
+                       FontSize="20" Margin="5,0"
+                       HorizontalAlignment="Right" VerticalAlignment="Center"
+                       />
+                <Ellipse x:Name="userPhoto" 
+                         Margin="3"
+                         Width="35" Height="35"
+                         >
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding Path=UserPhoto}" Stretch="UniformToFill"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock x:Name="tbkUserLogin"
+                           Style="{StaticResource HeaderButtons}"                       
+                           Text="{Binding Path=UserLogin}"
+                           FontSize="20" Margin="5,0"
+                           VerticalAlignment="Center"                           
+                           />
+
+            </StackPanel>
+
+
+            <Image x:Name="imgExiticon" Grid.Column="3"
+                   Source="C:\CS_projects\SQLTrainApp\SQLTrainApp\View\Images\Exit.png"                   
+                   />
+            
+
+        </Grid>
+        <ContentControl Margin="0,40,0,0" Content="{Binding CurrentPageViewModel}" />
     </Grid>
 </Window>

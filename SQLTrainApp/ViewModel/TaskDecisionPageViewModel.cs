@@ -33,6 +33,19 @@ namespace SQLTrainApp.ViewModel
             }
         }
 
+        private ICommand _sendCompliant;
+        public ICommand SendCompliant
+        {
+            get
+            {
+                return _sendCompliant ?? (_sendCompliant = new RelayCommand(x =>
+                {
+                    Mediator.Notify("LoadSendComplaintPage", "");
+                }));
+            }
+        }
+
+
         private void ExecuteQuery(string query)
         {
             using (var context = new TrainSQL_Entities())

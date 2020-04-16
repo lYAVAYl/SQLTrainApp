@@ -105,6 +105,7 @@
                                 Content="Жалоба"
                                 FontSize="16"
                                  Padding="3,0,3,0"
+                                Command="{Binding SendCompliant}"
                                 />
                         <Button x:Name="btnExecute" DockPanel.Dock="Left"
                                 Content="Выполнить" Margin="5,0,0,0"
