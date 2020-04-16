@@ -82,12 +82,24 @@
     <Compile Include="Model\Logic\MultiValConverter.cs" />
     <Compile Include="Model\Logic\PasswordBoxAssistant.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\EditTaskPageViewModel.cs" />
+    <Compile Include="ViewModel\EditThemePageViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SendComplaintPageViewModel.cs" />
     <Compile Include="ViewModel\SignInPageViewModel.cs" />
     <Compile Include="ViewModel\SignOnPageViewModel.cs" />
+    <Compile Include="ViewModel\TableOfCompliantsViewModel.cs" />
+    <Compile Include="ViewModel\TableOfContentsPageViewModel.cs" />
+    <Compile Include="ViewModel\TableOfTasksViewModel.cs" />
     <Compile Include="ViewModel\TaskDecisionPageViewModel.cs" />
+    <Compile Include="ViewModel\TheoryPageViewModel.cs" />
     <Compile Include="ViewModel\UserMainPageViewModel.cs" />
+    <Compile Include="View\UserControls\EditTaskPage.xaml.cs">
+      <DependentUpon>EditTaskPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\EditThemePage.xaml.cs">
+      <DependentUpon>EditThemePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\SendComplaintPage.xaml.cs">
       <DependentUpon>SendComplaintPage.xaml</DependentUpon>
     </Compile>
@@ -97,8 +109,20 @@
     <Compile Include="View\UserControls\SignOnPage.xaml.cs">
       <DependentUpon>SignOnPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\TableOfCompliatns.xaml.cs">
+      <DependentUpon>TableOfCompliatns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\TableOfContentsPage.xaml.cs">
+      <DependentUpon>TableOfContentsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\TableOfTasks.xaml.cs">
+      <DependentUpon>TableOfTasks.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\TaskDecisionPage.xaml.cs">
       <DependentUpon>TaskDecisionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\TheoryPage.xaml.cs">
+      <DependentUpon>TheoryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\UserMainPage.xaml.cs">
       <DependentUpon>UserMainPage.xaml</DependentUpon>
@@ -115,6 +139,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\UserControls\EditTaskPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\EditThemePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\SendComplaintPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,7 +159,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\UserControls\TableOfCompliatns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\TableOfContentsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\TableOfTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\TaskDecisionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\TheoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -164,12 +212,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TrainSQL_DAL\TrainSQL_DAL.csproj">
-      <Project>{326eb372-ccb5-4dc4-b4a8-5e5721de6dff}</Project>
-      <Name>TrainSQL_DAL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="View\Images\2020-04-03_18-51-52.png" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +219,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Images\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrainSQL_DAL\TrainSQL_DAL.csproj">
+      <Project>{3ca76a8f-9488-42f5-bb47-ea66f9628b8c}</Project>
+      <Name>TrainSQL_DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

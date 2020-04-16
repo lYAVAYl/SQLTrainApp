@@ -20,6 +20,7 @@
             </Style.Triggers>
         </Style>
 
+        <!--Стиль кнопок сверху-->
         <Style x:Key="HeaderButtons" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="20"/>
@@ -64,6 +65,19 @@
         <DataTemplate DataType="{x:Type viewmodels:SendComplaintPageViewModel}">
             <view:SendComplaintPage />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:TableOfContentsPageViewModel}">
+            <view:TableOfContentsPage />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:EditTaskPageViewModel}">
+            <view:EditTaskPage />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:TheoryPageViewModel}">
+            <view:TheoryPage />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:}">
+            <view:TheoryPage />
+        </DataTemplate>
+        
         
         <logic:MultiValConverter x:Key="multivalueconverter"/>
     </Application.Resources>

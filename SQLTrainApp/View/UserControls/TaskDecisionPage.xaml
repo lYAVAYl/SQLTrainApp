@@ -30,12 +30,30 @@
                                 Margin="0,0,3,0">
                         <TabItem Header="Задание" FontSize="16">
                             <Grid Background="LightSkyBlue">
-                                
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <TextBlock x:Name="tbkTaskInfo"
+                                               FontSize="16" Padding="10"
+                                               Text="{Binding Path=TaskInfo}"/>
+                                </ScrollViewer>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Отношения БД" FontSize="16">
                             <Grid Background="LightYellow">
-                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Image x:Name="imgDBImage" Grid.Row="0"
+                                       Source="{Binding Path=DBImage}"
+                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <TextBlock x:Name="tbkDBInfo"
+                                           Text="{Binding DBInfo}"
+                                           FontSize="16" Padding="5"
+                                           TextWrapping="Wrap"
+                                           />
+                                </ScrollViewer>
+
                             </Grid>
                         </TabItem>
                     </TabControl>
@@ -44,26 +62,32 @@
                                   HorizontalAlignment="Center" VerticalAlignment="Stretch"
                                   Width="3"
                                   />
-                    
-                    
+
+
                     <Border Grid.Column="2" Grid.Row="0"
                             Style="{StaticResource simpleBorder}"
                             Padding="3,0,3,3">
                         <Grid>
-                            <TextBlock Text="Запрос пользователя:"
-                               FontSize="25" FontWeight="Bold"
-                               Foreground="Gray"
-                               HorizontalAlignment="Center" VerticalAlignment="Top"
-                               />
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Text="Запрос пользователя:"
+                                       FontSize="20" FontWeight="Bold"
+                                       Foreground="Gray"
+                                       HorizontalAlignment="Center" VerticalAlignment="Top"
+                                       />
+                            <ScrollViewer Grid.Row="1" 
+                                          HorizontalScrollBarVisibility="Auto" 
+                                          VerticalScrollBarVisibility="Auto">
                                 <TextBox x:Name="tbxUserQuery"
                                          Text="{Binding Path=UserQuery}"
-                                         Margin="0,40,0,0"
                                          FontSize="16"
                                          Padding="10"
                                          TextWrapping="WrapWithOverflow"
                                          />
-                            </ScrollViewer>                            
+                            </ScrollViewer>
                         </Grid>
                     </Border>
                     <GridSplitter Grid.Column="2" Grid.Row="1"
@@ -74,25 +98,28 @@
                     <Border Grid.Column="2" Grid.Row="2"
                             Style="{StaticResource simpleBorder}"
                             Padding="3,0,3,3">
-                        <Grid>
-                            <TextBlock Text="Вывод:"
-                               FontSize="25" FontWeight="Bold"
-                               Foreground="Gray"
-                               HorizontalAlignment="Center" VerticalAlignment="Top"
-                               />
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                                <DataGrid x:Name="dgQueryResult"
-                                          ItemsSource="{Binding Source=ResultList}"
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                           Text="Вывод:"
+                                           FontSize="20" FontWeight="Bold"
+                                           Foreground="Gray"
+                                           HorizontalAlignment="Center" VerticalAlignment="Top"
+                                           />
+                                <DataGrid x:Name="dgQueryResult" Grid.Row="1" 
+                                          ItemsSource="{Binding Path=ResultList}"
                                           AutoGenerateColumns="True"
-                                          Margin="0,40,0,0"/>
-                            </ScrollViewer>
-
-                        </Grid>
-
-
+                                          MaxHeight="250"
+                                          />
+                            </Grid>
+                            
+                        
                     </Border>
 
-                    
+
                     <WrapPanel Grid.Column="2" Grid.Row="5"
                                HorizontalAlignment="Left" VerticalAlignment="Bottom">
                         <Button x:Name="btnSkipTask" DockPanel.Dock="Left"

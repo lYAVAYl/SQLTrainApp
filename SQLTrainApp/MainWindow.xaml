@@ -13,6 +13,7 @@
     <Grid>
         <Grid x:Name="headerGrid" Height="40"
               VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="#FF1C8ADB"
+              Visibility="{Binding Path=IsHeaderVisible}"
               >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
