@@ -32,7 +32,7 @@
                            />
                     <TextBlock x:Name="tbkTaskID"
                                Style="{StaticResource BigText}"
-                               Text="999"
+                               Text="{Binding Path=TaskNum}"
                                />
                 </WrapPanel>
 
@@ -65,8 +65,9 @@
                                    Text="Задание:"
                                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         <ScrollViewer Grid.Row="2"
-                                    VerticalScrollBarVisibility="Auto">
+                                      VerticalScrollBarVisibility="Auto">
                             <TextBox x:Name="tbxTaskInfo"
+                                     Text="{Binding Path=TaskInfo}"
                                      FontSize="16" Padding="10"
                                      />
                         </ScrollViewer>
@@ -143,22 +144,22 @@
                 <WrapPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"
                                HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <Button x:Name="btnExecuteQuery" DockPanel.Dock="Left"
-                                Content="Выполнить"                                
-                                FontSize="16"
-                                Margin="0,0,5,0"  Padding="3,0,3,0"
-                                
+                            Content="Выполнить"  
+                            Command="{Binding ExecuteQuery}"
+                            FontSize="16"
+                            Margin="0,0,5,0"  Padding="3,0,3,0"                                
                                 />
                     <Button x:Name="btnSaveChanges" DockPanel.Dock="Left"
                                 Content="Сохранить"
                                 FontSize="16"
-                                 Padding="3,0,3,0"
-                                Command="{Binding SendCompliant}"
+                                Padding="3,0,3,0"
+                                Command="{Binding SaveChanges}"
                                 />
                     <Button x:Name="btnCancek" DockPanel.Dock="Left"
                                 Content="Отмена" Margin="5,0,0,0"
                                 FontSize="16"
                                 Padding="3,0,3,0"
-                                Command="{Binding ExecuteCmd}"
+                                Command="{Binding CancelChanges}"
                                 />
                 </WrapPanel>
             </Grid>

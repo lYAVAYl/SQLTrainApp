@@ -14,6 +14,15 @@
                            Text="Жалобы"
                            VerticalAlignment="Top" HorizontalAlignment="Center"
                            />
+                <StackPanel Width="300" Orientation="Horizontal">
+                    <TextBox Text="qqweqwe"
+                             FontSize="16"
+                             Width="255"/>
+                    <Button x:Name="btnSearch"
+                            Content="Найти"
+                            FontSize="14"
+                            />
+                </StackPanel>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <!--Отображение доступных глав-->
                     <!--ХЗ как это сделать-->

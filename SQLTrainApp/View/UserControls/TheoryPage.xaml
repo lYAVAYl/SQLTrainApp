@@ -22,21 +22,21 @@
 
                 <TextBlock x:Name="tbkChapterID" Grid.Column="0" Grid.Row="0"
                            Style="{StaticResource BigText}"
-                           Text="30" FontSize="50"
+                           Text="{Binding Path=ThemeID}" FontSize="50"
                            HorizontalAlignment="Left" VerticalAlignment="Center"
                            />
                 
                 <TextBlock x:Name="tbkChapterName" Grid.Column="1" Grid.Row="0"
-                           Style="{StaticResource BigText}"
-                           Text="Реализация традиционных операций над множествами с помощью оператора SELECT."
+                           Style="{StaticResource BigText}"                           
+                           Text="{Binding Path=ThemeName}"
                            TextWrapping="Wrap"
-                           HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                           VerticalAlignment="Center"
                            />
 
                 <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                               VerticalScrollBarVisibility="Auto">
                     <TextBlock x:Name="tbkChapterInfo"
-                               Text="{Binding Path=ChapterInfo}"
+                               Text="{Binding Path=ThemeInfo}"
                                FontSize="16" Padding="10"
                                TextWrapping="Wrap"
                            />
@@ -48,22 +48,22 @@
                 <WrapPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"
                                HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <Button x:Name="btnBack" DockPanel.Dock="Left"
-                                Content="&lt;"                                
-                                FontSize="16"
-                                Margin="0,0,5,0"  Padding="3,0,3,0"
-                                
-                                />
+                            Content="&lt;"                                
+                            FontSize="16"
+                            Margin="0,0,5,0" Padding="3,0,3,0"
+                            Command="{Binding PreviousTheme}"                                
+                            />
                     <Button x:Name="btnChapters" DockPanel.Dock="Left"
-                                Content="Оглавление"
-                                FontSize="16"
-                                 Padding="3,0,3,0"
-                                Command="{Binding SendCompliant}"
-                                />
+                            Content="Оглавление"
+                            FontSize="16"
+                            Padding="3,0,3,0"
+                            Command="{Binding LoadTableOfContentsPage}"
+                            />
                     <Button x:Name="btnNext" DockPanel.Dock="Left"
                                 Content="&gt;" Margin="5,0,0,0"
                                 FontSize="16"
                                 Padding="3,0,3,0"
-                                Command="{Binding ExecuteCmd}"
+                                Command="{Binding NextTheme}"
                                 />
                 </WrapPanel>
             </Grid>

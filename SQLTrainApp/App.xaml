@@ -46,6 +46,14 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="Gray"/>            
         </Style>
+
+        <Style x:Key="FingerOver" TargetType="StackPanel">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         
         
 
@@ -74,10 +82,21 @@
         <DataTemplate DataType="{x:Type viewmodels:TheoryPageViewModel}">
             <view:TheoryPage />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:}">
-            <view:TheoryPage />
+        <DataTemplate DataType="{x:Type viewmodels:EditThemePageViewModel}">
+            <view:EditThemePage />
         </DataTemplate>
-        
+        <DataTemplate DataType="{x:Type viewmodels:TableOfCompliantsViewModel}">
+            <view:TableOfCompliatns />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:TableOfTasksViewModel}">
+            <view:TableOfTasks />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:ConfirmEmailViewModel}">
+            <view:ConfirmEmail />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:RefreshPasswordViewModel}">
+            <view:RefreshPaswordPage />
+        </DataTemplate>
         
         <logic:MultiValConverter x:Key="multivalueconverter"/>
     </Application.Resources>

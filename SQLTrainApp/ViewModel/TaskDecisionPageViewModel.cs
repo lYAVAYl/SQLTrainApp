@@ -12,14 +12,26 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Drawing;
+using System.Data;
 
 namespace SQLTrainApp.ViewModel
 {
     class TaskDecisionPageViewModel : BaseViewModel, IPageViewModel
     {
-        public string UserQuery { get; set; }
-        public List<User> ResultList { get; set; }
+        public string TaskInfo { get; set; }
+        public string ResultStr { get; set; }
+        public string DBInfo { get; set; }
+        public BitmapImage DBImage { get; set; }
+        public bool IsRightResult { get; set; }
 
+        public string UserQuery { get; set; }
+       // public List<User> ResultList { get; set; }
+        public DataSet ResultList { get; set; }
+        
+        public TaskDecisionPageViewModel()
+        {
+            IsRightResult = false;
+        }
 
         private ICommand _executeCmd;
         public ICommand ExecuteCmd
@@ -45,13 +57,34 @@ namespace SQLTrainApp.ViewModel
             }
         }
 
+        private ICommand _loadNextTask;
+        public ICommand LoadNextTask
+        {
+            get
+            {
+                return _loadNextTask ?? (_loadNextTask = new RelayCommand(x =>
+                {
+                    LoadTask();
+                }));
+            }
+        }
+
 
         private void ExecuteQuery(string query)
         {
-            using (var context = new TrainSQL_Entities())
-            {
-                ResultList = context.Users.ToList();
-            }
+
+            //using (var context = new TrainSQL_Entities())
+            //{
+            //    ResultList = context.Users.ToList();
+            //}
+
+            
+            MessageBox.Show("Вывод результата запроса...");
+        }
+
+        private void LoadTask()
+        {
+            MessageBox.Show("Загрузка следующего задания");
         }
 
     }

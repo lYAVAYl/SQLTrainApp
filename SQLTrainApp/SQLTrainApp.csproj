@@ -74,6 +74,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\Commands\TrainSQL_Commands.cs" />
     <Compile Include="Model\Logic\CurrentUser.cs" />
+    <Compile Include="Model\Logic\EmailConfirm.cs" />
     <Compile Include="Model\Logic\EventArgs.cs" />
     <Compile Include="Model\Logic\EventRaiser.cs" />
     <Compile Include="Model\Commands\RelayCommand.cs" />
@@ -82,9 +83,11 @@
     <Compile Include="Model\Logic\MultiValConverter.cs" />
     <Compile Include="Model\Logic\PasswordBoxAssistant.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\ConfirmEmailViewModel.cs" />
     <Compile Include="ViewModel\EditTaskPageViewModel.cs" />
     <Compile Include="ViewModel\EditThemePageViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\RefreshPasswordViewModel.cs" />
     <Compile Include="ViewModel\SendComplaintPageViewModel.cs" />
     <Compile Include="ViewModel\SignInPageViewModel.cs" />
     <Compile Include="ViewModel\SignOnPageViewModel.cs" />
@@ -94,11 +97,17 @@
     <Compile Include="ViewModel\TaskDecisionPageViewModel.cs" />
     <Compile Include="ViewModel\TheoryPageViewModel.cs" />
     <Compile Include="ViewModel\UserMainPageViewModel.cs" />
+    <Compile Include="View\UserControls\ConfirmEmail.xaml.cs">
+      <DependentUpon>ConfirmEmail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\EditTaskPage.xaml.cs">
       <DependentUpon>EditTaskPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\EditThemePage.xaml.cs">
       <DependentUpon>EditThemePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\RefreshPaswordPage.xaml.cs">
+      <DependentUpon>RefreshPaswordPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\SendComplaintPage.xaml.cs">
       <DependentUpon>SendComplaintPage.xaml</DependentUpon>
@@ -139,11 +148,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\UserControls\ConfirmEmail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\EditTaskPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\EditThemePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\RefreshPaswordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -4,15 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SQLTrainApp.View.UserControls"
+             xmlns:logic="clr-namespace:SQLTrainApp.Model.Logic"
              xmlns:cmds="clr-namespace:SQLTrainApp.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
-        <Grid>
             <Border Height="450" Width="600" 
-                BorderBrush="Silver"
-                BorderThickness="2"
-                CornerRadius="5">
+                    Style="{StaticResource simpleBorder}"
+                    Margin="20" Padding="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300"/>
@@ -49,48 +48,62 @@
                     <TextBlock Text="E-mail:" Grid.Column="1" Grid.Row="1"
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                       />
+                            />
                     <TextBox x:Name="tbxEmail" Grid.Column="1" Grid.Row="2"
-                         FontSize="26" Width="250"
-                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                     />
+                             Text="{Binding Path=UserEmail}"
+                             FontSize="26" Width="250"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                             />
 
                     <TextBlock Text="Логин:" Grid.Column="1" Grid.Row="3"
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                       />
+                           />
                     <TextBox x:Name="tbxLogin" Grid.Column="1" Grid.Row="4"
-                         FontSize="26" Width="250"
-                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                     />
-
-                    <TextBlock Text="Пароль:" Grid.Column="1" Grid.Row="5"
-                           FontSize="20" Foreground="Gray"
-                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                       />
-                    <PasswordBox x:Name="tbxPassword" Grid.Column="1" Grid.Row="6"
+                             Text="{Binding Path=UserLogin}"
                              FontSize="26" Width="250"
                              HorizontalAlignment="Center" VerticalAlignment="Center"
-                     />
+                             />
+
+                    <TextBlock Text="Пароль:" Grid.Column="1" Grid.Row="5"
+                               FontSize="20" Foreground="Gray"
+                               HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                />
+                    <PasswordBox x:Name="tbxPassword1" Grid.Column="1" Grid.Row="6"
+                                 FontSize="26" Width="250"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 logic:PasswordBoxAssistant.BindPassword="True"
+                                 logic:PasswordBoxAssistant.BoundPassword="{Binding Path=UserPass1, Mode=TwoWay, 
+                                                                                UpdateSourceTrigger=PropertyChanged}"                             
+                                 />
 
                     <TextBlock Text="Повторите пароль:" Grid.Column="1" Grid.Row="7"
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        />
-                    <PasswordBox x:Name="tbxPasswordReplay" Grid.Column="1" Grid.Row="8"
-                             FontSize="26" Width="250"
-                             HorizontalAlignment="Center" VerticalAlignment="Center"
-                     />
+                    <PasswordBox x:Name="tbxPassword2" Grid.Column="1" Grid.Row="8"
+                                 FontSize="26" Width="250"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 logic:PasswordBoxAssistant.BindPassword="True"
+                                 logic:PasswordBoxAssistant.BoundPassword="{Binding Path=UserPass2, Mode=TwoWay, 
+                                                                            UpdateSourceTrigger=PropertyChanged}"                             
+                                 />
 
                     <Button x:Name="btnSignOn" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3"
-                        Content="Зарегистрироваться" FontSize="20"
-                        Height="35" Width="210"
-                        />
+                            Command="{Binding TryRegister}"
+                            Content="Зарегистрироваться" FontSize="20"
+                            Height="35" Width="210"
+                            />
 
                     <TextBlock Text="Забыли пароль?" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="3"
-                           Style="{StaticResource blueButton}"
-                           HorizontalAlignment="Center" VerticalAlignment="Top"
-                       />
+                               Style="{StaticResource blueButton}"
+                               HorizontalAlignment="Center" VerticalAlignment="Top"
+                               >
+                        <TextBlock.InputBindings>
+                        <MouseBinding Command="{Binding LoadRefreshPasswordPage}"
+                                      MouseAction="LeftClick"/>
+                        </TextBlock.InputBindings>
+                    </TextBlock>
 
                     <Ellipse Grid.Column="0" Grid.Row="1" Grid.RowSpan="8"
                             Height="250" Width="250">
@@ -101,6 +114,5 @@
 
                 </Grid>
             </Border>
-        </Grid>
     </Grid>
 </UserControl>

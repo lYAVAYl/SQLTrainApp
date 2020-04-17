@@ -1,8 +1,17 @@
-﻿using SQLTrainApp.Model.Logic;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SQLTrainApp.Model.Commands;
+using SQLTrainApp.Model.Logic;
+using System;
+using System.Data.SqlClient;
 using System.Windows;
+using System.Windows.Input;
+using TrainSQL_DAL;
+using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using System.IO;
+using System.Windows.Media;
+using System.Windows.Controls;
+using System.Drawing;
 
 namespace SQLTrainApp.ViewModel
 {
@@ -15,6 +24,79 @@ namespace SQLTrainApp.ViewModel
 
         public BitmapImage UserPhoto { get; set; }
         public string UserLogin { get; set; }
+
+        private ICommand _loadContentsPage;
+        public ICommand LoadContentsPage
+        {
+            get
+            {
+                return _loadContentsPage ?? (_loadContentsPage = new RelayCommand(x =>
+                    {
+                        LoadTableOfContentsPage("");
+                    }));
+            }
+        }
+
+        private ICommand _loadTasksPage;
+        public ICommand LoadTasksPage
+        {
+            get
+            {
+                return _loadTasksPage ?? (_loadTasksPage = new RelayCommand(x =>
+                {
+                    LoadTableOfTasksPage("");
+                }));
+            }
+        }
+
+        private ICommand _loadCompliantssPage;
+        public ICommand LoadCompliantsPage
+        {
+            get
+            {
+                return _loadCompliantssPage ?? (_loadCompliantssPage = new RelayCommand(x =>
+                {
+                    LoadTableOfCompliantsPage("");
+                }));
+            }
+        }
+
+        private ICommand _loadUserPage;
+        public ICommand LoadUserPage
+        {
+            get
+            {
+                return _loadUserPage ?? (_loadUserPage = new RelayCommand(x =>
+                  {
+                      LoadUserMainPage("");
+                  }));
+            }
+        }
+
+        private ICommand _exit;
+        public ICommand Exit
+        {
+            get
+            {
+                return _exit ?? (_exit = new RelayCommand(x =>
+                {
+                    CurrentUser.RemoveData();
+                    LoadSignInPage("");
+                }));
+            }
+        }
+
+        private ICommand _loadTest;
+        public ICommand LoadTest
+        {
+            get
+            {
+                return _loadTest ?? (_loadTest = new RelayCommand(x =>
+                {
+                    LoadTaskDecisionPage("");
+                }));
+            }
+        }
 
 
         // Список страниц, доступных для отрисовки
@@ -50,7 +132,10 @@ namespace SQLTrainApp.ViewModel
                 PageViewModels.Add(viewModel);
 
             if(viewModel.GetType() == typeof(SignInPageViewModel) 
-                || viewModel.GetType() == typeof(SignOnPageViewModel))
+                || viewModel.GetType() == typeof(SignOnPageViewModel)
+                || viewModel.GetType() == typeof(ConfirmEmailViewModel)
+                || viewModel.GetType() == typeof(RefreshPasswordViewModel)
+                )
             {
                 IsHeaderVisible = Visibility.Hidden;
             }
@@ -58,8 +143,10 @@ namespace SQLTrainApp.ViewModel
             {
                 IsHeaderVisible = Visibility.Visible;
             }
+
             CurrentPageViewModel = PageViewModels.FirstOrDefault(vm => vm == viewModel);
         }
+        
 
         /// <summary>
         /// Загрузка страницы Входа
@@ -67,6 +154,7 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadSignInPage(object obj)
         {
+            PageViewModels[0] = new SignInPageViewModel();
             ChangeViewModel(PageViewModels[0]);
         }
         /// <summary>
@@ -75,7 +163,7 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadSignOnPage(object obj)
         {
-            ChangeViewModel(PageViewModels[1]);
+            ChangeViewModel(new SignOnPageViewModel());
         }
         /// <summary>
         /// Загрузка страницы с информацией о пользователе 
@@ -86,6 +174,7 @@ namespace SQLTrainApp.ViewModel
             ChangeViewModel(PageViewModels[2]);
             UserPhoto = CurrentUser.Photo;
             UserLogin = CurrentUser.Login.Length>10? CurrentUser.Login.Substring(0,10)+"...": CurrentUser.Login;
+            
         }
         /// <summary>
         /// Загрузка страницы решения заданий
@@ -151,6 +240,22 @@ namespace SQLTrainApp.ViewModel
         {
             ChangeViewModel(PageViewModels[10]);
         }
+        /// <summary>
+        /// Загрузка страницы обновления ппароля
+        /// </summary>
+        /// <param name="obj"></param>
+        private void LoadRefreshPasswordPage(object obj)
+        {
+            ChangeViewModel(new RefreshPasswordViewModel());
+        }
+        /// <summary>
+        /// Загрузка страницы подтверждения емаила
+        /// </summary>
+        /// <param name="obj"></param>
+        private void LoadConfirmEmailPage(object obj)
+        {
+            ChangeViewModel(new ConfirmEmailViewModel());
+        }
 
 
         public MainWindowViewModel()
@@ -167,9 +272,11 @@ namespace SQLTrainApp.ViewModel
             PageViewModels.Add(new TheoryPageViewModel());              // 8 Теория главы
             PageViewModels.Add(new TableOfCompliantsViewModel());       // 9 Список жалоб
             PageViewModels.Add(new TableOfTasksViewModel());            // 10 Список заданий
+            PageViewModels.Add(new RefreshPasswordViewModel());         // 11 Обновление пароля
+            PageViewModels.Add(new ConfirmEmailViewModel());            // 12 Подтверждение емаила
 
             // Загрузка первой страницы
-            CurrentPageViewModel = PageViewModels[7];
+            CurrentPageViewModel = PageViewModels[0];
 
             // Установка команд
             Mediator.Subscribe("LoadSignOnPage", LoadSignOnPage);
@@ -183,10 +290,9 @@ namespace SQLTrainApp.ViewModel
             Mediator.Subscribe("LoadTheoryPage", LoadTheoryPage);
             Mediator.Subscribe("LoadTableOfCompliantsPage", LoadTableOfCompliantsPage);
             Mediator.Subscribe("LoadTableOfTasksPage", LoadTableOfTasksPage);
+            Mediator.Subscribe("LoadRefreshPasswordPage", LoadRefreshPasswordPage);
+            Mediator.Subscribe("LoadConfirmEmailPage", LoadConfirmEmailPage);
         }
-
-
-
 
     }
 }

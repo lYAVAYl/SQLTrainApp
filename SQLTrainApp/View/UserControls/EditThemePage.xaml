@@ -21,25 +21,26 @@
                 </Grid.RowDefinitions>
 
                 <TextBox x:Name="tbkChapterID" Grid.Column="0" Grid.Row="0"
-                           Text="30" FontSize="45" MaxLength="2"
-                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                         Text="{Binding Path=ThemeID}" 
+                         FontSize="45" MaxLength="2"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                          Margin="3"
                            />
 
                 <TextBox x:Name="tbkChapterName" Grid.Column="1" Grid.Row="0"                           
-                         Text="Реализация традиционных операций над множествами с помощью оператора SELECT."
+                         Text="{Binding Path=ThemeName}"
                          FontSize="20"
                          TextWrapping="Wrap"
-                         Margin="3"                         
-                           
-                           />
+                         Margin="3"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                           
+                          />
 
                 <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                               VerticalScrollBarVisibility="Auto">
                     <TextBox x:Name="tbkChapterInfo"
-                               Text="{Binding Path=ChapterInfo}"
-                               FontSize="16" Padding="10"
-                               TextWrapping="Wrap"
+                             Text="{Binding Path=ThemeInfo}"
+                             FontSize="16" Padding="10"
+                             TextWrapping="Wrap"
                            />
                 </ScrollViewer>
 
@@ -56,7 +57,7 @@
                                 Command="{Binding SaveChanges}"
                                 />
                     <Button x:Name="btnCancel" DockPanel.Dock="Left"
-                                Content="Отмена;" Margin="5,0,0,0"
+                                Content="Отмена" Margin="5,0,0,0"
                                 FontSize="16"
                                 Padding="3,0,3,0"
                                 Command="{Binding CancelChanges}"

@@ -17,6 +17,9 @@ namespace SQLTrainApp.ViewModel
 {
     class SendComplaintPageViewModel:BaseViewModel, IPageViewModel
     {
+        public int TaskNum { get; set; }
+        public string CompliantComment { get; set; }
+
         private ICommand _cancelCompliant;
         public ICommand CancelCompliant
         {
@@ -28,5 +31,23 @@ namespace SQLTrainApp.ViewModel
                 }));
             }
         }
+
+        private ICommand _sendCompliantCmd;
+        public ICommand SendCompliantCmd
+        {
+            get
+            {
+                return _sendCompliantCmd ?? (_sendCompliantCmd = new RelayCommand(x =>
+                {
+                    SendCompliant();
+                }));
+            }
+        }
+
+        private void SendCompliant()
+        {
+            Mediator.Notify("LoadTaskDecisionPage", "");
+        }
+
     }
 }

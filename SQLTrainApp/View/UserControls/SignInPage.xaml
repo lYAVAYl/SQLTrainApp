@@ -59,13 +59,19 @@
                 <Button x:Name="btnSignIn" Grid.Column="1" Grid.Row="5"
                         Content="Войти" FontSize="20"
                         Height="35" Width="100"
-                        Command="{Binding FindUser}">
+                        Command="{Binding SignIn}">
                 </Button>
 
                 <TextBlock Text="Забыли пароль?" Grid.Column="1" Grid.Row="6"
                            Style="{StaticResource blueButton}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                       />
+                           >
+                    <TextBlock.InputBindings>
+                        <MouseBinding Command="{Binding LoadRefreshPasswordPage}"
+                                      MouseAction="LeftClick"/>
+                    </TextBlock.InputBindings>
+                </TextBlock>
+                
                 <TextBlock Text="Регистрация" Grid.Column="1" Grid.Row="7"
                            Style="{StaticResource blueButton}"
                            HorizontalAlignment="Center" VerticalAlignment="Top"

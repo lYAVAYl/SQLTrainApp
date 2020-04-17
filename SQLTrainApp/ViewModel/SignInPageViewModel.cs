@@ -16,11 +16,16 @@ using System.Drawing;
 
 namespace SQLTrainApp.ViewModel
 {
-    public class SignInPageViewModel : BaseViewModel, IPageViewModel
+    class SignInPageViewModel : BaseViewModel, IPageViewModel
     {
         public string myLog { get; set; }
         public string myPass { get; set; }
 
+        public SignInPageViewModel()
+        {
+            myLog = "";
+            myPass = "";
+        }
 
         private ICommand _loadSignOnPage;
         public ICommand LoadSignOnPage
@@ -34,27 +39,35 @@ namespace SQLTrainApp.ViewModel
             }
         }
 
-        private ICommand _findUser;
-        public ICommand FindUser
+        private ICommand _loadRefreshPasswordPage;
+        public ICommand LoadRefreshPasswordPage
         {
             get
             {
-                return _findUser ?? (_findUser = new RelayCommand(x =>
+                return _loadRefreshPasswordPage ?? (_loadRefreshPasswordPage = new RelayCommand(x =>
                 {
-                    TryToSignIn(new object[2] { myLog, myPass });
+                    Mediator.Notify("LoadRefreshPasswordPage", "");
+                }));
+            }
+        }
+
+        private ICommand _signIn;
+        public ICommand SignIn
+        {
+            get
+            {
+                return _signIn ?? (_signIn = new RelayCommand(x =>
+                {
+                    TryToSignIn(myLog, myPass);
                 }));
             }
         }
 
 
 
-        private void TryToSignIn(object parameters)
+        private void TryToSignIn(string login = "", string password="")
         {
             // Выполняется поиск пользователя в БД
-
-            var values = (object[])parameters;
-            string login = values[0].ToString();
-            string password = values[1].ToString();
 
             User user = TrainSQL_Commands.FindUser(login);
             if (user != null && user.Password == password)
