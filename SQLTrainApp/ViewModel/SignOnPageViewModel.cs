@@ -26,6 +26,7 @@ namespace SQLTrainApp.ViewModel
 
         public BitmapImage UserPhoto { get; set; }
 
+        
 
         private ICommand _loadSignInPage;
         public ICommand LoadSignInPage
@@ -61,6 +62,22 @@ namespace SQLTrainApp.ViewModel
                     RegisterNewUser(UserEmail, UserLogin, UserPass1, UserPass2, UserPhoto);
                 }));
             }
+        }
+
+        private ICommand _loadUserPhoto;
+        public ICommand LoadUserPhoto
+        {
+            get
+            {
+                return _loadUserPhoto ?? (_loadUserPhoto = new RelayCommand(x =>
+                {
+                    GetPhoto();
+                }));
+            }
+        }
+        private void GetPhoto()
+        {
+
         }
 
         /// <summary>

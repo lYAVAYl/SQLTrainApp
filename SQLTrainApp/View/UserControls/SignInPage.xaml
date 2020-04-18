@@ -42,7 +42,9 @@
                 <TextBox x:Name="tbxLogin" Grid.Column="1" Grid.Row="2"
                          FontSize="20" Width="250"
                          HorizontalAlignment="Center" VerticalAlignment="Center"  
-                         Text="{Binding Path=myLog}"
+                         Text="{Binding Path=myLog, ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="{Binding Path=ErrorCollection[myLog]}"
                         />
 
                 <TextBlock Text="Пароль:" Grid.Column="1" Grid.Row="3"
@@ -54,12 +56,15 @@
                              HorizontalAlignment="Center" VerticalAlignment="Center"
                              logic:PasswordBoxAssistant.BindPassword="True"
                              logic:PasswordBoxAssistant.BoundPassword="{Binding Path=myPass, Mode=TwoWay, 
-                                                                                UpdateSourceTrigger=PropertyChanged}"                             
-                        />
+                                                                        ValidatesOnDataErrors=True,
+                                                                        UpdateSourceTrigger=PropertyChanged}" 
+                             ToolTip="{Binding ErrorCollection[myPass]}"                             
+                            />
                 <Button x:Name="btnSignIn" Grid.Column="1" Grid.Row="5"
                         Content="Войти" FontSize="20"
                         Height="35" Width="100"
-                        Command="{Binding SignIn}">
+                        Command="{Binding SignIn}"
+                        IsEnabled="{Binding }">
                 </Button>
 
                 <TextBlock Text="Забыли пароль?" Grid.Column="1" Grid.Row="6"

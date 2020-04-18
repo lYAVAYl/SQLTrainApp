@@ -98,6 +98,5 @@
             <view:RefreshPaswordPage />
         </DataTemplate>
         
-        <logic:MultiValConverter x:Key="multivalueconverter"/>
     </Application.Resources>
 </Application>

@@ -100,16 +100,20 @@
                                HorizontalAlignment="Center" VerticalAlignment="Top"
                                >
                         <TextBlock.InputBindings>
-                        <MouseBinding Command="{Binding LoadRefreshPasswordPage}"
-                                      MouseAction="LeftClick"/>
-                        </TextBlock.InputBindings>
+                            <MouseBinding Command="{Binding LoadRefreshPasswordPage}"
+                                              MouseAction="LeftClick"/>
+                    </TextBlock.InputBindings>
                     </TextBlock>
 
                     <Ellipse Grid.Column="0" Grid.Row="1" Grid.RowSpan="8"
                             Height="250" Width="250">
                         <Ellipse.Fill>
-                            <ImageBrush ImageSource="C:\CS_projects\SQLTrainApp\SQLTrainApp\View\Images\2020-04-03_18-51-52.png" Stretch="UniformToFill"/>
+                        <ImageBrush ImageSource="{Binding Path=UserPhoto}" Stretch="UniformToFill"/>
                         </Ellipse.Fill>
+                    <Ellipse.InputBindings>
+                        <MouseBinding Command="{Binding LoadUserPhoto}"
+                                      MouseAction="LeftClick"/>
+                    </Ellipse.InputBindings>
                     </Ellipse>
 
                 </Grid>

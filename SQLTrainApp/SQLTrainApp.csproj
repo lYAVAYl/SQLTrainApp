@@ -80,7 +80,6 @@
     <Compile Include="Model\Commands\RelayCommand.cs" />
     <Compile Include="Model\Logic\IPageViewModel.cs" />
     <Compile Include="Model\Logic\Mediator.cs" />
-    <Compile Include="Model\Logic\MultiValConverter.cs" />
     <Compile Include="Model\Logic\PasswordBoxAssistant.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ConfirmEmailViewModel.cs" />
@@ -97,6 +96,7 @@
     <Compile Include="ViewModel\TaskDecisionPageViewModel.cs" />
     <Compile Include="ViewModel\TheoryPageViewModel.cs" />
     <Compile Include="ViewModel\UserMainPageViewModel.cs" />
+    <Compile Include="ViewModel\ValidateBaseViewModel.cs" />
     <Compile Include="View\UserControls\ConfirmEmail.xaml.cs">
       <DependentUpon>ConfirmEmail.xaml</DependentUpon>
     </Compile>
@@ -216,7 +216,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -229,12 +229,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Images\2020-04-03_18-51-52.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Images\ExitIcon.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="View\Images\Exit.png" />
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +236,12 @@
       <Project>{3ca76a8f-9488-42f5-bb47-ea66f9628b8c}</Project>
       <Name>TrainSQL_DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\defoltPhoto.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

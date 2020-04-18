@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace SQLTrainApp.ViewModel
 {
@@ -12,6 +13,19 @@ namespace SQLTrainApp.ViewModel
         {
             VerifyPropertyName(propertyName);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetProperty<T>(ref T target, T source, [CallerMemberName] string propertyName = null)
+        {
+            if (Object.Equals(target, source))
+            {
+                return false;
+            }
+
+            target = source;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+            return true;
         }
 
         [Conditional("DEBUG")]

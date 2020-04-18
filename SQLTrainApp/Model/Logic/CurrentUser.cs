@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace SQLTrainApp.Model.Logic
@@ -16,9 +18,11 @@ namespace SQLTrainApp.Model.Logic
             Login = ""; Email = ""; Role = ""; Photo = null;
         }
 
-        public static string ToString()
+        public static string ToString() 
         {
             return $"{Login} \n{Email} \n{Role} \n";
         }
+
+       
     }
 }
