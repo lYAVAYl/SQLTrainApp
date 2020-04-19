@@ -253,8 +253,8 @@ namespace SQLTrainApp.ViewModel
         /// </summary>
         /// <param name="obj"></param>
         private void LoadConfirmEmailPage(object obj)
-        {
-            ChangeViewModel(new ConfirmEmailViewModel());
+        {            
+            ChangeViewModel(new ConfirmEmailViewModel(obj));
         }
 
 
@@ -273,7 +273,7 @@ namespace SQLTrainApp.ViewModel
             PageViewModels.Add(new TableOfCompliantsViewModel());       // 9 Список жалоб
             PageViewModels.Add(new TableOfTasksViewModel());            // 10 Список заданий
             PageViewModels.Add(new RefreshPasswordViewModel());         // 11 Обновление пароля
-            PageViewModels.Add(new ConfirmEmailViewModel());            // 12 Подтверждение емаила
+            //PageViewModels.Add(new ConfirmEmailViewModel());            // 12 Подтверждение емаила
 
             // Загрузка первой страницы
             CurrentPageViewModel = PageViewModels[0];

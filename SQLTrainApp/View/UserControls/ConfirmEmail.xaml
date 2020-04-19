@@ -45,7 +45,7 @@
                             />
                 <TextBlock x:Name="tbkLogin" Grid.Column="0" Grid.Row="2"
                              Text="{Binding Path=UserLogin}"
-                             FontSize="26" Width="250"
+                             FontSize="20" Margin="5,0"
                              HorizontalAlignment="Left" VerticalAlignment="Center"
                              />
 
@@ -54,8 +54,8 @@
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
                            />
                 <TextBlock x:Name="tbkEmail" Grid.Column="1" Grid.Row="2"
-                             Text="{Binding Path=UserLogin}"
-                             FontSize="26" Width="250"
+                             Text="{Binding Path=UserEmail}"
+                             FontSize="20" Width="250"
                              HorizontalAlignment="Center" VerticalAlignment="Center"
                              />
 
@@ -67,7 +67,7 @@
                          />
 
                 <TextBox x:Name="tbxConfirmCode" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"
-                         Text="{Binding Code}" 
+                         Text="{Binding Path=Code, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                          TextAlignment="Center"
                          FontSize="35" Foreground="Gray"
                          Width="150"

@@ -11,14 +11,16 @@ namespace SQLTrainApp.ViewModel
     {
         private string _error;
 
-
         public string Error
         {
             get => _error;
-            private set => SetProperty(ref _error, value);
+            set => _error = value;
         }
 
-        public string this[string columnName] => Error = Validate(columnName);
+        public bool IsEnableBtn { get; set; } = false;
+
+        public Dictionary<string, string> ErrorCollection { get; set; } = new Dictionary<string, string>();
+        public string this[string columnName] => Validate(columnName);
 
 
         public abstract string Validate(string columnName);

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="SQL Train" 
         Height="500" Width="800"
-        MinHeight="600" MinWidth="900"
+        MinHeight="550" MinWidth="900"
         >
     <Grid>
         <Grid x:Name="headerGrid" Height="40"
@@ -104,7 +104,7 @@
             <StackPanel Grid.Column="3"
                         Style="{StaticResource FingerOver}">
                 <Image x:Name="imgExiticon" 
-                       Source="C:\CS_projects\SQLTrainApp\SQLTrainApp\View\Images\Exit.png"
+                       Source="pack://application:,,,/Resources/Exit.png"
                        />   
                 <StackPanel.InputBindings>
                     <MouseBinding Command="{Binding Exit}"

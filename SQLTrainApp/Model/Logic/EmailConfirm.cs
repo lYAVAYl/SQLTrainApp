@@ -15,13 +15,15 @@ namespace SQLTrainApp.Model.Logic
 
         public object SendConfirmCode(string sendToEmail)
         {
+            string code = null;
             try
             {
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(emailFromName); // Адрес отправителя
                 mail.To.Add(new MailAddress(sendToEmail)); // Адрес получателя
                 mail.Subject = "Подтверждение Email";
-                mail.Body = "Код подтверждения: " + GetRandomCode(5);
+                code = GetRandomCode(5);
+                mail.Body = "Код подтверждения: " + code;
 
                 SmtpClient client = new SmtpClient();
                 client.Host = "smtp.yandex.ru";
@@ -35,7 +37,7 @@ namespace SQLTrainApp.Model.Logic
                 return ex;
             }
 
-            return null;
+            return code;
         }
 
         private string GetRandomCode(int codeLenght=4)

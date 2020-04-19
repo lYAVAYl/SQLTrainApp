@@ -8,89 +8,107 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Border Height="300" Width="400" 
-                BorderBrush="Silver"
-                BorderThickness="2"
-                CornerRadius="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="250"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+        <StackPanel Height="350" Width="400">
+            <Border BorderBrush="Silver"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
 
-                <TextBlock Text="ВХОД" Grid.Column="1" Grid.Row="0"
+                    <TextBlock Text="ВХОД" Grid.Column="1" Grid.Row="0"
                            FontSize="40" FontWeight="Bold"
                            Foreground="Gray"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                        />
 
-                <TextBlock Text="Логин:" Grid.Column="1" Grid.Row="1"
+                    <TextBlock Text="Логин:" Grid.Column="1" Grid.Row="1"
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        />
-                <TextBox x:Name="tbxLogin" Grid.Column="1" Grid.Row="2"
-                         FontSize="20" Width="250"
-                         HorizontalAlignment="Center" VerticalAlignment="Center"  
-                         Text="{Binding Path=myLog, ValidatesOnDataErrors=True,
-                                UpdateSourceTrigger=PropertyChanged}"
-                         ToolTip="{Binding Path=ErrorCollection[myLog]}"
-                        />
+                    <StackPanel Grid.Column="1" Grid.Row="2">
+                        <TextBox x:Name="tbxLogin" 
+                                 Text="{Binding Path=UserLogin, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                 FontSize="20" Width="250"
+                                 HorizontalAlignment="Center" VerticalAlignment="Top"                                 
+                                 />
+                        <TextBlock Text="{Binding Path=ErrorCollection[UserLogin]}" 
+                                   FontSize="12" Foreground="Red"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   />
+                    </StackPanel>
+                    
 
-                <TextBlock Text="Пароль:" Grid.Column="1" Grid.Row="3"
+                    <TextBlock Text="Пароль:" Grid.Column="1" Grid.Row="3"
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"                           
-                       />
-                <PasswordBox x:Name="tbxPassword" Grid.Column="1" Grid.Row="4"
-                             FontSize="26" Width="250"
-                             HorizontalAlignment="Center" VerticalAlignment="Center"
-                             logic:PasswordBoxAssistant.BindPassword="True"
-                             logic:PasswordBoxAssistant.BoundPassword="{Binding Path=myPass, Mode=TwoWay, 
-                                                                        ValidatesOnDataErrors=True,
-                                                                        UpdateSourceTrigger=PropertyChanged}" 
-                             ToolTip="{Binding ErrorCollection[myPass]}"                             
-                            />
-                <Button x:Name="btnSignIn" Grid.Column="1" Grid.Row="5"
-                        Content="Войти" FontSize="20"
-                        Height="35" Width="100"
-                        Command="{Binding SignIn}"
-                        IsEnabled="{Binding }">
-                </Button>
+                           />
+                    <StackPanel Grid.Column="1" Grid.Row="4">
+                        <PasswordBox x:Name="tbxPassword" 
+                                     FontSize="20" Width="250"
+                                     HorizontalAlignment="Center" VerticalAlignment="Top"
+                                     logic:PasswordBoxAssistant.BindPassword="True"
+                                     logic:PasswordBoxAssistant.BoundPassword="{Binding Path=UserPassword, Mode=TwoWay, 
+                                                                                ValidatesOnDataErrors=True,
+                                                                                UpdateSourceTrigger=PropertyChanged}" 
+                                      />
+                        <TextBlock Text="{Binding Path=ErrorCollection[UserPassword]}" 
+                                   TextWrapping="Wrap"
+                                   FontSize="12" Foreground="Red"
+                                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   />
+                    </StackPanel>
+                    
+                    <Button x:Name="btnSignIn" Grid.Column="1" Grid.Row="5"
+                            Content="Войти" 
+                            Command="{Binding SignIn}"                            
+                            IsEnabled="{Binding Path=IsEnableBtn}"
+                            FontSize="20"
+                            Height="35" Width="100"
+                            >
+                    </Button>
 
-                <TextBlock Text="Забыли пароль?" Grid.Column="1" Grid.Row="6"
+                    <TextBlock Text="Забыли пароль?" Grid.Column="1" Grid.Row="6"
                            Style="{StaticResource blueButton}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            >
-                    <TextBlock.InputBindings>
-                        <MouseBinding Command="{Binding LoadRefreshPasswordPage}"
+                        <TextBlock.InputBindings>
+                            <MouseBinding Command="{Binding LoadRefreshPasswordPage}"
                                       MouseAction="LeftClick"/>
-                    </TextBlock.InputBindings>
-                </TextBlock>
-                
-                <TextBlock Text="Регистрация" Grid.Column="1" Grid.Row="7"
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+
+                    <TextBlock Text="Регистрация" Grid.Column="1" Grid.Row="7"
                            Style="{StaticResource blueButton}"
                            HorizontalAlignment="Center" VerticalAlignment="Top"
                            >
-                    <TextBlock.InputBindings>
-                        <MouseBinding Command="{Binding LoadSignOnPage}"
+                        <TextBlock.InputBindings>
+                            <MouseBinding Command="{Binding LoadSignOnPage}"
                                       MouseAction="LeftClick"/>
-                    </TextBlock.InputBindings>
-                </TextBlock>
-                
-                
-
-
-            </Grid>
-        </Border>
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+                </Grid>
+            </Border>
+            <TextBlock x:Name="tbkErrorMsg"
+                       Text="{Binding Path=Error}"                       
+                       FontSize="16"
+                       Margin="0,5"
+                       Foreground="Red"
+                       />
+        </StackPanel>
+        
     </Grid>
 </UserControl>

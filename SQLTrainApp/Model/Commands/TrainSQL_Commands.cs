@@ -15,12 +15,9 @@ namespace SQLTrainApp.Model.Commands
             bool userExists = false;
             try
             {
-                if (login != "")
+                using (var context = new TrainSQL_Entities())
                 {
-                    using (var context = new TrainSQL_Entities())
-                    {
-                        userExists = context.Users.First(x => x.Login == login) != null;
-                    }
+                    userExists = context.Users.FirstOrDefault(x => x.Login == login) != null;
                 }
             }
             catch (Exception ex)
@@ -30,18 +27,32 @@ namespace SQLTrainApp.Model.Commands
 
             return userExists;
         }
+        public static bool IsEmailRegistered(string email = "")
+        {
+            bool emailRegistered = false;
+            try
+            {
+                using (var context = new TrainSQL_Entities())
+                {
+                    emailRegistered = context.Users.FirstOrDefault(x => x.UserEmail == email) != null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+            return emailRegistered;
+        }
 
         public static User FindUser(string login = "")
         {
             User user = null;
             try
             {
-                if (login != "")
+                using (var context = new TrainSQL_Entities())
                 {
-                    using (var context = new TrainSQL_Entities())
-                    {
-                        user = context.Users.FirstOrDefault(x => x.Login == login);
-                    }
+                    user = context.Users.FirstOrDefault(x => x.Login == login);
                 }
             }
             catch (Exception ex)

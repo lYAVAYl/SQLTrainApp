@@ -11,23 +11,70 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Controls;
-using System.Drawing;
 using System.Net.Mail;
 using System.Net;
 
 namespace SQLTrainApp.ViewModel
 {
-    class SignOnPageViewModel : BaseViewModel, IPageViewModel
+    class SignOnPageViewModel : ValidateBaseViewModel, IPageViewModel
     {
-        public string UserEmail { get; set; }
-        public string UserLogin { get; set; }
-        public string UserPass1 { get; set; }
-        public string UserPass2 { get; set; }
+        private string _email;
+        public string UserEmail 
+        {
+            get => _email;
+            set
+            {
+                if (value.Length != 0)
+                {
+                    if (!char.IsWhiteSpace(value.Last()))
+                        _email = value;
+                }
+                else _email = "";
+            }
+        }
 
-        public BitmapImage UserPhoto { get; set; }
+        private string _login;
+        public string UserLogin
+        {
+            get => _login;
+            set
+            {
+                if (value.Length!=0)
+                {
+                    if (Helper.ValidateInputLogin(value.Last()))
+                        _login = value;
+                }
+                else _login = "";
+            }
+        }
 
-        
+        private string _pass1;
+        public string UserPass1
+        {
+            get => _pass1;
+            set => _pass1 = value;            
+        }
+        private string _pass2;
+        public string UserPass2
+        {
+            get => _pass2;
+            set => _pass2 = value;
 
+        }
+
+        private BitmapImage _defaultPhoto = new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg"));
+        public BitmapImage UserPhoto { get; set; } = new BitmapImage();
+
+        public SignOnPageViewModel()
+        {
+            UserEmail = "";
+            UserLogin = "";
+            UserPass1 = "";
+            UserPass2 = "";
+            UserPhoto = _defaultPhoto;
+        }
+
+        //DONE
         private ICommand _loadSignInPage;
         public ICommand LoadSignInPage
         {
@@ -39,7 +86,7 @@ namespace SQLTrainApp.ViewModel
                 }));
             }
         }
-
+        // DONE
         private ICommand _loadRefreshPasswordPage;
         public ICommand LoadRefreshPasswordPage
         {
@@ -59,25 +106,41 @@ namespace SQLTrainApp.ViewModel
             {
                 return _tryRegister ?? (_tryRegister = new RelayCommand(x =>
                 {
-                    RegisterNewUser(UserEmail, UserLogin, UserPass1, UserPass2, UserPhoto);
+                    RegisterNewUser();
                 }));
             }
         }
-
-        private ICommand _loadUserPhoto;
-        public ICommand LoadUserPhoto
+        // DONE
+        private ICommand _loadNewPhoto;
+        public ICommand LoadNewPhoto
         {
             get
             {
-                return _loadUserPhoto ?? (_loadUserPhoto = new RelayCommand(x =>
+                return _loadNewPhoto ?? (_loadNewPhoto = new RelayCommand(x =>
                 {
                     GetPhoto();
                 }));
             }
         }
+        // DONE
+        private ICommand _loadDefaultPhoto;
+        public ICommand LoadDefaultPhoto
+        {
+            get
+            {
+                return _loadDefaultPhoto ?? (_loadDefaultPhoto = new RelayCommand(x =>
+                {
+                    UserPhoto = _defaultPhoto;
+                }));
+            }
+        }
+
+
         private void GetPhoto()
         {
-
+            string photoWay = Helper.FindFile("Файлы изображений (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png");
+            if(photoWay!=null)
+                UserPhoto = new BitmapImage(new Uri(photoWay, UriKind.Relative));
         }
 
         /// <summary>
@@ -88,26 +151,117 @@ namespace SQLTrainApp.ViewModel
         /// <param name="pass1"></param>
         /// <param name="pass2"></param>
         /// <param name="photo"></param>
-        private void RegisterNewUser(string email="", string login="", string pass1="", string pass2="", BitmapImage photo=null)
+        private void RegisterNewUser()
         {
-            //if (email != "")
-            //{
-            //    EmailConfirm emailConfirm = new EmailConfirm();
-            //    object res = emailConfirm.SendConfirmCode(email);
-            //    if (res == null)
-            //    {
-            //        MessageBox.Show("Письмо успешно отправлено!");
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show(res.ToString());
-            //    }
-            //}
+            if (TrainSQL_Commands.IsEmailRegistered(UserEmail))
+            {
+                ErrorCollection[nameof(UserEmail)] = "Такой email уже зарегестрирован";
+            }
+            if (TrainSQL_Commands.IsUserExists(UserLogin))
+            {
+                ErrorCollection[nameof(UserLogin)] = "Логин занят";
+            }
 
-            Mediator.Notify("LoadConfirmEmailPage", "");
+            OnPropertyChanged(nameof(ErrorCollection));
+
+            if (ErrorCollection[nameof(UserEmail)] == null
+                && ErrorCollection[nameof(UserLogin)] == null)
+            {
+                User user = new User()
+                {
+                    Login = UserLogin,
+                    UserEmail = this.UserEmail,
+                    Password = this.UserPass1,
+                    RoleID = 1,
+
+                    Photo = UserPhoto == _defaultPhoto ? new byte[0] : new byte[0]
+                };
+
+                EmailConfirm emailConfirm = new EmailConfirm();
+                object sentCode = emailConfirm.SendConfirmCode(this.UserEmail);
+
+                MessageBox.Show("На ваш email был отправлен код подтверждения регисрации");
+
+                Mediator.Notify("LoadConfirmEmailPage", new object[] { user, sentCode });
+            }
+            else IsEnableBtn = false;
+
+
         }
 
-        
+        public override string Validate(string columnName)
+        {
+            string error = null;
+            switch (columnName)
+            {                
+                case nameof(UserEmail):
+                    if (string.IsNullOrEmpty(UserEmail))
+                    {
+                        error = "Email не введён";
+                    }
+                    else if(UserEmail.Split('@').Length-1 != 1)
+                    {
+                        error = "Email не соответствует стандарту";
+                    }
+                    break;
+                case nameof(UserLogin):
+                    if (string.IsNullOrEmpty(UserLogin))
+                    {
+                        error = "Логин не введён";
+                    }
+                    else if (UserLogin.Length < 5)
+                    {
+                        error = "Длина логина - не менее 5 символов";
+                    }
+                    else if (UserLogin.Length > 30)
+                    {
+                        error = "Длина логина - не более 30 символов";
+                    }
+                    break;
+                case nameof(UserPass1):
+                    if (string.IsNullOrEmpty(UserPass1))
+                    {
+                        error = "Пароль не введён";
+                    }
+                    else if (UserPass1.Length < 6)
+                    {
+                        error = "Длина пароля - не менее 6 символов";
+                    }
+                    else if (UserPass1.Length > 32)
+                    {
+                        error = "Длина пароля - не более 32 символов";
+                    }
+                    else if (UserPass1.Contains(" "))
+                    {
+                        error = "Пароль не может содержать пробелы";
+                    }
+                    else if (!Helper.ValidateInputPassword(UserPass1.Last()))
+                    {
+                        error = "Пароль может содержать только буквы латинского алфавита, цифры и знак _";
+                    }
+                    break;
+                case nameof(UserPass2):
+                    if (string.IsNullOrEmpty(UserPass1))
+                    {
+                        error = "Пароль не введён";
+                    }
+                    else if (UserPass2 != UserPass1)
+                        error = "Пароли не совпадают";
+                    break;
+            }
 
+            if (ErrorCollection.ContainsKey(columnName))
+                ErrorCollection[columnName] = error;
+            else if (error != null) ErrorCollection.Add(columnName, error);
+
+            IsEnableBtn = ErrorCollection[nameof(UserEmail)] == null
+                          && ErrorCollection[nameof(UserLogin)] == null
+                          && ErrorCollection[nameof(UserPass1)] == null
+                          && ErrorCollection[nameof(UserPass2)] == null;
+
+            OnPropertyChanged(nameof(ErrorCollection));            
+
+            return error;
+        }
     }
 }

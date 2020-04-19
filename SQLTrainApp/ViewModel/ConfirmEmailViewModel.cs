@@ -17,6 +17,44 @@ namespace SQLTrainApp.ViewModel
 {
     class ConfirmEmailViewModel:BaseViewModel, IPageViewModel
     {
+        public string UserLogin { get; set; }
+        public string UserEmail { get; set; }
+
+        private string _rightCode = null;
+        private string _code;
+        public string Code
+        {
+            get => _code;
+            set
+            {
+                if (value.Length != 0 )
+                {
+                    if (value.Length < 6 && char.IsDigit(value.Last()))
+                        _code = value;
+                }
+                else _code = "";
+            }
+
+        }
+
+        private User user = new User();
+
+        public ConfirmEmailViewModel(object obj)
+        {
+            var values = obj as object[];
+            if(values!=null && values.Length == 2)
+            {
+                user = values[0] as User;
+                if (user != null)
+                {
+                    UserLogin = user.Login;
+                    UserEmail = user.UserEmail;
+                }
+                _rightCode = values[1].ToString();
+            }
+                
+        }
+
         private ICommand _loadSignOnPage;
         public ICommand LoadSignOnPage
         {
@@ -36,10 +74,20 @@ namespace SQLTrainApp.ViewModel
             {
                 return _confirm ?? (_confirm = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadUserMainPage", "");
+                    if(Code == _rightCode)
+                    {
+                        CurrentUser.Login = user.Login;
+                        CurrentUser.Email = user.UserEmail;
+                        CurrentUser.Role = TrainSQL_Commands.GetUserRole(user);
+                        
+                        //CurrentUser.Photo = user.Photo==new byte[0]? new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg")): Helper.BytesToBitmapImage(user.Photo);
+
+
+                        Mediator.Notify("LoadUserMainPage", "");
+                    }
+                        
                 }));
             }
         }
-
     }
 }

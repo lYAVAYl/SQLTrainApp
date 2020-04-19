@@ -19,41 +19,32 @@ namespace SQLTrainApp.ViewModel
     class SignInPageViewModel : ValidateBaseViewModel, IPageViewModel
     {
         private string _login;
-        public string myLog
+        public string UserLogin
         {
             get => _login;
             set
             {
                 if (value.Length != 0)
                 {
-                    char last = value.Last();
-                    if (!char.IsWhiteSpace(last)
-                        && (char.IsDigit(last) || char.IsLetter(last))) _login = value;
+                    if (Helper.ValidateInputLogin(value.Last()))
+                        _login = value;
                 }
                 else _login = "";
             }
         }
 
         private string _password;
-        public string myPass
+        public string UserPassword
         {
             get => _password;
-            set
-            {
-                if (value.Length != 0)
-                {
-                    char last = value.Last();
-                    if (!char.IsWhiteSpace(last)
-                        && (char.IsDigit(last) || char.IsLetter(last))) _password = value;
-                }
-                else _password = "";
-            }
+            set => _password = value;
         }
+
 
         public SignInPageViewModel()
         {
-            myLog = "";
-            myPass = "";
+            UserLogin = "";
+            UserPassword = "";
         }
 
         private ICommand _loadSignOnPage;
@@ -87,54 +78,61 @@ namespace SQLTrainApp.ViewModel
             {
                 return _signIn ?? (_signIn = new RelayCommand(x =>
                 {
-                    TryToSignIn(myLog, myPass);
+                    TryToSignIn();
                 }));
             }
         }
 
-        public Dictionary<string, string> ErrorCollection { get; set; } = new Dictionary<string, string>();
         public override string Validate(string columnName)
         {
             string error = null;
-
             switch (columnName)
             {
-                case nameof(myLog):
-                    if (string.IsNullOrEmpty(myLog))
+                case nameof(UserLogin):
+                    if (string.IsNullOrEmpty(UserLogin))
                     {
                         error = "Логин не введён";
                     }
-                    else if (myLog.Length < 5)
+                    else if (UserLogin.Length < 5)
                     {
                         error = "Длина логина - не менее 5 символов";
                     }
-                    else if (myLog.Length > 30)
+                    else if (UserLogin.Length > 30)
                     {
                         error = "Длина логина - не более 30 символов";
                     }
                     break;
-                case nameof(myPass):
-                    if (string.IsNullOrEmpty(myPass))
+                case nameof(UserPassword):
+                    if (string.IsNullOrEmpty(UserPassword))
                     {
                         error = "Пароль не введён";
                     }
-                    else if (myPass.Length < 6)
+                    else if (UserPassword.Length < 6)
                     {
                         error = "Длина пароля - не менее 6 символов";
                     }
-                    else if (myPass.Length > 32)
+                    else if (UserPassword.Length > 32)
                     {
                         error = "Длина пароля - не более 32 символов";
+                    }
+                    else if(UserPassword.Contains(" "))
+                    {
+                        error = "Пароль не может содержать пробелы";
+                    }
+                    else if (!Helper.ValidateInputPassword(UserPassword.Last()))
+                    {
+                        error = "Пароль может содержать только буквы латинского алфавита, цифры и знак _";
                     }
                     break;
 
             }
-
 
             if (ErrorCollection.ContainsKey(columnName))
                 ErrorCollection[columnName] = error;
             else if (error != null) ErrorCollection.Add(columnName, error);
 
+            IsEnableBtn = ErrorCollection[nameof(UserLogin)] == null
+                          && ErrorCollection[nameof(UserPassword)] == null;
 
             OnPropertyChanged(nameof(ErrorCollection));
 
@@ -143,85 +141,26 @@ namespace SQLTrainApp.ViewModel
         }
 
 
-        //public Dictionary<string, string> ErrorCollection { get; set;}
-        //public string this[string columnName]
-        //{
-        //    get
-        //    {
-        //        string result = null;
-
-        //        switch (columnName)
-        //        {
-        //            case nameof(myLog):
-        //                if (string.IsNullOrEmpty(myLog))
-        //                {
-        //                    result = "Логин не может быть пустым";
-        //                }
-        //                else if (myLog.Length<5)
-        //                {
-        //                    result = "Минимальная длина логина - 5 символов";
-        //                }
-        //                else if (myLog.Length > 30)
-        //                {
-        //                    result = "Максимальная длина логина - 30 символов";
-        //                }
-
-        //                break;
-        //            case nameof(myPass):
-        //                if (string.IsNullOrEmpty(myPass))
-        //                {
-        //                    result = "Пароль не может быть пустым";
-        //                }
-        //                break;
-
-        //        }
-
-        //        if (ErrorCollection.ContainsKey(columnName))
-        //            ErrorCollection[columnName] = result;
-        //        else if (result != null) ErrorCollection.Add(columnName, result);
-
-        //        //OnPropertyChanged(nameof(ErrorCollection));
-
-        //        return result;
-
-        //    }
-        //}
-
-
-
-        private void TryToSignIn(string login = "", string password = "")
+        private void TryToSignIn()
         {
             // Выполняется поиск пользователя в БД
 
-            User user = TrainSQL_Commands.FindUser(login);
-            if (user != null && user.Password == password)
+            User user = TrainSQL_Commands.FindUser(_login);
+            if (user != null && user.Password == _password)
             {
                 CurrentUser.Login = user.Login;
                 CurrentUser.Email = user.UserEmail;
                 CurrentUser.Role = TrainSQL_Commands.GetUserRole(user);
-                CurrentUser.Photo = BytesToBitmapImage(user.Photo);
+                CurrentUser.Photo = Helper.BytesToBitmapImage(user.Photo);
 
                 Mediator.Notify("LoadUserMainPage", "");
             }
+            else Error = "Неверный логин или пароль";
 
         }
 
 
-        private BitmapImage BytesToBitmapImage(byte[] bitmapBytes)
-        {
-            if (bitmapBytes == null) return null;
 
-            using (var ms = new MemoryStream(bitmapBytes))
-            {
-                var bitmapimage = new BitmapImage();
-                bitmapimage.BeginInit();
-                bitmapimage.StreamSource = ms;
-                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapimage.EndInit();
-
-                return bitmapimage;
-            }
-        }
 
 
 
