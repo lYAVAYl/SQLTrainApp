@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -39,7 +41,17 @@ namespace SQLTrainApp.Model.Logic
             }
         }
 
-        
+        public static byte[] ConvertImageToByteArray(string fileName)
+        {
+            Bitmap bitMap = new Bitmap(fileName);
+            ImageFormat bmpFormat = bitMap.RawFormat;
+            var imageToConvert = Image.FromFile(fileName);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                imageToConvert.Save(ms, bmpFormat);
+                return ms.ToArray();
+            }
+        }
 
         public static string FindFile(string filter)
         {

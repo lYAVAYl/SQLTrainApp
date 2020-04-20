@@ -63,6 +63,30 @@ namespace SQLTrainApp.Model.Commands
             return user;
         }
 
+        public static object AddUser(User newUser = null)
+        {
+            if (newUser != null)
+            {
+                using(var context = new TrainSQL_Entities())
+                {
+                    try
+                    {
+                        context.Users.Add(newUser);
+                        context.SaveChanges();
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                        return ex;
+                    }
+                }
+
+                return null;
+            }
+
+            return new ArgumentNullException();
+        }
+
         public static string GetUserRole(User user)
         {
             string roleName = "";
@@ -82,6 +106,45 @@ namespace SQLTrainApp.Model.Commands
             }
 
             return roleName;
+        }
+
+        public static object ChangeUserProperty(User user = null, string columnName = "", string newProperty = "")
+        {
+            if (user != null)
+            {
+                using (var context = new TrainSQL_Entities())
+                {
+                    try
+                    {
+                        switch (columnName)
+                        {
+                            case nameof(user.Login):
+                                context.Users.FirstOrDefault(x => x.Login == user.Login).Login = newProperty;
+                                break;
+                            case nameof(user.Password):
+                                context.Users.FirstOrDefault(x => x.Login == user.Login).Password = newProperty;
+                                break;
+                            case nameof(user.RoleID):
+                                context.Users.FirstOrDefault(x => x.Login == user.Login).RoleID = Convert.ToInt32(newProperty);
+                                break;
+                            default:
+                                return new Exception();
+                                break;
+                        }
+
+                        context.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                        return ex;
+                    }
+                }
+
+                return null;
+            }
+
+            return new ArgumentNullException();
         }
     }
 }

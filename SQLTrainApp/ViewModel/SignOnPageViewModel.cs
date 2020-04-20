@@ -63,6 +63,7 @@ namespace SQLTrainApp.ViewModel
         }
 
         private BitmapImage _defaultPhoto = new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg"));
+        private byte[] _userPhoto = null;
         public BitmapImage UserPhoto { get; set; } = new BitmapImage();
 
         public SignOnPageViewModel()
@@ -139,8 +140,11 @@ namespace SQLTrainApp.ViewModel
         private void GetPhoto()
         {
             string photoWay = Helper.FindFile("Файлы изображений (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png");
-            if(photoWay!=null)
-                UserPhoto = new BitmapImage(new Uri(photoWay, UriKind.Relative));
+            if (photoWay != null)
+            {
+                _userPhoto = Helper.ConvertImageToByteArray(photoWay);
+                UserPhoto = Helper.BytesToBitmapImage(_userPhoto);
+            }
         }
 
         /// <summary>
@@ -169,12 +173,12 @@ namespace SQLTrainApp.ViewModel
             {
                 User user = new User()
                 {
-                    Login = UserLogin,
+                    Login = this.UserLogin,
                     UserEmail = this.UserEmail,
                     Password = this.UserPass1,
                     RoleID = 1,
 
-                    Photo = UserPhoto == _defaultPhoto ? new byte[0] : new byte[0]
+                    Photo = _userPhoto
                 };
 
                 EmailConfirm emailConfirm = new EmailConfirm();
@@ -185,8 +189,6 @@ namespace SQLTrainApp.ViewModel
                 Mediator.Notify("LoadConfirmEmailPage", new object[] { user, sentCode });
             }
             else IsEnableBtn = false;
-
-
         }
 
         public override string Validate(string columnName)
@@ -217,6 +219,10 @@ namespace SQLTrainApp.ViewModel
                     {
                         error = "Длина логина - не более 30 символов";
                     }
+                    else if (int.TryParse(UserLogin, out int n))
+                    {
+                        error = "Логин не может состоять из одних цифр";
+                    }
                     break;
                 case nameof(UserPass1):
                     if (string.IsNullOrEmpty(UserPass1))
@@ -239,6 +245,20 @@ namespace SQLTrainApp.ViewModel
                     {
                         error = "Пароль может содержать только буквы латинского алфавита, цифры и знак _";
                     }
+                    else
+                    {
+                        for (int i = 0; i < UserPass1.Length-3; i++)
+                        {
+                            if (UserPass1[i] == UserPass1[i + 1]
+                                && UserPass1[i] == UserPass1[i + 2]
+                                && UserPass1[i] == UserPass1[i + 3])
+                                error = "Более 3 подряд идущих символов запрещены";
+                        }
+
+                        ErrorCollection[nameof(UserPass2)] = UserPass2 != UserPass1 ? "Пароли не совпадают":null;
+                        
+
+                    }
                     break;
                 case nameof(UserPass2):
                     if (string.IsNullOrEmpty(UserPass1))
@@ -246,7 +266,9 @@ namespace SQLTrainApp.ViewModel
                         error = "Пароль не введён";
                     }
                     else if (UserPass2 != UserPass1)
+                    {
                         error = "Пароли не совпадают";
+                    }
                     break;
             }
 

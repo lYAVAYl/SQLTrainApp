@@ -16,7 +16,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="280"/>
                     <ColumnDefinition MinWidth="300"/>
-                    <ColumnDefinition Width="23*"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
@@ -48,7 +48,7 @@
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Width="59"
                             />
-                <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,0,0,0.333">
+                <StackPanel Grid.Column="1" Grid.Row="2">
                     <TextBox x:Name="tbxEmail" 
                              Text="{Binding Path=UserEmail, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                              FontSize="20"
@@ -64,7 +64,7 @@
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="26" Margin="0,0,0,0.333" Width="60"
                            />
-                <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,29.667" Grid.RowSpan="3">
+                <StackPanel Grid.Column="1" Grid.Row="4" Grid.RowSpan="3">
                     <TextBox x:Name="tbxLogin" 
                              Text="{Binding Path=UserLogin, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                              FontSize="20"                         
@@ -80,7 +80,7 @@
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"                           
                            />
-                <StackPanel Grid.Column="1" Grid.Row="6" Margin="0,0.333,0,0">
+                <StackPanel Grid.Column="1" Grid.Row="6">
                     <PasswordBox x:Name="tbxPassword1"
                                  FontSize="20"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Center"
@@ -102,7 +102,7 @@
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="27" Width="174"
                        />
-                <StackPanel Grid.Column="1" Grid.Row="8" Margin="0,0,0,0.333">
+                <StackPanel Grid.Column="1" Grid.Row="8" >
                     <PasswordBox x:Name="tbxPassword2" 
                                      FontSize="20"
                                      HorizontalAlignment="Stretch" VerticalAlignment="Center"

@@ -59,20 +59,37 @@
                              HorizontalAlignment="Center" VerticalAlignment="Center"
                              />
 
-                <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"
-                         Text="Код подтверждения:" 
-                         TextAlignment="Center"
-                         FontSize="30" Foreground="Gray"
-                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                         />
+                <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Осталось попыток:" 
+                               TextAlignment="Center"
+                               FontSize="30" Foreground="Gray"                         
+                               />
+                    <TextBlock Text="{Binding Path=ChancesNum}" 
+                               TextAlignment="Center"
+                               FontSize="30" Foreground="Gray"   
+                               Padding="5,0"
+                               />
+                </StackPanel>
 
-                <TextBox x:Name="tbxConfirmCode" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"
-                         Text="{Binding Path=Code, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                         TextAlignment="Center"
-                         FontSize="35" Foreground="Gray"
-                         Width="150"
-                         HorizontalAlignment="Center" VerticalAlignment="Top"
-                         />
+
+                <StackPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <TextBlock Text="Код:" 
+                               TextAlignment="Center"
+                               FontSize="30" Foreground="Gray" 
+                               Padding="5,0"
+                               />
+                    <TextBox x:Name="tbxConfirmCode" 
+                             Text="{Binding Path=Code, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                             TextAlignment="Center"
+                             FontSize="35" Foreground="Gray"
+                             Width="150"
+                             />
+                </StackPanel>
+                
 
                 <Button x:Name="btnConfirm" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"
                         Command="{Binding ConfirmCode}"

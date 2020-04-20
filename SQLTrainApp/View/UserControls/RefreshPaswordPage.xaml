@@ -6,27 +6,27 @@
              xmlns:local="clr-namespace:SQLTrainApp.View.UserControls"
              xmlns:logic="clr-namespace:SQLTrainApp.Model.Logic"             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
-        <Border Height="400" Width="600" 
-                    Style="{StaticResource simpleBorder}"
-                    Margin="20" Padding="0">
+        <Border Height="420" Width="600" 
+                Style="{StaticResource simpleBorder}"
+                Margin="20" Padding="0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"/>
-                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition MinWidth="300"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="45"/>
                     <RowDefinition Height="60"/>
                 </Grid.RowDefinitions>
 
@@ -35,7 +35,7 @@
                                Foreground="Gray"
                                HorizontalAlignment="Center" VerticalAlignment="Center"
                        />
-                <Button x:Name="btnSignIn" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
+                <Button x:Name="btnSignIn" Grid.Column="2" Grid.Row="0"
                             Content="Войти" FontSize="20"
                             Width="70"
                             HorizontalAlignment="Right"
@@ -47,15 +47,26 @@
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Center" VerticalAlignment="Bottom"
                             />
-                <TextBox x:Name="tbxLogin" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"
-                             Text="{Binding Path=UserLogin}"
-                             FontSize="26" Width="250"
-                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                
+                <StackPanel Grid.Column="1" Grid.Row="2"
+                            Orientation="Vertical">
+                    <TextBox x:Name="tbxLogin" 
+                             Text="{Binding Path=UserLogin, 
+                                    ValidatesOnDataErrors=True, 
+                                    UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{ Binding Path=EnableLogin}"
+                             FontSize="20"                         
                              />
-                <Button x:Name="btnSendCode" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"                        
-                        HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                    <TextBlock Text="{Binding Path=ErrorCollection[UserLogin]}" 
+                               FontSize="12" Foreground="Red"
+                               VerticalAlignment="Center"
+                               />
+                </StackPanel>
+                <Button x:Name="btnSendCode" Grid.Column="2" Grid.Row="2"                   
+                        HorizontalAlignment="Left" VerticalAlignment="Stretch"
                         Width="65"
-                        Margin="315,0,0,0"
+                        Command="{Binding SendConfirmCode}"
+                        IsEnabled="{Binding Path=EnableSendCode}"
                         >
                     <Button.Content>
                         <TextBlock Text="Отправить код" TextWrapping="Wrap"
@@ -63,45 +74,93 @@
                     </Button.Content>
                 </Button>
 
-                <TextBlock Text="Код подтверждения:" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"
+                <StackPanel Grid.Column="1" Grid.Row="3"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Осталось попыток:"  Grid.ColumnSpan="3"
                            FontSize="20" Foreground="Gray"
-                           HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
                            />
-                <TextBox x:Name="tbxCode" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"
+                    <TextBlock Text="{Binding ChancesNum}"  Grid.ColumnSpan="3"
+                               FontSize="20" Foreground="Gray"
+                               Padding="5,0"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                           />
+                </StackPanel>
+
+
+                <StackPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3"
+                            Orientation="Horizontal"
+                            IsEnabled="{Binding Path=EnableConfirm}"
+                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Код:" 
+                               TextAlignment="Center"
+                               FontSize="25" Foreground="Gray" 
+                               Padding="5,0"
+                               />
+                    <TextBox x:Name="tbxCode" 
                              Text="{Binding Path=Code}"
+                             TextAlignment="Center"
                              FontSize="28" Width="150"
-                             HorizontalAlignment="Center" VerticalAlignment="Center"
                              />
+                    <Button x:Name="tbnConfirmCode"
+                            Content="✔"
+                            FontSize="20"
+                            Height="35" Width="35"
+                            Command="{Binding ConfirmCode}"/>
+                </StackPanel>
+
+                
 
                 <TextBlock Text="Новый пароль:" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"
                                FontSize="20" Foreground="Gray"
                                HorizontalAlignment="Center" VerticalAlignment="Bottom"
                                 />
-                <PasswordBox x:Name="tbxPassword1" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3"
-                                 FontSize="26" Width="250"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                <StackPanel Grid.Column="1" Grid.Row="6" >
+                    <PasswordBox x:Name="tbxPassword1"
+                                 FontSize="20"
+                                 HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=EnablePass}"
                                  logic:PasswordBoxAssistant.BindPassword="True"
-                                 logic:PasswordBoxAssistant.BoundPassword="{Binding Path=UserPass1, Mode=TwoWay, 
-                                                                                UpdateSourceTrigger=PropertyChanged}"                             
-                                 />
+                                 logic:PasswordBoxAssistant.BoundPassword="{Binding Path=UserPass1, Mode=TwoWay,
+                                                                                   ValidatesOnDataErrors=True,
+                                                                                   UpdateSourceTrigger=PropertyChanged}"                             
+                                     />
+                    <TextBlock Text="{Binding Path=ErrorCollection[UserPass1]}"
+                               TextWrapping="Wrap"
+                               FontSize="12" Foreground="Red"
+                               VerticalAlignment="Center"
+                               />
+
+                </StackPanel>
+
 
                 <TextBlock Text="Повторите пароль:" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3"
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Center" VerticalAlignment="Bottom"
                        />
-                <PasswordBox x:Name="tbxPassword2" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="3"
-                                 FontSize="26" Width="250"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                <StackPanel Grid.Column="1" Grid.Row="8" >
+                    <PasswordBox x:Name="tbxPassword2" 
+                                 FontSize="20"
+                                 HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                 IsEnabled="{Binding Path=EnablePass}"                                 
                                  logic:PasswordBoxAssistant.BindPassword="True"
                                  logic:PasswordBoxAssistant.BoundPassword="{Binding Path=UserPass2, Mode=TwoWay, 
-                                                                            UpdateSourceTrigger=PropertyChanged}"                             
+                                                                                ValidatesOnDataErrors=True,
+                                                                                UpdateSourceTrigger=PropertyChanged}"                             
                                  />
+                    <TextBlock Text="{Binding Path=ErrorCollection[UserPass2]}" 
+                               FontSize="12" Foreground="Red"
+                               VerticalAlignment="Center"
+                               />
+                </StackPanel>
 
                 <Button x:Name="btnSignOn" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3"
-                            Command="{Binding LoadSignInPage}"
-                            Content="Внести изменения" FontSize="20"
-                            Height="35" Width="210"
-                            />
+                        Command="{Binding RefreshPassword}"
+                        IsEnabled="{Binding Path=IsEnableBtn}"
+                        Content="Внести изменения" FontSize="20"
+                        Height="35" Width="210"
+                        />
 
                 
 

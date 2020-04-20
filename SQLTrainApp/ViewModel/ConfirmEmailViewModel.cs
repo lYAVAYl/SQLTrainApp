@@ -19,7 +19,7 @@ namespace SQLTrainApp.ViewModel
     {
         public string UserLogin { get; set; }
         public string UserEmail { get; set; }
-
+        
         private string _rightCode = null;
         private string _code;
         public string Code
@@ -36,6 +36,8 @@ namespace SQLTrainApp.ViewModel
             }
 
         }
+
+        public int ChancesNum { get; set; } = 5;
 
         private User user = new User();
 
@@ -80,12 +82,23 @@ namespace SQLTrainApp.ViewModel
                         CurrentUser.Email = user.UserEmail;
                         CurrentUser.Role = TrainSQL_Commands.GetUserRole(user);
                         
-                        //CurrentUser.Photo = user.Photo==new byte[0]? new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg")): Helper.BytesToBitmapImage(user.Photo);
+                        CurrentUser.Photo = user.Photo == null ? new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg"))
+                                                               : Helper.BytesToBitmapImage(user.Photo);
 
-
-                        Mediator.Notify("LoadUserMainPage", "");
+                        object ret = TrainSQL_Commands.AddUser(user);
+                        if(ret == null)
+                            Mediator.Notify("LoadUserMainPage", "");
+                        else
+                        {
+                            MessageBox.Show(ret.ToString());
+                            Mediator.Notify("LoadSignOnPage", "");
+                        }
                     }
-                        
+                    else if(--ChancesNum==0)
+                    {
+                        Mediator.Notify("LoadSignOnPage", "");
+                    }
+
                 }));
             }
         }
