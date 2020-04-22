@@ -4,49 +4,52 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SQLTrainApp.View.UserControls"
+             xmlns:logic="clr-namespace:SQLTrainApp.Model.Logic"
+             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="650" d:DesignWidth="800">
     <Grid>
-        
+
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <Border Style="{StaticResource simpleBorder}"                
+            <StackPanel>
+                <Border Style="{StaticResource simpleBorder}"                
                     Margin="50,50,50,0"
                     Padding="15"
                     Height="290"
                     VerticalAlignment="Top">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="280"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="280"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                <Ellipse Grid.Column="0" Grid.Row="0" Grid.RowSpan="6"
+                        <Ellipse Grid.Column="0" Grid.Row="0" Grid.RowSpan="6"
                          Height="250" Width="250"
                          HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{Binding Path=UserPhoto}" Stretch="UniformToFill"/>
-                    </Ellipse.Fill>
-                </Ellipse>
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding Path=UserPhoto}" Stretch="UniformToFill"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
 
-                <TextBlock x:Name="tbkLogin" Grid.Column="1" Grid.Row="0"
+                        <TextBlock x:Name="tbkLogin" Grid.Column="1" Grid.Row="0"
                            Text="{Binding Path=UserLogin}"
-                           FontSize="50" FontWeight="Bold"
+                           FontSize="45" FontWeight="Bold"
                            Foreground="Gray"
                            HorizontalAlignment="Left"
-                       />
-                <TextBlock x:Name="tbkEmail" Grid.Column="1" Grid.Row="1"
+                           />
+                        <TextBlock x:Name="tbkEmail" Grid.Column="1" Grid.Row="1"
                            Text="{Binding Path=UserEmail}"
                            FontSize="25"
                            Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
                        />
-                <TextBlock x:Name="tbkRole" Grid.Column="1" Grid.Row="2"
+                        <TextBlock x:Name="tbkRole" Grid.Column="1" Grid.Row="2"
                            Text="{Binding Path=UserRole}"
                            FontSize="25"
                            Foreground="Gray"
@@ -55,11 +58,215 @@
 
 
 
-            </Grid>
+                    </Grid>
 
-        </Border>
-            
-            
+                </Border>
+
+                <Border Style="{StaticResource simpleBorder}"                
+                        Margin="50,20,50,0"
+                        Height="270" Padding="0"
+                        MaxWidth="2100"
+                        VerticalAlignment="Top">
+                    <Grid>
+                        <Canvas Background="White"
+                                ClipToBounds="True">
+                            <TextBlock Text="5"
+                                       Style="{StaticResource CanvasTbk}"
+                                       Canvas.Top="37" Height="172" Width="24"
+                                       Background="White"
+                                       />
+
+                            <TextBlock Text="4"
+                                           Style="{StaticResource CanvasTbk}"
+                                           Canvas.Top="70" Canvas.Left="5" 
+                                           />
+
+                            <TextBlock Text="3"
+                                           Style="{StaticResource CanvasTbk}"
+                                           Canvas.Top="102" Canvas.Left="5"                                       
+                                           />
+
+                            <TextBlock Text="2"
+                                           Style="{StaticResource CanvasTbk}"
+                                           Canvas.Top="133" Canvas.Left="5"                                       
+                                           />
+
+                            <TextBlock Text="1"
+                                           Style="{StaticResource CanvasTbk}"
+                                           Canvas.Top="166" Canvas.Left="5"                                       
+                                           />
+
+                            <Line X1="5" Y1="210" X2="1150" Y2="210"
+                                  Stroke="Black"
+                                  StrokeThickness="1"
+                                  />
+                            <Line X1="25" Y1="35" X2="25" Y2="230"
+                                  Stroke="Black"
+                                  StrokeThickness="1"
+                                  />
+                        </Canvas>
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto"
+                                      Margin="26,0,0,0">
+                            <ItemsControl x:Name="ic" ItemsSource="{Binding Items}">
+                                <ItemsControl.Resources>
+                                    <DataTemplate DataType="{x:Type logic:LineVM}">
+                                        <Line Stroke="{Binding StrokeColor}"  
+                                                      StrokeThickness="2"
+                                                      X1="{Binding X1}"
+                                                      Y1="{Binding Y1}"
+                                                      X2="{Binding X2}"
+                                                      Y2="{Binding Y2}"
+                                                      />
+                                    </DataTemplate>
+                                    <DataTemplate DataType="{x:Type logic:TextBlockVM}">
+                                        <TextBlock Text="{Binding TextOut}"
+                                                           FontSize="10"
+                                                           Foreground="Black"
+                                                           Width="60"
+                                                           TextWrapping="Wrap"
+                                                           TextAlignment="Center"                                                   
+                                                           />
+                                    </DataTemplate>
+                                </ItemsControl.Resources>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas HorizontalAlignment="Left"
+                                                Width="{Binding Path=CanWidth}"
+                                                MinWidth="670"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Top" Value="{Binding Top}"/>
+                                        <Setter Property="Canvas.Left" Value="{Binding Left}"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <TextBlock Text="Верных ответов"
+                                       Style="{StaticResource CanvasTbk}"
+                                       FontSize="12" Width="50" Background="White"
+                                       HorizontalAlignment="Left" VerticalAlignment="Top"
+                                       />
+                        <TextBlock Text="Дата теста"
+                                       Style="{StaticResource CanvasTbk}"
+                                       FontSize="12" Width="40" Background="White"
+                                       HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                       Margin="0,0,0,40"
+                                       />
+                    </Grid>
+
+                    <!--<Canvas Background="White"
+                                MinWidth="700"
+                                MaxWidth="2100"
+                                HorizontalAlignment="Left">
+                            <TextBlock Text="Верных ответов"
+                                       FontSize="12"
+                                       Foreground="Gray"
+                                       Width="60"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="0" Canvas.Left="0"                                       
+                                       />
+                            <TextBlock Text="Дата теста"
+                                       FontSize="12"
+                                       Foreground="Gray"
+                                       Width="30"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="210" Canvas.Right="0"
+                                       />
+
+                            <TextBlock Text="5"
+                                       FontSize="20"
+                                       Foreground="Gray"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="37" Canvas.Left="5"                                       
+                                       />
+                            <Line X1="20" Y1="50" X2="2100" Y2="50"
+                                  Stroke="Gray"
+                                  StrokeThickness="1"
+                                  />
+
+                            <TextBlock Text="4"
+                                       FontSize="18"
+                                       Foreground="Gray"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="70" Canvas.Left="5"                                       
+                                       />
+                            <Line X1="20" Y1="82" X2="2100" Y2="82"
+                                  Stroke="Gray"
+                                  StrokeThickness="1"
+                                  />
+
+                            <TextBlock Text="3"
+                                       FontSize="18"
+                                       Foreground="Gray"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="102" Canvas.Left="5"                                       
+                                       />
+                            <Line X1="20" Y1="114" X2="2100" Y2="114"
+                                  Stroke="Gray"
+                                  StrokeThickness="1"
+                                  />
+
+                            <TextBlock Text="2"
+                                       FontSize="18"
+                                       Foreground="Gray"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="133" Canvas.Left="5"                                       
+                                       />
+                            <Line X1="20" Y1="146" X2="2100" Y2="146"
+                                  Stroke="Gray"
+                                  StrokeThickness="1"
+                                  />
+
+                            <TextBlock Text="1"
+                                       FontSize="18"
+                                       Foreground="Gray"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="166" Canvas.Left="5"                                       
+                                       />
+                            <Line X1="20" Y1="178" X2="2100" Y2="178"
+                                  Stroke="Gray"
+                                  StrokeThickness="1"
+
+                                  />
+                            
+                            <Line X1="5" Y1="210" X2="2100" Y2="210"
+                                  Stroke="Black"
+                                  StrokeThickness="1"
+                                  />
+                            <Line X1="25" Y1="35" X2="25" Y2="230"
+                                  Stroke="Black"
+                                  StrokeThickness="1"
+                                  />
+
+                            <TextBlock Text="12.12.2020 24:59"
+                                       FontSize="12"
+                                       Foreground="Gray"
+                                       Width="60"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="210" Canvas.Left="25"
+                                       />
+                            <TextBlock Text="12.12.2020 24:59"
+                                       FontSize="12"
+                                       Foreground="Gray"
+                                       Width="60"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Canvas.Top="210" Canvas.Left="90"
+                                       />
+                        </Canvas>-->
+                </Border>
+            </StackPanel>
         </ScrollViewer>
 
 

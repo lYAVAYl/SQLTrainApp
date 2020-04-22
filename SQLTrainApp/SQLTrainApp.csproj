@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Commands\TrainSQL_Commands.cs" />
+    <Compile Include="Model\Logic\BaseCoordinate.cs" />
     <Compile Include="Model\Logic\CurrentUser.cs" />
     <Compile Include="Model\Logic\EmailConfirm.cs" />
     <Compile Include="Model\Logic\EventArgs.cs" />
@@ -81,9 +82,11 @@
     <Compile Include="Model\Commands\RelayCommand.cs" />
     <Compile Include="Model\Logic\Helper.cs" />
     <Compile Include="Model\Logic\IPageViewModel.cs" />
+    <Compile Include="Model\Logic\LineVM.cs" />
     <Compile Include="Model\Logic\LoginValidationRule.cs" />
     <Compile Include="Model\Logic\Mediator.cs" />
     <Compile Include="Model\Logic\PasswordBoxAssistant.cs" />
+    <Compile Include="Model\Logic\TextBlockVM.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ConfirmEmailViewModel.cs" />
     <Compile Include="ViewModel\EditTaskPageViewModel.cs" />
@@ -231,9 +234,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Images\Exit.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrainSQL_DAL\TrainSQL_DAL.csproj">

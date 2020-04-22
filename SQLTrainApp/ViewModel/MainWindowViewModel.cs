@@ -171,7 +171,7 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadUserMainPage(object obj)
         {
-            ChangeViewModel(PageViewModels[2]);
+            ChangeViewModel(new UserMainPageViewModel());
             UserPhoto = CurrentUser.Photo;
             UserLogin = CurrentUser.Login.Length>10? CurrentUser.Login.Substring(0,10)+"...": CurrentUser.Login;
             

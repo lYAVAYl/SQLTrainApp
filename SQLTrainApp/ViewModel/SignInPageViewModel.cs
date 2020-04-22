@@ -151,7 +151,8 @@ namespace SQLTrainApp.ViewModel
                 CurrentUser.Login = user.Login;
                 CurrentUser.Email = user.UserEmail;
                 CurrentUser.Role = TrainSQL_Commands.GetUserRole(user);
-                CurrentUser.Photo = Helper.BytesToBitmapImage(user.Photo);
+                CurrentUser.Photo = user.Photo != null ? Helper.BytesToBitmapImage(user.Photo)
+                                                       : new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg"));
 
                 Mediator.Notify("LoadUserMainPage", "");
             }

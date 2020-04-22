@@ -146,5 +146,40 @@ namespace SQLTrainApp.Model.Commands
 
             return new ArgumentNullException();
         }
+
+        public static List<Progress> GetUserProgress(string login = "")
+        {
+            List<Progress> userProgress = null;
+
+            if (login != "")
+            {
+                if (IsUserExists(login))
+                {
+                    try
+                    {
+                        using (var context = new TrainSQL_Entities())
+                        {
+                            userProgress = (from el in context.Progresses
+                                            where el.Login == login
+                                            orderby el.TestDate
+                                            select el).ToList();
+
+                            if (userProgress.Count > 14)
+                            {
+                                userProgress = userProgress.Take(15).ToList();
+                            }
+                                
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+                }
+
+            }
+
+            return userProgress;
+        }
     }
 }
