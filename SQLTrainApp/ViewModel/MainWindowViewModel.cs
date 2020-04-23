@@ -268,7 +268,7 @@ namespace SQLTrainApp.ViewModel
             PageViewModels.Add(new SendComplaintPageViewModel());       // 4 Отправка жалобы
             PageViewModels.Add(new TableOfContentsPageViewModel());     // 5 Оглавление
             PageViewModels.Add(new EditTaskPageViewModel());            // 6 Изменение задания
-            PageViewModels.Add(new EditThemePageViewModel());           // 7 Изменение теории
+            PageViewModels.Add(new EditThemePageViewModel(17));           // 7 Изменение теории
             PageViewModels.Add(new TheoryPageViewModel());              // 8 Теория главы
             PageViewModels.Add(new TableOfCompliantsViewModel());       // 9 Список жалоб
             PageViewModels.Add(new TableOfTasksViewModel());            // 10 Список заданий

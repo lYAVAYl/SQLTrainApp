@@ -15,10 +15,15 @@ using System.Drawing;
 
 namespace SQLTrainApp.ViewModel
 {
-    class SendComplaintPageViewModel:BaseViewModel, IPageViewModel
+    class SendComplaintPageViewModel:ValidateBaseViewModel, IPageViewModel
     {
         public int TaskNum { get; set; }
         public string CompliantComment { get; set; }
+
+        public SendComplaintPageViewModel(int taskID = 1)
+        {
+            TaskNum = taskID;
+        }
 
         private ICommand _cancelCompliant;
         public ICommand CancelCompliant
@@ -46,8 +51,47 @@ namespace SQLTrainApp.ViewModel
 
         private void SendCompliant()
         {
-            Mediator.Notify("LoadTaskDecisionPage", "");
+            Complaint complaint = new Complaint()
+            {
+                Login = CurrentUser.Login,
+                TaskID = this.TaskNum,
+                Comment = this.CompliantComment                
+            };
+
+            if (TrainSQL_Commands.SendComplaint(complaint) == null)
+            {
+                Mediator.Notify("LoadTaskDecisionPage", "");
+            }
+            else
+            {
+                MessageBox.Show("Что-то пошло не так...");
+            }
+
         }
 
+        public override string Validate(string columnName)
+        {
+            string error = null;
+
+            switch (columnName) 
+            {
+                case nameof(CompliantComment):
+                    if (string.IsNullOrEmpty(CompliantComment))
+                    {
+                        error = "Введите комментарий к жалобе";
+                    }
+                    break;
+            }
+
+            if (ErrorCollection.ContainsKey(columnName))
+                ErrorCollection[columnName] = error;
+            else ErrorCollection.Add(columnName, error);
+
+            IsEnableBtn = ErrorCollection[nameof(CompliantComment)] == null;
+
+            OnPropertyChanged(nameof(ErrorCollection));
+
+            return error;
+        }
     }
 }

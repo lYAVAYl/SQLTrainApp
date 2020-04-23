@@ -17,32 +17,59 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70"/>
                     <RowDefinition/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
 
-                <TextBox x:Name="tbkChapterID" Grid.Column="0" Grid.Row="0"
-                         Text="{Binding Path=ThemeID}" 
-                         FontSize="45" MaxLength="2"
-                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                         Margin="3"
-                           />
+                <StackPanel Grid.Column="0" Grid.Row="0">
+                    <TextBox x:Name="tbkChapterID"
+                             Text="{Binding Path=ThemeID, 
+                                            ValidatesOnDataErrors=True, 
+                                            UpdateSourceTrigger=PropertyChanged}"
+                             TextAlignment="Center"
+                             FontSize="40" MaxLength="2"
+                             Height="50"
+                             VerticalAlignment="Top"
+                             />
+                    <TextBlock Text="{Binding Path=ErrorCollection[ThemeID]}"                           
+                               FontSize="10" Foreground="Red"
+                               HorizontalAlignment="Left"
+                               />
+                </StackPanel>
 
-                <TextBox x:Name="tbkChapterName" Grid.Column="1" Grid.Row="0"                           
-                         Text="{Binding Path=ThemeName}"
-                         FontSize="20"
-                         TextWrapping="Wrap"
-                         Margin="3"
-                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                           
-                          />
-
-                <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
-                              VerticalScrollBarVisibility="Auto">
-                    <TextBox x:Name="tbkChapterInfo"
-                             Text="{Binding Path=ThemeInfo}"
-                             FontSize="16" Padding="10"
+                <StackPanel  Grid.Column="1" Grid.Row="0"
+                             Margin="3,0,0,0">
+                    <TextBox x:Name="tbkChapterName"                        
+                             Text="{Binding Path=ThemeName, 
+                                            ValidatesOnDataErrors=True, 
+                                            UpdateSourceTrigger=LostFocus}"
+                             FontSize="18"
                              TextWrapping="Wrap"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch" 
+                             Height="50"                           
+                              />
+                    <TextBlock Text="{Binding Path=ErrorCollection[ThemeName]}" 
+                               FontSize="10" Foreground="Red"
+                               HorizontalAlignment="Left"
+                               />
+                </StackPanel>
+
+                
+                <TextBox x:Name="tbkChapterInfo" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                         Margin="0,0,0,15"
+                         Text="{Binding Path=ThemeInfo, 
+                                        ValidatesOnDataErrors=True, 
+                                        UpdateSourceTrigger=LostFocus}"
+                         FontSize="16" Padding="10"
+                         TextWrapping="Wrap"                               
+                        />
+                
+                <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                           Text="{Binding Path=ErrorCollection[ThemeInfo]}"
+                           FontSize="10" Foreground="Red"
+                           VerticalAlignment="Bottom" HorizontalAlignment="Left"
                            />
-                </ScrollViewer>
+    
 
 
 
@@ -51,10 +78,11 @@
                                HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     
                     <Button x:Name="btnSaveChanges" DockPanel.Dock="Left"
-                                Content="Сохранить"
-                                FontSize="16"
-                                 Padding="3,0,3,0"
-                                Command="{Binding SaveChanges}"
+                            Content="Сохранить"
+                            FontSize="16"
+                            Padding="3,0,3,0"
+                            Command="{Binding SaveChanges}"
+                            IsEnabled="{Binding Path=IsEnableBtn}"
                                 />
                     <Button x:Name="btnCancel" DockPanel.Dock="Left"
                                 Content="Отмена" Margin="5,0,0,0"

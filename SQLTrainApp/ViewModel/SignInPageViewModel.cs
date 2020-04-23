@@ -129,7 +129,7 @@ namespace SQLTrainApp.ViewModel
 
             if (ErrorCollection.ContainsKey(columnName))
                 ErrorCollection[columnName] = error;
-            else if (error != null) ErrorCollection.Add(columnName, error);
+            else ErrorCollection.Add(columnName, error);
 
             IsEnableBtn = ErrorCollection[nameof(UserLogin)] == null
                           && ErrorCollection[nameof(UserPassword)] == null;

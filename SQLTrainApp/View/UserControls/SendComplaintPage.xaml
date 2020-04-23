@@ -33,13 +33,21 @@
                            />
 
                 <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
-                              VerticalScrollBarVisibility="Auto">
+                              VerticalScrollBarVisibility="Auto"
+                              Margin="0,0,0,16">
                     <TextBox x:Name="tbxComplaintComment" 
-                             Text="{Binding Path=CompliantComment}"
+                             Text="{Binding Path=CompliantComment, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                              FontSize="18" TextWrapping="Wrap"
+                             Margin="1"
                              />
                 </ScrollViewer>
+                <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                           Text="{Binding Path=ErrorCollection[CompliantComment]}"
+                           Foreground="Red"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                           FontSize="12" TextWrapping="Wrap"
+                           />
 
                 <WrapPanel Grid.Column="0" Grid.Row="2"
                                HorizontalAlignment="Left" VerticalAlignment="Bottom">
@@ -49,6 +57,7 @@
                             FontSize="16"
                             Margin="0,0,5,0"  Padding="3,0,3,0"
                             Command="{Binding SendCompliantCmd}"
+                            IsEnabled="{Binding Path=IsEnableBtn}"
                             />
                     
                     <!--Отмена-->

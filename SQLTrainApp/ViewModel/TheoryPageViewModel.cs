@@ -21,11 +21,14 @@ namespace SQLTrainApp.ViewModel
         public int ThemeID { get; set; }
         public string ThemeName { get; set; }
         public string ThemeInfo { get; set; }
+
+        private int _themeIndex = 0;
         Theme _currentTheme;
 
-        public TheoryPageViewModel()
+        public TheoryPageViewModel(int themeN = 0)
         {
-            GetTheme();            
+            _themeIndex = themeN;
+            GetTheme(_themeIndex);            
         }
 
         private ICommand _previousTheme;
@@ -35,7 +38,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _previousTheme ?? (_previousTheme = new RelayCommand(x =>
                 {
-                    GetTheme(ThemeID-1);
+                    GetTheme(_themeIndex-1);
                 }));
             }
         }
@@ -47,24 +50,21 @@ namespace SQLTrainApp.ViewModel
             {
                 return _nextTheme ?? (_nextTheme = new RelayCommand(x =>
                 {
-                    GetTheme(ThemeID+1);
+                    GetTheme(_themeIndex+1);
                 }));
             }
         }
 
-        private void GetTheme(int themeID = 1)
+        private void GetTheme(int themeID = 0)
         {
-
-            using (var context = new TrainSQL_Entities())
+            _currentTheme = TrainSQL_Commands.ShowTheme(themeID);
+            if (_currentTheme != null)
             {
-                if(themeID>0 && themeID < context.Themes.Count())
-                {
-                    _currentTheme = context.Themes.FirstOrDefault(x => x.ThemeID == themeID);
-                    UpdateContent(_currentTheme.ThemeID, _currentTheme.ThemeName, _currentTheme.Theory);
-                }                    
-            }
+                UpdateContent(_currentTheme.ThemeID, _currentTheme.ThemeName, _currentTheme.Theory);
 
-            //MessageBox.Show("Обновление темы");
+                if (_themeIndex > themeID) _themeIndex--;
+                else if (_themeIndex < themeID) _themeIndex++;
+            }
         }
 
         private void UpdateContent(int id, string name, string content)

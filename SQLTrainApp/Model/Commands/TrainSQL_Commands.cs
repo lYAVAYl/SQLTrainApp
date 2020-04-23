@@ -181,5 +181,202 @@ namespace SQLTrainApp.Model.Commands
 
             return userProgress;
         }
+
+        public static bool IsThemeExists(int themeID = 0)
+        {
+            bool isExists = false;
+            if (themeID != 0)
+            {
+                try
+                {
+                    using(var context = new TrainSQL_Entities())
+                    {
+                        isExists = context.Themes.FirstOrDefault(x => x.ThemeID == themeID) != null;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
+            return isExists;
+        }
+
+        public static Theme GetTheme(int themeID)
+        {
+            Theme theme = null;
+            if (themeID != 0
+                && IsThemeExists(themeID))
+            {
+                try
+                {
+                    using (var context = new TrainSQL_Entities())
+                    {
+                        theme = context.Themes.FirstOrDefault(x => x.ThemeID == themeID);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
+            return theme;
+
+        }
+
+        public static object EditORAddTheme(Theme newTheme = null)
+        {
+            object res = null;
+            if (newTheme != null)
+            {
+                try
+                {
+                    using(var context = new TrainSQL_Entities())
+                    {
+                        if (IsThemeExists(newTheme.ThemeID))
+                        {
+                            context.Themes.FirstOrDefault(x => x.ThemeID == newTheme.ThemeID).ThemeName = newTheme.ThemeName;
+                            context.Themes.FirstOrDefault(x => x.ThemeID == newTheme.ThemeID).Theory = newTheme.Theory;
+                        }
+                        else
+                        {
+                            context.Themes.Add(newTheme);
+                        }
+                        context.SaveChanges();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    res = ex;
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
+            return res;
+        }
+
+        public static Theme ShowTheme(int index = -1)
+        {
+            Theme theme = null;
+            if (index > -1)
+            {
+                try
+                {
+                    using (var context = new TrainSQL_Entities())
+                    {
+                        if (index < context.Themes.Count())
+                            theme = context.Themes.ToList()[index];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
+            return theme;
+        }
+
+        public static object SendComplaint(Complaint complaint = null)
+        {
+            if (complaint != null)
+            {
+                try
+                {
+                    using (var context = new TrainSQL_Entities())
+                    {
+                        complaint.ComplaintID = context.Complaints.ToList().Last().ComplaintID + 1;
+                        context.Complaints.Add(complaint);
+                        context.SaveChanges();
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    return ex;
+                }
+            }
+
+            return null;
+        }
+
+        public static List<Complaint> GetAllCompliants()
+        {
+            List<Complaint> result = null;
+            try
+            {
+                using (var context = new TrainSQL_Entities())
+                {
+                    result = context.Complaints.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+            return result;
+        }
+
+        public static List<Complaint> GetUsersCompliants(string login = "")
+        {
+            List<Complaint> result = null;
+            if (login != "")
+            {
+                try
+                {
+                    using (var context = new TrainSQL_Entities())
+                    {
+                        result = context.Complaints.Where(x => x.Login == login).ToList();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
+            return result;
+        }
+
+        public static List<TrainSQL_DAL.Task> GetAllTasks()
+        {
+            List<TrainSQL_DAL.Task> result = null;
+
+            try
+            {
+                using (var context = new TrainSQL_Entities())
+                {
+                    result = context.Tasks.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+            return result;
+        }
+
+        public static List<Theme> GetAllThemes()
+        {
+            List<Theme> result = null;
+
+            try
+            {
+                using (var context = new TrainSQL_Entities())
+                {
+                    result = context.Themes.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+            return result;
+        }
     }
 }
