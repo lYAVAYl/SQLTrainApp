@@ -75,6 +75,9 @@
     </ApplicationDefinition>
     <Compile Include="Model\Commands\TrainSQL_Commands.cs" />
     <Compile Include="Model\Logic\BaseCoordinate.cs" />
+    <Compile Include="Model\Logic\BaseItem.cs" />
+    <Compile Include="Model\Logic\ComplaintItem.cs" />
+    <Compile Include="Model\Logic\ContentItem.cs" />
     <Compile Include="Model\Logic\CurrentUser.cs" />
     <Compile Include="Model\Logic\EmailConfirm.cs" />
     <Compile Include="Model\Logic\EventArgs.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="Model\Logic\LoginValidationRule.cs" />
     <Compile Include="Model\Logic\Mediator.cs" />
     <Compile Include="Model\Logic\PasswordBoxAssistant.cs" />
+    <Compile Include="Model\Logic\TaskItem.cs" />
     <Compile Include="Model\Logic\TextBlockVM.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ConfirmEmailViewModel.cs" />
@@ -236,16 +240,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrainSQL_DAL\TrainSQL_DAL.csproj">
-      <Project>{3ca76a8f-9488-42f5-bb47-ea66f9628b8c}</Project>
-      <Name>TrainSQL_DAL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\defaultPhoto.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrainSQL_DAL\TrainSQL_DAL.csproj">
+      <Project>{aa388a4c-e710-4b72-9597-e87f94390868}</Project>
+      <Name>TrainSQL_DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

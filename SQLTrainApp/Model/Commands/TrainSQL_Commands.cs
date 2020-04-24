@@ -302,7 +302,7 @@ namespace SQLTrainApp.Model.Commands
             return null;
         }
 
-        public static List<Complaint> GetAllCompliants()
+        public static List<Complaint> GetAllComplaints()
         {
             List<Complaint> result = null;
             try
@@ -377,6 +377,62 @@ namespace SQLTrainApp.Model.Commands
             }
 
             return result;
+        }
+
+        public static List<TrainSQL_DAL.Task> GetTestList(int count = 0)
+        {
+            List<TrainSQL_DAL.Task> result = null;
+            if(count > 0)
+            {
+                result = new List<TrainSQL_DAL.Task>();
+                try
+                {
+                    using(var context = new TrainSQL_Entities())
+                    {
+                        int rand = new Random().Next(context.Tasks.ToList().Count());
+                        TrainSQL_DAL.Task task = context.Tasks.ToList()[rand];
+                        result.Add(task);
+
+                        while (result.Count < 5)
+                        {
+                            rand = new Random().Next(context.Tasks.ToList().Count());
+                            task = context.Tasks.ToList()[rand];
+
+                            if (!result.Contains(task))
+                                result.Add(task);
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
+            return result;
+        }
+
+        public static Sheme GetDbSheme(int dbID = 0)
+        {
+            Sheme sheme = null;
+
+            try
+            {
+                using(var context = new TrainSQL_Entities())
+                {
+                    TestDatabas testDB = context.TestDatabases.FirstOrDefault(x => x.dbID == dbID);
+                    if (testDB != null)
+                    {
+                        sheme = context.Shemes.FirstOrDefault(x => x.ShemeID == testDB.ShemeID);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+            return sheme;
         }
     }
 }

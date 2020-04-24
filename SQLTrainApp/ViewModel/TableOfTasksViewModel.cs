@@ -12,11 +12,21 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Drawing;
+using System.Collections.ObjectModel;
 
 namespace SQLTrainApp.ViewModel
 {
     class TableOfTasksViewModel:BaseViewModel, IPageViewModel
     {
+        public string SearchedTask { get; set; }
+        public Visibility CanEdit { get; set; } = Visibility.Hidden;
 
+        public ObservableCollection<Task> TaskList { get; set; }
+
+        public TableOfTasksViewModel()
+        {
+            TaskList = new ObservableCollection<Task>(TrainSQL_Commands.GetAllTasks());
+            CanEdit = CurrentUser.Role == "Administrator" ? Visibility.Visible : Visibility.Hidden;
+        }
     }
 }

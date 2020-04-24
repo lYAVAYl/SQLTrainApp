@@ -9,17 +9,127 @@
     <Grid>
         <Border Style="{StaticResource simpleBorder}"
                 Margin="20">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Style="{StaticResource BigText}"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" 
+                           Style="{StaticResource BigText}"
                            Text="Содержание"
                            VerticalAlignment="Top" HorizontalAlignment="Center"
                            />
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <!--Отображение доступных глав-->
-                        <!--ХЗ как это сделать-->
-                    </ScrollViewer>
-            </StackPanel>
+                <StackPanel Grid.Row="1"  Orientation="Horizontal"
+                            Width="300" Margin="0,5">
+                    <TextBox Text="{Binding Path=SearchedChapter}"
+                             FontSize="16"
+                             Width="255"/>
+                    <Button x:Name="btnSearch"
+                            Content="Найти"
+                            FontSize="14"
+                            Command="{Binding FindChapter}"
+                            />
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="2" VerticalAlignment="Stretch"
+                              VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Path=ContentList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Margin" Value="3"/>
+                                            <Setter Property="TextAlignment" Value="Left"/>
+                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                            <Setter Property="FontSize" Value="25"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+
+                                        <Style TargetType="Border" BasedOn="{StaticResource simpleBorder}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="LightBlue"/>
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Border Grid.Column="0" 
+                                            Padding="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" TextAlignment="Center" Text="{Binding Path=ThemeID}"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Path=ThemeName}"/>
+                                        </Grid>
+                                        <Border.InputBindings>
+                                            <MouseBinding Command="{Binding LoadTheory}"
+                                                          MouseAction="LeftClick"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Grid.Column="1" Content="✍" Margin="5"
+                                            FontSize="20"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                         AncestorType={x:Type local:TableOfContentsPage}}, Path=CanEdit }"
+                                            Command="{Binding EditTheory}"
+                                            ToolTip="Редактировать тему"/>
+                                </Grid>                               
+                                
+                                <!--<UniformGrid Columns="2">
+                                    <UniformGrid.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Margin" Value="3"/>
+                                            <Setter Property="TextAlignment" Value="Left"/>
+                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                            <Setter Property="FontSize" Value="18"/>
+                                        </Style>
+                                    </UniformGrid.Resources>
+                                    
+                                    <TextBlock Text="{Binding Path=ThemeID}" Width="50"/>
+                                    <TextBlock Text="{Binding Path=ThemeName}"/>
+
+                                </UniformGrid>-->
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                    <!--<ListView x:Name="listContent" 
+                              ItemsSource="{Binding Path=ContentList}"
+                              FontSize="30"
+                              VerticalContentAlignment="Top"  
+                              ScrollViewer.VerticalScrollBarVisibility="Visible"
+                              ScrollViewer.CanContentScroll="False"
+                              Margin="40,10">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource simpleBorder}"
+                                        Margin="0"
+                                        Padding="5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="tbkThemeID"
+                                                   Text="{Binding Path=ThemeID}"
+                                                   Width="30"/>
+                                        <TextBlock x:Name="tbkThemeName"
+                                                   Text="{Binding Path=ThemeName}"
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Border>          
+                            </DataTemplate>                        
+                        </ListView.ItemTemplate>
+                    </ListView>-->
+                </ScrollViewer>
+
+            </Grid>
             
         </Border>
     </Grid>
+    
 </UserControl>

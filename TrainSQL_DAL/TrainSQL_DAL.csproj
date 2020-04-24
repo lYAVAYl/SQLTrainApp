@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3CA76A8F-9488-42F5-BB47-EA66F9628B8C}</ProjectGuid>
+    <ProjectGuid>{AA388A4C-E710-4B72-9597-E87F94390868}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TrainSQL_DAL</RootNamespace>

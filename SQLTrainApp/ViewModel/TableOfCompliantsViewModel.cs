@@ -12,11 +12,31 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Drawing;
+using System.Collections.ObjectModel;
 
 namespace SQLTrainApp.ViewModel
 {
     class TableOfCompliantsViewModel:BaseViewModel, IPageViewModel
     {
+        public string SearchedCompliant { get; set; }
+        public Visibility CanEdit { get; set; } = Visibility.Hidden;
 
+        public ObservableCollection<Complaint> ComplaintList { get; set; }
+
+        public TableOfCompliantsViewModel()
+        {
+            if (CurrentUser.Login!="")
+            {
+                if (CurrentUser.Role == "Administrator")
+                {
+                    ComplaintList = new ObservableCollection<Complaint>(TrainSQL_Commands.GetAllComplaints());
+                    CanEdit = Visibility.Visible;
+                }
+                else
+                {
+                    ComplaintList = new ObservableCollection<Complaint>(TrainSQL_Commands.GetUsersCompliants(CurrentUser.Login));
+                }
+            }                
+        }
     }
 }

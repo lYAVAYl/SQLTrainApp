@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLTrainApp", "SQLTrainApp\SQLTrainApp.csproj", "{FF11488E-488D-4158-A479-4D6E236E0652}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainSQL_DAL", "TrainSQL_DAL\TrainSQL_DAL.csproj", "{3CA76A8F-9488-42F5-BB47-EA66F9628B8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainSQL_DAL", "TrainSQL_DAL\TrainSQL_DAL.csproj", "{AA388A4C-E710-4B72-9597-E87F94390868}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{FF11488E-488D-4158-A479-4D6E236E0652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF11488E-488D-4158-A479-4D6E236E0652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF11488E-488D-4158-A479-4D6E236E0652}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CA76A8F-9488-42F5-BB47-EA66F9628B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CA76A8F-9488-42F5-BB47-EA66F9628B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CA76A8F-9488-42F5-BB47-EA66F9628B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CA76A8F-9488-42F5-BB47-EA66F9628B8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA388A4C-E710-4B72-9597-E87F94390868}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA388A4C-E710-4B72-9597-E87F94390868}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA388A4C-E710-4B72-9597-E87F94390868}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA388A4C-E710-4B72-9597-E87F94390868}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

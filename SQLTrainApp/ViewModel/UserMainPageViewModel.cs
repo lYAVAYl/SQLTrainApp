@@ -39,7 +39,6 @@ namespace SQLTrainApp.ViewModel
                 if (progress.Count() != 0)
                 {
                     Items = new ObservableCollection<BaseCoordinate>();   
-                    //int i = 0;
                     LineVM line;
                     if (progress.Count <= 14)
                     {
@@ -105,10 +104,7 @@ namespace SQLTrainApp.ViewModel
                     }                   
 
                 }
-                else
-                {
-                    MessageBox.Show("Элементов нет");
-                }
+
                 CanWidth =75 * progress.Count();
                 
             }

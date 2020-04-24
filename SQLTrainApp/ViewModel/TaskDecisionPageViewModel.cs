@@ -18,19 +18,24 @@ namespace SQLTrainApp.ViewModel
 {
     class TaskDecisionPageViewModel : BaseViewModel, IPageViewModel
     {
-        public string TaskInfo { get; set; }
-        public string ResultStr { get; set; }
-        public string DBInfo { get; set; }
-        public BitmapImage DBImage { get; set; }
-        public bool IsRightResult { get; set; }
+        public string TaskInfo { get; set; } // Текст задания
+        public string DBInfo { get; set; } // Информация о БД
+        public BitmapImage DBImage { get; set; } // Схема БД
+        public bool IsRightResult { get; set; } = false; // IsEnable для кнопки Дальше
+        public bool EnableSkip { get; set; } = true; // IsEnable для кнопки Пропустить
+        public string UserQuery { get; set; } // Запрос пользователя
+        // public List<User> ResultList { get; set; }
+        public DataSet ResultList { get; set; } // Вывод в DataSet
 
-        public string UserQuery { get; set; }
-       // public List<User> ResultList { get; set; }
-        public DataSet ResultList { get; set; }
+        private int _rightAnswersCount = 0;
+        private List<Task> tasks = new List<Task>();
+        private int _index = 0;
+        private Sheme _sheme;
         
-        public TaskDecisionPageViewModel()
+        public TaskDecisionPageViewModel(int count = 5)
         {
-            IsRightResult = false;
+            tasks = TrainSQL_Commands.GetTestList(count);
+            LoadTask(_index);
         }
 
         private ICommand _executeCmd;
@@ -52,7 +57,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _sendCompliant ?? (_sendCompliant = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadSendComplaintPage", "");
+                    Mediator.Notify("LoadSendComplaintPage", tasks[_index].TaskID);
                 }));
             }
         }
@@ -64,7 +69,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadNextTask ?? (_loadNextTask = new RelayCommand(x =>
                 {
-                    LoadTask();
+                    LoadTask(++_index);
                 }));
             }
         }
@@ -73,18 +78,42 @@ namespace SQLTrainApp.ViewModel
         private void ExecuteQuery(string query)
         {
 
-            //using (var context = new TrainSQL_Entities())
-            //{
-            //    ResultList = context.Users.ToList();
-            //}
 
             
             MessageBox.Show("Вывод результата запроса...");
         }
 
-        private void LoadTask()
+        private void LoadTask(int index=0)
         {
-            MessageBox.Show("Загрузка следующего задания");
+            if (index < tasks.Count())
+            {
+                if (IsRightResult)
+                {
+                    _rightAnswersCount++;
+                    IsRightResult = false;
+                }
+                _sheme = TrainSQL_Commands.GetDbSheme(tasks[index].dbID);
+
+                TaskInfo = $"#{tasks[_index].TaskID} " + tasks[index].TaskText;
+                if (_sheme != null)
+                {
+                    DBImage = Helper.BytesToBitmapImage(_sheme.ShemeImg);
+                    DBInfo = _sheme.Info;
+                }
+                
+
+            }
+            else
+            {
+                EnableSkip = false;
+                MessageBox.Show($"Ваш результат: {_rightAnswersCount}/{tasks.Count()}");
+
+                Mediator.Notify("LoadUserMainPage", "");
+            }
+
+            
+
+            //MessageBox.Show("Загрузка следующего задания");
         }
 
     }

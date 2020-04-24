@@ -17,8 +17,7 @@ namespace TrainSQL_DAL
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ShemeID { get; set; }
 
-        [Column("Sheme")]
-        public byte[] Sheme1 { get; set; }
+        public byte[] ShemeImg { get; set; }
 
         [Required]
         [StringLength(2048)]

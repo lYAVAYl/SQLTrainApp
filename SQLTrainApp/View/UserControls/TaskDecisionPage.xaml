@@ -7,34 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="900">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <Border Style="{StaticResource simpleBorder}"
+        <Border Style="{StaticResource simpleBorder}"
                     Margin="20"
                     >
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="210"/>
-                        <ColumnDefinition Width="3"/>
-                        <ColumnDefinition MinWidth="340"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="80"/>
-                        <RowDefinition Height="3"/>
-                        <RowDefinition />
-                        <RowDefinition Height="30"/>
-                    </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="210"/>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition MinWidth="340"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="80"/>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition />
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
 
 
+                <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" 
+                                  VerticalScrollBarVisibility="Auto">
 
-                    <TabControl Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" 
+                    <TabControl 
                                 Margin="0,0,3,0">
                         <TabItem Header="Задание" FontSize="16">
                             <Grid Background="LightSkyBlue">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                    <TextBlock x:Name="tbkTaskInfo"
-                                               FontSize="16" Padding="10"
-                                               Text="{Binding Path=TaskInfo}"/>
-                                </ScrollViewer>
+                                <TextBlock x:Name="tbkTaskInfo"
+                                                   FontSize="16" Padding="10"
+                                                   Text="{Binding Path=TaskInfo}"
+                                                   TextWrapping="Wrap"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Отношения БД" FontSize="16">
@@ -44,103 +44,102 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Image x:Name="imgDBImage" Grid.Row="0"
-                                       Source="{Binding Path=DBImage}"
-                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                                    <TextBlock x:Name="tbkDBInfo"
-                                           Text="{Binding DBInfo}"
-                                           FontSize="16" Padding="5"
-                                           TextWrapping="Wrap"
-                                           />
-                                </ScrollViewer>
-
+                                               Source="{Binding Path=DBImage}"
+                                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <TextBlock x:Name="tbkDBInfo" Grid.Row="1"
+                                                       Text="{Binding Path=DBInfo}"
+                                                       FontSize="16" Padding="5"
+                                                       TextWrapping="Wrap"
+                                                       />
                             </Grid>
                         </TabItem>
                     </TabControl>
-                    <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="4"
+
+                </ScrollViewer>
+                <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="4"
                                   ShowsPreview="False"
                                   HorizontalAlignment="Center" VerticalAlignment="Stretch"
                                   Width="3"
                                   />
 
 
-                    <Border Grid.Column="2" Grid.Row="0"
+                <Border Grid.Column="2" Grid.Row="0"
                             Style="{StaticResource simpleBorder}"
                             Padding="3,0,3,3">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0"
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
                                        Text="Запрос пользователя:"
                                        FontSize="20" FontWeight="Bold"
                                        Foreground="Gray"
                                        HorizontalAlignment="Center" VerticalAlignment="Top"
                                        />
-                            <ScrollViewer Grid.Row="1" 
+                        <ScrollViewer Grid.Row="1" 
                                           HorizontalScrollBarVisibility="Auto" 
                                           VerticalScrollBarVisibility="Auto">
-                                <TextBox x:Name="tbxUserQuery"
+                            <TextBox x:Name="tbxUserQuery"
                                          Text="{Binding Path=UserQuery}"
                                          FontSize="16"
                                          Padding="10"
-                                         TextWrapping="WrapWithOverflow"
+                                         TextWrapping="Wrap"
                                          />
-                            </ScrollViewer>
-                        </Grid>
-                    </Border>
-                    <GridSplitter Grid.Column="2" Grid.Row="1"
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+                <GridSplitter Grid.Column="2" Grid.Row="1"
                                   ShowsPreview="False"
                                   HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                   Height="3"
                                   />
-                    <Border Grid.Column="2" Grid.Row="2"
+                <Border Grid.Column="2" Grid.Row="2"
                             Style="{StaticResource simpleBorder}"
                             Padding="3,0,3,3">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0"
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
                                            Text="Вывод:"
                                            FontSize="20" FontWeight="Bold"
                                            Foreground="Gray"
                                            HorizontalAlignment="Center" VerticalAlignment="Top"
                                            />
-                                <DataGrid x:Name="dgQueryResult" Grid.Row="1" 
+                        <DataGrid x:Name="dgQueryResult" Grid.Row="1" 
                                           ItemsSource="{Binding Path=ResultList}"
                                           AutoGenerateColumns="True"
                                           MaxHeight="250"
                                           />
-                            </Grid>
-                            
-                        
-                    </Border>
+                    </Grid>
 
 
-                    <WrapPanel Grid.Column="2" Grid.Row="5"
+                </Border>
+
+
+                <WrapPanel Grid.Column="2" Grid.Row="5"
                                HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                        <Button x:Name="btnSkipTask" DockPanel.Dock="Left"
+                    <Button x:Name="btnSkipTask" DockPanel.Dock="Left"
                                 Content="Пропустить"               
                                 Command="{Binding LoadNextTask}"
                                 FontSize="16"
                                 Margin="0,0,5,0"  Padding="3,0,3,0"                                
                                 />
-                        <Button x:Name="btnSendComplaint" DockPanel.Dock="Left"
+                    <Button x:Name="btnSendComplaint" DockPanel.Dock="Left"
                                 Content="Жалоба"
                                 FontSize="16"
                                  Padding="3,0,3,0"
                                 Command="{Binding SendCompliant}"
                                 />
-                        <Button x:Name="btnExecute" DockPanel.Dock="Left"
+                    <Button x:Name="btnExecute" DockPanel.Dock="Left"
                                 Content="Выполнить" Margin="5,0,0,0"
                                 FontSize="16"
                                 Padding="3,0,3,0"
                                 Command="{Binding ExecuteCmd}"
                                 />
-                        <Button x:Name="btnNextTask" DockPanel.Dock="Left"
+                    <Button x:Name="btnNextTask" DockPanel.Dock="Left"
                                 Content="Дальше" 
                                 Command="{Binding LoadNextTask}"
                                 IsEnabled="{Binding Path=IsRightResult}"
@@ -149,12 +148,8 @@
                                 Padding="3,0,3,0"
                                 
                                 />
-                    </WrapPanel>
-                </Grid>
-            </Border>
-        </ScrollViewer>
-
-
-
+                </WrapPanel>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

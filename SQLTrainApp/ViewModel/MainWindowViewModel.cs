@@ -56,7 +56,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadCompliantssPage ?? (_loadCompliantssPage = new RelayCommand(x =>
                 {
-                    LoadTableOfCompliantsPage("");
+                    LoadTableOfComplaintsPage("");
                 }));
             }
         }
@@ -93,7 +93,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadTest ?? (_loadTest = new RelayCommand(x =>
                 {
-                    LoadTaskDecisionPage("");
+                    LoadTaskDecisionPage(new TaskDecisionPageViewModel());
                 }));
             }
         }
@@ -163,7 +163,8 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadSignOnPage(object obj)
         {
-            ChangeViewModel(new SignOnPageViewModel());
+            PageViewModels[1] = new SignOnPageViewModel();
+            ChangeViewModel(PageViewModels[1]);
         }
         /// <summary>
         /// Загрузка страницы с информацией о пользователе 
@@ -173,8 +174,8 @@ namespace SQLTrainApp.ViewModel
         {
             ChangeViewModel(new UserMainPageViewModel());
             UserPhoto = CurrentUser.Photo;
-            UserLogin = CurrentUser.Login.Length>10? CurrentUser.Login.Substring(0,10)+"...": CurrentUser.Login;
-            
+            UserLogin = CurrentUser.Login.Length > 10 ? CurrentUser.Login.Substring(0, 10) + "..." 
+                                                      : CurrentUser.Login;       
         }
         /// <summary>
         /// Загрузка страницы решения заданий
@@ -182,6 +183,11 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadTaskDecisionPage(object obj)
         {
+            if (obj is TaskDecisionPageViewModel)
+            {
+                PageViewModels[3] = (TaskDecisionPageViewModel)obj;
+            }
+            
             ChangeViewModel(PageViewModels[3]);        
         }
         /// <summary>
@@ -190,6 +196,11 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadSendComplaintPage(object obj)
         {
+            if(obj is int)
+            {
+                PageViewModels[4] = new SendComplaintPageViewModel((int)obj);
+            }
+
             ChangeViewModel(PageViewModels[4]);           
         }
         /// <summary>
@@ -228,8 +239,9 @@ namespace SQLTrainApp.ViewModel
         /// Загрузка страницы списка жалоб
         /// </summary>
         /// <param name="obj"></param>
-        private void LoadTableOfCompliantsPage(object obj)
+        private void LoadTableOfComplaintsPage(object obj)
         {
+            PageViewModels[9] = new TableOfCompliantsViewModel();
             ChangeViewModel(PageViewModels[9]);
         }
         /// <summary>
@@ -268,7 +280,7 @@ namespace SQLTrainApp.ViewModel
             PageViewModels.Add(new SendComplaintPageViewModel());       // 4 Отправка жалобы
             PageViewModels.Add(new TableOfContentsPageViewModel());     // 5 Оглавление
             PageViewModels.Add(new EditTaskPageViewModel());            // 6 Изменение задания
-            PageViewModels.Add(new EditThemePageViewModel(17));           // 7 Изменение теории
+            PageViewModels.Add(new EditThemePageViewModel());           // 7 Изменение теории
             PageViewModels.Add(new TheoryPageViewModel());              // 8 Теория главы
             PageViewModels.Add(new TableOfCompliantsViewModel());       // 9 Список жалоб
             PageViewModels.Add(new TableOfTasksViewModel());            // 10 Список заданий
@@ -288,7 +300,7 @@ namespace SQLTrainApp.ViewModel
             Mediator.Subscribe("LoadEditTaskPage", LoadEditTaskPage);
             Mediator.Subscribe("LoadEditThemePage", LoadEditThemePage);
             Mediator.Subscribe("LoadTheoryPage", LoadTheoryPage);
-            Mediator.Subscribe("LoadTableOfCompliantsPage", LoadTableOfCompliantsPage);
+            Mediator.Subscribe("LoadTableOfCompliantsPage", LoadTableOfComplaintsPage);
             Mediator.Subscribe("LoadTableOfTasksPage", LoadTableOfTasksPage);
             Mediator.Subscribe("LoadRefreshPasswordPage", LoadRefreshPasswordPage);
             Mediator.Subscribe("LoadConfirmEmailPage", LoadConfirmEmailPage);
