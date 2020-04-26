@@ -38,6 +38,13 @@ namespace SQLTrainApp.ViewModel
             LoadTask(_index);
         }
 
+        public TaskDecisionPageViewModel(Task task)
+        {
+            tasks.Add(task);
+            LoadTask(_index);
+
+        }
+
         private ICommand _executeCmd;
         public ICommand ExecuteCmd
         {
@@ -106,8 +113,12 @@ namespace SQLTrainApp.ViewModel
             else
             {
                 EnableSkip = false;
-                MessageBox.Show($"Ваш результат: {_rightAnswersCount}/{tasks.Count()}");
+                if (tasks.Count() > 1)
+                {
+                    // Добавление очков в прогресс юзера
 
+                    MessageBox.Show($"Ваш результат: {_rightAnswersCount}/{tasks.Count()}");
+                }
                 Mediator.Notify("LoadUserMainPage", "");
             }
 

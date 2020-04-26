@@ -19,33 +19,43 @@ namespace SQLTrainApp.ViewModel
 {
     class EditThemePageViewModel:ValidateBaseViewModel, IPageViewModel
     {
-        private string _themeID;
+        private string _themeIndex;
         public string ThemeID {
-            get => _themeID;
+            get => _themeIndex;
             set
             {
                 if (value.Length > 0)
                 {
-                    if (char.IsDigit(value.Last())) _themeID = value;
+                    if (char.IsDigit(value.Last())) _themeIndex = value;
                 }
-                else _themeID = "";
+                else _themeIndex = "";
             }
         }
         public string ThemeName { get; set; }
         public string ThemeInfo { get; set; }
 
-        Theme thisTheme = new Theme();
+        Theme _thisTheme = new Theme();
 
         public EditThemePageViewModel(int themeID=0)
         {
-            if(themeID != 0)
-            {
-                thisTheme = TrainSQL_Commands.GetTheme(themeID);
 
-                ThemeID = thisTheme.ThemeID.ToString();
-                ThemeName = thisTheme.ThemeName;
-                ThemeInfo = thisTheme.Theory;
+            if (themeID < 1)
+            {
+                _thisTheme = new Theme()
+                {
+                    ThemeID = 0,
+                    ThemeName="",
+                    Theory=""
+                };
             }
+            else
+            {
+                _thisTheme = TrainSQL_Commands.GetThemeByThemeID(themeID);
+            }
+            
+            ThemeID = _thisTheme.ThemeID.ToString();
+            ThemeName = _thisTheme.ThemeName;
+            ThemeInfo = _thisTheme.Theory;            
         }
 
         private ICommand _saveChanges;
@@ -81,7 +91,7 @@ namespace SQLTrainApp.ViewModel
                 case nameof(ThemeID):
                     if (string.IsNullOrEmpty(ThemeID) || ThemeID == "0"
                         || (TrainSQL_Commands.IsThemeExists(Convert.ToInt32(ThemeID)) 
-                            && ThemeID != thisTheme?.ThemeID.ToString()))
+                            && ThemeID != _thisTheme?.ThemeID.ToString()))
                     {
                         error = "Недоступно";
                     }
@@ -121,11 +131,11 @@ namespace SQLTrainApp.ViewModel
 
             if(result == wForms.DialogResult.Yes)
             {
-                thisTheme.ThemeID = Convert.ToInt32(ThemeID);
-                thisTheme.ThemeName = ThemeName;
-                thisTheme.Theory = ThemeInfo;
+                _thisTheme.ThemeID = Convert.ToInt32(ThemeID);
+                _thisTheme.ThemeName = ThemeName;
+                _thisTheme.Theory = ThemeInfo;
 
-                if (TrainSQL_Commands.EditORAddTheme(thisTheme)==null)
+                if (TrainSQL_Commands.EditORAddTheme(_thisTheme)==null)
                 {
                     MessageBox.Show("Изменения сохранены!");
                     Mediator.Notify("LoadTableOfContentsPage", "");
@@ -145,19 +155,7 @@ namespace SQLTrainApp.ViewModel
 
             if (result == wForms.DialogResult.Yes)
             {
-                thisTheme.ThemeID = Convert.ToInt32(ThemeID);
-                thisTheme.ThemeName = ThemeName;
-                thisTheme.Theory = ThemeInfo;
-
-                if (TrainSQL_Commands.EditORAddTheme(thisTheme) == null)
-                {
-                    MessageBox.Show("Изменения отменены!");
-                    Mediator.Notify("LoadTableOfContentsPage", "");
-                }
-                else
-                {
-                    MessageBox.Show("Что-то пошло не так");
-                }
+                Mediator.Notify("LoadTableOfContentsPage", "");
             }
 
         }        

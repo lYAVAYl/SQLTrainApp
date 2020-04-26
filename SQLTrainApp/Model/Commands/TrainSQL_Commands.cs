@@ -67,14 +67,14 @@ namespace SQLTrainApp.Model.Commands
         {
             if (newUser != null)
             {
-                using(var context = new TrainSQL_Entities())
+                using (var context = new TrainSQL_Entities())
                 {
                     try
                     {
                         context.Users.Add(newUser);
                         context.SaveChanges();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show(ex.ToString());
                         return ex;
@@ -168,10 +168,10 @@ namespace SQLTrainApp.Model.Commands
                             {
                                 userProgress = userProgress.Take(15).ToList();
                             }
-                                
+
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show(ex.ToString());
                     }
@@ -182,6 +182,8 @@ namespace SQLTrainApp.Model.Commands
             return userProgress;
         }
 
+
+
         public static bool IsThemeExists(int themeID = 0)
         {
             bool isExists = false;
@@ -189,31 +191,9 @@ namespace SQLTrainApp.Model.Commands
             {
                 try
                 {
-                    using(var context = new TrainSQL_Entities())
-                    {
-                        isExists = context.Themes.FirstOrDefault(x => x.ThemeID == themeID) != null;
-                    }
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
-            }
-
-            return isExists;
-        }
-
-        public static Theme GetTheme(int themeID)
-        {
-            Theme theme = null;
-            if (themeID != 0
-                && IsThemeExists(themeID))
-            {
-                try
-                {
                     using (var context = new TrainSQL_Entities())
                     {
-                        theme = context.Themes.FirstOrDefault(x => x.ThemeID == themeID);
+                        isExists = context.Themes.FirstOrDefault(x => x.ThemeID == themeID) != null;
                     }
                 }
                 catch (Exception ex)
@@ -222,8 +202,7 @@ namespace SQLTrainApp.Model.Commands
                 }
             }
 
-            return theme;
-
+            return isExists;
         }
 
         public static object EditORAddTheme(Theme newTheme = null)
@@ -233,7 +212,7 @@ namespace SQLTrainApp.Model.Commands
             {
                 try
                 {
-                    using(var context = new TrainSQL_Entities())
+                    using (var context = new TrainSQL_Entities())
                     {
                         if (IsThemeExists(newTheme.ThemeID))
                         {
@@ -247,7 +226,7 @@ namespace SQLTrainApp.Model.Commands
                         context.SaveChanges();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     res = ex;
                     MessageBox.Show(ex.ToString());
@@ -279,6 +258,89 @@ namespace SQLTrainApp.Model.Commands
             return theme;
         }
 
+        public static Theme GetThemeByThemeID(int themeID)
+        {
+            Theme theme = null;
+            if (themeID != 0
+                && IsThemeExists(themeID))
+            {
+                try
+                {
+                    using (var context = new TrainSQL_Entities())
+                    {
+                        theme = context.Themes.FirstOrDefault(x => x.ThemeID == themeID);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
+            return theme;
+
+        }
+
+        public static int GetThemeIndex(int themeID = 0)
+        {
+            int index = 0;
+            if (themeID != 0)
+            {
+                using (var context = new TrainSQL_Entities())
+                {
+                    index = context.Themes.ToList().FindIndex(x => x.ThemeID == themeID);
+                }
+            }
+
+            return index;
+        }
+
+        public static object DeleteTheme(Theme theme = null)
+        {
+            object result = null;
+            if (theme != null)
+            {
+                try
+                {
+                    using (var context = new TrainSQL_Entities())
+                    {
+                        var delTheme = context.Themes.FirstOrDefault(x => x.ThemeID == theme.ThemeID);
+                        if (delTheme != null) context.Themes.Remove(delTheme);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    result = ex;
+                }
+            }
+
+            return result;
+        }
+
+        public static List<Theme> GetAllThemes()
+        {
+            List<Theme> result = null;
+
+            try
+            {
+                using (var context = new TrainSQL_Entities())
+                {
+                    result = context.Themes.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+            return result;
+        }
+
+
+
+
         public static object SendComplaint(Complaint complaint = null)
         {
             if (complaint != null)
@@ -292,7 +354,7 @@ namespace SQLTrainApp.Model.Commands
                         context.SaveChanges();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                     return ex;
@@ -341,6 +403,42 @@ namespace SQLTrainApp.Model.Commands
             return result;
         }
 
+
+
+
+        public static List<TrainSQL_DAL.Task> GetTestList(int count = 0)
+        {
+            List<TrainSQL_DAL.Task> result = null;
+            if (count > 0)
+            {
+                result = new List<TrainSQL_DAL.Task>();
+                try
+                {
+                    using (var context = new TrainSQL_Entities())
+                    {
+                        int rand = new Random().Next(context.Tasks.ToList().Count());
+                        TrainSQL_DAL.Task task = context.Tasks.ToList()[rand];
+                        result.Add(task);
+
+                        while (result.Count < 5)
+                        {
+                            rand = new Random().Next(context.Tasks.ToList().Count());
+                            task = context.Tasks.ToList()[rand];
+
+                            if (!result.Contains(task))
+                                result.Add(task);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+
+            return result;
+        }
+
         public static List<TrainSQL_DAL.Task> GetAllTasks()
         {
             List<TrainSQL_DAL.Task> result = null;
@@ -360,57 +458,32 @@ namespace SQLTrainApp.Model.Commands
             return result;
         }
 
-        public static List<Theme> GetAllThemes()
+        public static object DeleteTask(TrainSQL_DAL.Task theme = null)
         {
-            List<Theme> result = null;
-
-            try
+            object result = null;
+            if (theme != null)
             {
-                using (var context = new TrainSQL_Entities())
-                {
-                    result = context.Themes.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-            return result;
-        }
-
-        public static List<TrainSQL_DAL.Task> GetTestList(int count = 0)
-        {
-            List<TrainSQL_DAL.Task> result = null;
-            if(count > 0)
-            {
-                result = new List<TrainSQL_DAL.Task>();
                 try
                 {
-                    using(var context = new TrainSQL_Entities())
+                    using (var context = new TrainSQL_Entities())
                     {
-                        int rand = new Random().Next(context.Tasks.ToList().Count());
-                        TrainSQL_DAL.Task task = context.Tasks.ToList()[rand];
-                        result.Add(task);
-
-                        while (result.Count < 5)
-                        {
-                            rand = new Random().Next(context.Tasks.ToList().Count());
-                            task = context.Tasks.ToList()[rand];
-
-                            if (!result.Contains(task))
-                                result.Add(task);
-                        }
+                        var delTask = context.Tasks.FirstOrDefault(x => x.TaskID == theme.TaskID);
+                        if (delTask != null) context.Tasks.Remove(delTask);
+                        context.SaveChanges();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
+                    result = ex;
                 }
             }
 
             return result;
         }
+
+
+
 
         public static Sheme GetDbSheme(int dbID = 0)
         {
@@ -418,7 +491,7 @@ namespace SQLTrainApp.Model.Commands
 
             try
             {
-                using(var context = new TrainSQL_Entities())
+                using (var context = new TrainSQL_Entities())
                 {
                     TestDatabas testDB = context.TestDatabases.FirstOrDefault(x => x.dbID == dbID);
                     if (testDB != null)
@@ -427,7 +500,7 @@ namespace SQLTrainApp.Model.Commands
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }

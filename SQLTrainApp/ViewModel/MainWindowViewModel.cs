@@ -183,11 +183,8 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadTaskDecisionPage(object obj)
         {
-            if (obj is TaskDecisionPageViewModel)
-            {
-                PageViewModels[3] = (TaskDecisionPageViewModel)obj;
-            }
-            
+            if (obj is Task) PageViewModels[3] = new TaskDecisionPageViewModel((Task)obj);   
+            if(obj is int) PageViewModels[3] = new TaskDecisionPageViewModel((int)obj);
             ChangeViewModel(PageViewModels[3]);        
         }
         /// <summary>
@@ -209,6 +206,7 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadTableOfContentsPage(object obj)
         {
+            PageViewModels[5] = new TableOfContentsPageViewModel();
             ChangeViewModel(PageViewModels[5]);
         }
         /// <summary>
@@ -217,6 +215,7 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadEditTaskPage(object obj)
         {
+            if (obj is Task) PageViewModels[6] = new EditTaskPageViewModel((Task)obj);
             ChangeViewModel(PageViewModels[6]);
         }
         /// <summary>
@@ -225,6 +224,7 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadEditThemePage(object obj)
         {
+            if (obj is int) PageViewModels[7] = new EditThemePageViewModel((int)obj);
             ChangeViewModel(PageViewModels[7]);
         }
         /// <summary>
@@ -233,6 +233,10 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadTheoryPage(object obj)
         {
+            if(obj is int)
+            {
+                PageViewModels[8] = new TheoryPageViewModel((int)obj);
+            }
             ChangeViewModel(PageViewModels[8]);
         }
         /// <summary>
@@ -250,6 +254,7 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadTableOfTasksPage(object obj)
         {
+            PageViewModels[10] = new TableOfTasksPageViewModel();
             ChangeViewModel(PageViewModels[10]);
         }
         /// <summary>
@@ -283,7 +288,7 @@ namespace SQLTrainApp.ViewModel
             PageViewModels.Add(new EditThemePageViewModel());           // 7 Изменение теории
             PageViewModels.Add(new TheoryPageViewModel());              // 8 Теория главы
             PageViewModels.Add(new TableOfCompliantsViewModel());       // 9 Список жалоб
-            PageViewModels.Add(new TableOfTasksViewModel());            // 10 Список заданий
+            PageViewModels.Add(new TableOfTasksPageViewModel());            // 10 Список заданий
             PageViewModels.Add(new RefreshPasswordViewModel());         // 11 Обновление пароля
             //PageViewModels.Add(new ConfirmEmailViewModel());            // 12 Подтверждение емаила
 

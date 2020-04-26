@@ -25,9 +25,9 @@ namespace SQLTrainApp.ViewModel
         private int _themeIndex = 0;
         Theme _currentTheme;
 
-        public TheoryPageViewModel(int themeN = 0)
+        public TheoryPageViewModel(int themeID = 0)
         {
-            _themeIndex = themeN;
+            _themeIndex = TrainSQL_Commands.GetThemeIndex(themeID);
             GetTheme(_themeIndex);            
         }
 
@@ -55,15 +55,15 @@ namespace SQLTrainApp.ViewModel
             }
         }
 
-        private void GetTheme(int themeID = 0)
+        private void GetTheme(int themeIndex = 0)
         {
-            _currentTheme = TrainSQL_Commands.ShowTheme(themeID);
+            _currentTheme = TrainSQL_Commands.ShowTheme(themeIndex);
             if (_currentTheme != null)
             {
                 UpdateContent(_currentTheme.ThemeID, _currentTheme.ThemeName, _currentTheme.Theory);
 
-                if (_themeIndex > themeID) _themeIndex--;
-                else if (_themeIndex < themeID) _themeIndex++;
+                if (_themeIndex > themeIndex) _themeIndex--;
+                else if (_themeIndex < themeIndex) _themeIndex++;
             }
         }
 

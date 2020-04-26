@@ -67,6 +67,7 @@
                         <ScrollViewer Grid.Row="2"
                                       VerticalScrollBarVisibility="Auto">
                             <TextBox x:Name="tbxTaskInfo"
+                                     Style="{StaticResource tbxEdit}"
                                      Text="{Binding Path=TaskInfo}"
                                      FontSize="16" Padding="10"
                                      />
@@ -97,6 +98,7 @@
                         <ScrollViewer Grid.Row="1"
                                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                             <TextBox x:Name="tbxRightAnswer"
+                                     Style="{StaticResource tbxEdit}"
                                      FontSize="16" Padding="10"
                                      Text="{Binding Path=RightQuery}"
                                      />

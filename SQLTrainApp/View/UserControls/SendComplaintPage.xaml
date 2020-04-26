@@ -35,10 +35,10 @@
                 <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                               VerticalScrollBarVisibility="Auto"
                               Margin="0,0,0,16">
-                    <TextBox x:Name="tbxComplaintComment" 
+                    <TextBox x:Name="tbxComplaintComment"       
+                             Style="{StaticResource tbxEdit}"
                              Text="{Binding Path=CompliantComment, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                             FontSize="18" TextWrapping="Wrap"
+                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                             
                              Margin="1"
                              />
                 </ScrollViewer>

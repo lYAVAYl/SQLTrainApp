@@ -18,7 +18,21 @@ namespace SQLTrainApp.ViewModel
     class SendComplaintPageViewModel:ValidateBaseViewModel, IPageViewModel
     {
         public int TaskNum { get; set; }
-        public string CompliantComment { get; set; }
+        private string _complaintComment="";
+        public string CompliantComment 
+        {
+            get => _complaintComment;
+            set
+            {
+                if (value.Length < 4 )
+                    _complaintComment = value;
+                else if (value.Substring(value.Length - 4) != "\r\n\r\n")
+                {
+                    _complaintComment = value;
+                }
+                
+            }
+        }
 
         public SendComplaintPageViewModel(int taskID = 1)
         {

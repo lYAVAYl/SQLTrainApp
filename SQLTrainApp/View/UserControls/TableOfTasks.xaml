@@ -21,7 +21,8 @@
                            VerticalAlignment="Top" HorizontalAlignment="Center"
                            />
                 <StackPanel Grid.Row="1"  Orientation="Horizontal"
-                            Width="300" Margin="0,5">
+                            Margin="0,5" 
+                            HorizontalAlignment="Center">
                     <TextBox Text="{Binding Path=SearchedTask}"
                              FontSize="16"
                              Width="255"/>
@@ -30,62 +31,101 @@
                             FontSize="14"
                             Command="{Binding FindTask}"
                             />
+                    <Button x:Name="btnAddTask"
+                            Content="➕" 
+                            Foreground="Green" BorderBrush="Green" Background="{x:Null}"
+                            FontSize="20"
+                            Command="{Binding AddItem}"
+                            Padding="0" ToolTip="Добавить"
+                            />
                 </StackPanel>
 
-                <ScrollViewer Grid.Row="2" VerticalAlignment="Stretch"
-                              VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding Path=TaskList}">
-                        <ItemsControl.ItemTemplate>
+                <Grid Grid.Row="2">
+                    <ListView   Name="Tasks"
+                                ItemsSource="{Binding TaskList}" 
+                                Margin="100,0"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                ScrollViewer.CanContentScroll="True"                              
+                                BorderThickness="0">
+                        <ListView.InputBindings>
+                            <KeyBinding Key="Return"
+                                        Command="{Binding ItemsSource.OpenItemCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                        CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                        </ListView.InputBindings>
+                        <ListView.Resources>
+                            <Style TargetType="Button" x:Key="TableOfTasksButtonStyle">
+                                <Setter Property="Width" Value="40"/>
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="FontSize" Value="18"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Margin" Value="5,0"/>
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=Tasks, Path=DataContext.IsAdmin}" Value="False">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="50"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.Resources>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Margin" Value="3"/>
-                                            <Setter Property="TextAlignment" Value="Left"/>
-                                            <Setter Property="TextWrapping" Value="Wrap"/>
-                                            <Setter Property="FontSize" Value="25"/>
-                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                        </Style>
-
-                                        <Style TargetType="Border" BasedOn="{StaticResource simpleBorder}">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="PaleGreen"/>
-                                                    <Setter Property="Cursor" Value="Hand"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Grid.Resources>
-                                    <Border Grid.Column="0" 
-                                            Padding="0">
-                                        <Grid>
+                                <Grid>
+                                    <DockPanel>
+                                        <Grid Background="Transparent">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="40"/>
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="50"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" TextAlignment="Center" Text="{Binding Path=TaskID}"/>
-                                            <TextBlock Grid.Column="1" Text="{Binding Path=TaskText}" FontSize="16"/>
+                                            <Grid.InputBindings>
+                                                <MouseBinding Gesture="LeftDoubleClick"
+                                                                Command="{Binding ItemsSource.OpenItemCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                                CommandParameter="{Binding}"/>
+                                            </Grid.InputBindings>
+                                            <TextBlock Text="{Binding TaskID}"
+                                                        Width="50" Height="40"
+                                                        TextWrapping="Wrap"
+                                                        Foreground="Black" FontSize="30"
+                                                        TextAlignment="Center"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding TaskText}"  
+                                                        TextWrapping="Wrap" 
+                                                        VerticalAlignment="Center"
+                                                        Foreground="Black" FontSize="20"/>
+                                            <Button Grid.Column="2"
+                                                    Style="{StaticResource TableOfTasksButtonStyle}"
+                                                    Content="🖊"
+                                                    ToolTip="Редактировать"
+                                                    Command="{Binding ItemsSource.EditItemCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                    CommandParameter="{Binding}"/>
+                                            <Button Grid.Column="3" 
+                                                    Style="{StaticResource TableOfTasksButtonStyle}"
+                                                    Content="❌" 
+                                                    ToolTip="Удалить"
+                                                    Command="{Binding ItemsSource.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                    CommandParameter="{Binding}"/>
                                         </Grid>
-                                        <Border.InputBindings>
-                                            <MouseBinding Command="{Binding LoadTask}"
-                                                          MouseAction="LeftClick"/>
-                                        </Border.InputBindings>
-                                    </Border>
-                                    <Button Grid.Column="1" Content="✍" Margin="5"
-                                            FontSize="20"
-                                            Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                         AncestorType={x:Type local:TableOfTasks}}, Path=CanEdit }"
-                                            Command="{Binding EditTask}"
-                                            ToolTip="Редактировать задание"/>
+                                    </DockPanel>
                                 </Grid>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                        </ListView.ItemTemplate>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Setter Property="MaxWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                <Setter Property="Height" Value="60"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
 
             </Grid>
 

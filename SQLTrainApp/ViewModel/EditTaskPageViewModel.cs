@@ -23,6 +23,20 @@ namespace SQLTrainApp.ViewModel
         public string RightQuery { get; set; }
 
         public List<Sheme> EnableDBs { get; set; }
+        private Task _task;
+
+        public EditTaskPageViewModel(Task task = null)
+        {
+            if (task != null)
+            {
+                _task = task;
+
+                TaskNum = _task.TaskID;
+                TaskInfo = _task.TaskText;
+                RightQuery = _task.RightAnswer;
+            }
+
+        }
 
         private ICommand _executeQuery;
         public ICommand ExecuteQuery
@@ -37,6 +51,8 @@ namespace SQLTrainApp.ViewModel
         }
         private void Execute(string query)
         {
+
+
             MessageBox.Show("Выполнение запроса...");
         }
 
@@ -53,6 +69,8 @@ namespace SQLTrainApp.ViewModel
         }
         private void Save()
         {
+
+
             MessageBox.Show("Изменения сохранены!");
         }
 

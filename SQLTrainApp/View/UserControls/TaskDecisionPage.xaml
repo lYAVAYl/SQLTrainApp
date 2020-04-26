@@ -81,10 +81,8 @@
                                           HorizontalScrollBarVisibility="Auto" 
                                           VerticalScrollBarVisibility="Auto">
                             <TextBox x:Name="tbxUserQuery"
-                                         Text="{Binding Path=UserQuery}"
-                                         FontSize="16"
-                                         Padding="10"
-                                         TextWrapping="Wrap"
+                                     Style="{StaticResource tbxEdit}"
+                                     Text="{Binding Path=UserQuery}"
                                          />
                         </ScrollViewer>
                     </Grid>
