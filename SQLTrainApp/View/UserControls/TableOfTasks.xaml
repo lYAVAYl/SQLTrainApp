@@ -97,7 +97,7 @@
                                                         TextAlignment="Center"/>
                                             <TextBlock Grid.Column="1" Text="{Binding TaskText}"  
                                                         TextWrapping="Wrap" 
-                                                        VerticalAlignment="Center"
+                                                        VerticalAlignment="Top"
                                                         Foreground="Black" FontSize="20"/>
                                             <Button Grid.Column="2"
                                                     Style="{StaticResource TableOfTasksButtonStyle}"

@@ -106,7 +106,7 @@
     <Compile Include="ViewModel\SendComplaintPageViewModel.cs" />
     <Compile Include="ViewModel\SignInPageViewModel.cs" />
     <Compile Include="ViewModel\SignOnPageViewModel.cs" />
-    <Compile Include="ViewModel\TableOfCompliantsViewModel.cs" />
+    <Compile Include="ViewModel\TableOfComplaintsPageViewModel.cs" />
     <Compile Include="ViewModel\TableOfContentsPageViewModel.cs" />
     <Compile Include="ViewModel\TableOfTasksPageViewModel.cs" />
     <Compile Include="ViewModel\TaskDecisionPageViewModel.cs" />

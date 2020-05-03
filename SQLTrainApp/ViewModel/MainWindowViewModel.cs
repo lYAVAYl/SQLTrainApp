@@ -68,7 +68,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadUserPage ?? (_loadUserPage = new RelayCommand(x =>
                   {
-                      LoadUserMainPage("");
+                      LoadUserMainPage(CurrentUser.Login);
                   }));
             }
         }
@@ -93,7 +93,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadTest ?? (_loadTest = new RelayCommand(x =>
                 {
-                    LoadTaskDecisionPage(new TaskDecisionPageViewModel());
+                    LoadTaskDecisionPage(5);
                 }));
             }
         }
@@ -172,7 +172,11 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadUserMainPage(object obj)
         {
-            ChangeViewModel(new UserMainPageViewModel());
+            if(obj is string)
+            {
+                ChangeViewModel(new UserMainPageViewModel((string)obj));
+            }
+
             UserPhoto = CurrentUser.Photo;
             UserLogin = CurrentUser.Login.Length > 10 ? CurrentUser.Login.Substring(0, 10) + "..." 
                                                       : CurrentUser.Login;       
@@ -185,6 +189,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (obj is Task) PageViewModels[3] = new TaskDecisionPageViewModel((Task)obj);   
             if(obj is int) PageViewModels[3] = new TaskDecisionPageViewModel((int)obj);
+
             ChangeViewModel(PageViewModels[3]);        
         }
         /// <summary>
@@ -245,7 +250,7 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadTableOfComplaintsPage(object obj)
         {
-            PageViewModels[9] = new TableOfCompliantsViewModel();
+            PageViewModels[9] = new TableOfComplaintsPageViewModel();
             ChangeViewModel(PageViewModels[9]);
         }
         /// <summary>
@@ -287,7 +292,7 @@ namespace SQLTrainApp.ViewModel
             PageViewModels.Add(new EditTaskPageViewModel());            // 6 Изменение задания
             PageViewModels.Add(new EditThemePageViewModel());           // 7 Изменение теории
             PageViewModels.Add(new TheoryPageViewModel());              // 8 Теория главы
-            PageViewModels.Add(new TableOfCompliantsViewModel());       // 9 Список жалоб
+            PageViewModels.Add(new TableOfComplaintsPageViewModel());       // 9 Список жалоб
             PageViewModels.Add(new TableOfTasksPageViewModel());            // 10 Список заданий
             PageViewModels.Add(new RefreshPasswordViewModel());         // 11 Обновление пароля
             //PageViewModels.Add(new ConfirmEmailViewModel());            // 12 Подтверждение емаила

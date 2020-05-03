@@ -18,10 +18,10 @@ namespace SQLTrainApp.ViewModel
 {
     class TableOfTasksPageViewModel:BaseViewModel, IPageViewModel
     {
-        private TableOfTasksViewModel _taskList;
+        private TasksCollection _taskList;
         private bool _isAdmin;
 
-        public TableOfTasksViewModel TaskList // здесь хранится ToC
+        public TasksCollection TaskList // здесь хранится ToC
         {
             get => _taskList;
             set
@@ -45,39 +45,26 @@ namespace SQLTrainApp.ViewModel
         {
             IsAdmin = CurrentUser.Role == "Administrator"; // сделать админом
 
-            TaskList = new TableOfTasksViewModel(TrainSQL_Commands.GetAllTasks());
+            TaskList = new TasksCollection(TrainSQL_Commands.GetAllTasks());
         }
 
         private ICommand _addItem;
         public ICommand AddItem => _addItem ?? (_addItem = new RelayCommand(parameter =>
         {
             Mediator.Notify("LoadEditTaskPage", new Task()
-                                                    {
-                                                        TaskID = -1,
+                                                    {                                                        
                                                         TaskText = "",
                                                         RightAnswer = ""
                                                     }
             );
         }));
 
-
-
-        //public string SearchedTask { get; set; }
-        //public Visibility CanEdit { get; set; } = Visibility.Hidden;
-
-        //public ObservableCollection<Task> TaskList { get; set; }
-
-        //public TableOfTasksPageViewModel()
-        //{
-        //    TaskList = new ObservableCollection<Task>(TrainSQL_Commands.GetAllTasks());
-        //    CanEdit = CurrentUser.Role == "Administrator" ? Visibility.Visible : Visibility.Hidden;
-        //}
     }
 
 
-    public class TableOfTasksViewModel : ObservableCollection<Task>
+    public class TasksCollection : ObservableCollection<Task>
     {
-        public TableOfTasksViewModel(List<Task> themes = null) : base(themes)
+        public TasksCollection(List<Task> themes = null) : base(themes)
         {
 
         }
@@ -92,7 +79,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Task item)
             {
-                if (MessageBox.Show(item.ToString(), "Удалить?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"Вы действительно хотите удалить задание #{item.TaskID}?", "Удалить?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {                    
                     TrainSQL_Commands.DeleteTask(item);
                     Remove(item);

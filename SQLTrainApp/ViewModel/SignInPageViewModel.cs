@@ -151,10 +151,9 @@ namespace SQLTrainApp.ViewModel
                 CurrentUser.Login = user.Login;
                 CurrentUser.Email = user.UserEmail;
                 CurrentUser.Role = TrainSQL_Commands.GetUserRole(user);
-                CurrentUser.Photo = user.Photo != null ? Helper.BytesToBitmapImage(user.Photo)
-                                                       : new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg"));
+                CurrentUser.Photo = Helper.BytesToBitmapImage(user.Photo);
 
-                Mediator.Notify("LoadUserMainPage", "");
+                Mediator.Notify("LoadUserMainPage", CurrentUser.Login);
             }
             else Error = "Неверный логин или пароль";
 

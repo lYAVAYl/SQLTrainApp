@@ -21,10 +21,10 @@ namespace SQLTrainApp.ViewModel
 {
     class TableOfContentsPageViewModel : BaseViewModel, IPageViewModel
     {
-        private TableOfContentsViewModel _contentList;
+        private ContentsCollection _contentList;
         private bool _isAdmin;
 
-        public TableOfContentsViewModel ContentList // здесь хранится ToC
+        public ContentsCollection ContentList // здесь хранится ToC
         {
             get => _contentList;
             set
@@ -50,7 +50,7 @@ namespace SQLTrainApp.ViewModel
 
             // загрузка ToC должна производиться из класса, отвечающего за работу с данными
             // из конструктора это делать не рекомендуется
-            ContentList = new TableOfContentsViewModel(TrainSQL_Commands.GetAllThemes());
+            ContentList = new ContentsCollection(TrainSQL_Commands.GetAllThemes());
 
             // и вообще лучше это делать асинхронно, чтобы не морозить интерфейс, пока идет загрузка
             //_ = LoadTableOfContentsAsync();
@@ -123,9 +123,9 @@ namespace SQLTrainApp.ViewModel
 
     }
 
-    public class TableOfContentsViewModel : ObservableCollection<Theme>
+    public class ContentsCollection : ObservableCollection<Theme>
     {
-        public TableOfContentsViewModel(List<Theme> themes = null) : base(themes)
+        public ContentsCollection(List<Theme> themes = null) : base(themes)
         {
 
         }

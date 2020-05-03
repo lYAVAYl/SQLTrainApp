@@ -74,8 +74,14 @@
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
 
-        <!--#region Переопределение стиля Listview-->
-        
+        <!--Стиль края вывода ошибки-->
+        <Style x:Key="errorBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
         
         
         <!--#endregion-->
@@ -118,7 +124,7 @@
         <DataTemplate DataType="{x:Type viewmodels:EditThemePageViewModel}">
             <view:EditThemePage />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:TableOfCompliantsViewModel}">
+        <DataTemplate DataType="{x:Type viewmodels:TableOfComplaintsPageViewModel}">
             <view:TableOfCompliatns />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodels:TableOfTasksPageViewModel}">

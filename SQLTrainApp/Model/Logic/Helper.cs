@@ -27,7 +27,8 @@ namespace SQLTrainApp.Model.Logic
 
         public static BitmapImage BytesToBitmapImage(byte[] bitmapBytes)
         {
-            if (bitmapBytes == null) return null;
+            if (bitmapBytes == null) 
+                return new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg"));
 
             using (var ms = new MemoryStream(bitmapBytes))
             {

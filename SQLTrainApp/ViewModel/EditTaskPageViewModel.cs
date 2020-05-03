@@ -13,16 +13,19 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Drawing;
 
+using wForms = System.Windows.Forms;
+using System.Collections.ObjectModel;
 
 namespace SQLTrainApp.ViewModel
 {
-    class EditTaskPageViewModel:BaseViewModel, IPageViewModel
+    class EditTaskPageViewModel:ValidateBaseViewModel, IPageViewModel
     {
         public int TaskNum { get; set; }
         public string TaskInfo { get; set; }
         public string RightQuery { get; set; }
 
         public List<Sheme> EnableDBs { get; set; }
+        public ObservableCollection<Complaint> TaskComplaints { get; set; }
         private Task _task;
 
         public EditTaskPageViewModel(Task task = null)
@@ -34,6 +37,8 @@ namespace SQLTrainApp.ViewModel
                 TaskNum = _task.TaskID;
                 TaskInfo = _task.TaskText;
                 RightQuery = _task.RightAnswer;
+
+                TaskComplaints = new ObservableCollection<Complaint>(TrainSQL_Commands.GetComplaintsByTask(_task.TaskID));
             }
 
         }
@@ -70,8 +75,24 @@ namespace SQLTrainApp.ViewModel
         private void Save()
         {
 
+            wForms.DialogResult result = wForms.MessageBox.Show("Вы действительно хотите сохранить изменения?", "Подтверждение действия", wForms.MessageBoxButtons.YesNo, wForms.MessageBoxIcon.Question);
 
-            MessageBox.Show("Изменения сохранены!");
+            if (result == wForms.DialogResult.Yes)
+            {
+                _task.TaskText = TaskInfo;
+                _task.RightAnswer = RightQuery;
+                _task.dbID = 1;
+
+                if (TrainSQL_Commands.EditORAddTask(_task) == null)
+                {
+                    MessageBox.Show("Изменения сохранены!");
+                    Mediator.Notify("LoadTableOfTasksPage", "");
+                }
+                else
+                {
+                    MessageBox.Show("Что-то пошло не так");
+                }
+            }
         }
 
         private ICommand _cancelChanges;
@@ -85,9 +106,49 @@ namespace SQLTrainApp.ViewModel
                 }));
             }
         }
+
         private void Cancel()
         {
-            MessageBox.Show("Изменения отменены");
+            wForms.DialogResult result = wForms.MessageBox.Show("Вы действительно хотите отменить изменения?", "Подтверждение действия", wForms.MessageBoxButtons.YesNo, wForms.MessageBoxIcon.Question);
+
+            if (result == wForms.DialogResult.Yes)
+            {
+                Mediator.Notify("LoadTableOfTasksPage", "");
+            }
+
+        }
+
+        public override string Validate(string columnName)
+        {
+            string error = null;
+            switch (columnName)
+            {                
+                case nameof(TaskInfo):
+                    if (string.IsNullOrEmpty(TaskInfo))
+                    {
+                        error = "Отсутствует текст задания";
+                    }
+                    break;
+                case nameof(RightQuery):
+                    if (string.IsNullOrEmpty(RightQuery))
+                    {
+                        error = "Отсутствует Запров-решение";
+                    }
+                    break;
+            }
+
+
+            if (ErrorCollection.ContainsKey(columnName))
+                ErrorCollection[columnName] = error;
+            else ErrorCollection.Add(columnName, error);
+
+
+            IsEnableBtn = ErrorCollection[nameof(TaskInfo)] == null
+                          && ErrorCollection[nameof(RightQuery)] == null;
+
+            OnPropertyChanged(nameof(ErrorCollection));
+
+            return error;
         }
 
     }

@@ -19,22 +19,23 @@
                 <Grid.RowDefinitions>
                     <RowDefinition MinHeight="80"/>
                     <RowDefinition Height="3"/>
-                    <RowDefinition />
+                    <RowDefinition MinHeight="80"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
 
 
                 <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" 
-                                  VerticalScrollBarVisibility="Auto">
+                              VerticalScrollBarVisibility="Auto">
 
-                    <TabControl 
-                                Margin="0,0,3,0">
+                    <TabControl Margin="0,0,3,0">
                         <TabItem Header="Задание" FontSize="16">
                             <Grid Background="LightSkyBlue">
-                                <TextBlock x:Name="tbkTaskInfo"
-                                                   FontSize="16" Padding="10"
-                                                   Text="{Binding Path=TaskInfo}"
-                                                   TextWrapping="Wrap"/>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <TextBlock x:Name="tbkTaskInfo"
+                                                       FontSize="16" Padding="10"
+                                                       Text="{Binding Path=TaskInfo}"
+                                                       TextWrapping="Wrap"/>
+                                </ScrollViewer>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Отношения БД" FontSize="16">
@@ -56,11 +57,13 @@
                     </TabControl>
 
                 </ScrollViewer>
+
+                
                 <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="4"
-                                  ShowsPreview="False"
-                                  HorizontalAlignment="Center" VerticalAlignment="Stretch"
-                                  Width="3"
-                                  />
+                              ShowsPreview="False"
+                              HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                              Width="3"
+                              />
 
 
                 <Border Grid.Column="2" Grid.Row="0"
@@ -92,9 +95,17 @@
                                   HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                   Height="3"
                                   />
-                <Border Grid.Column="2" Grid.Row="2"
-                            Style="{StaticResource simpleBorder}"
+                <Border x:Name="borderResult" Grid.Column="2" Grid.Row="2"
                             Padding="3,0,3,3">
+                    <Border.Style>
+                        <Style BasedOn="{StaticResource simpleBorder}" TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsRightResult}" Value="True">
+                                    <Setter Property="BorderBrush" Value="Lime"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
@@ -106,11 +117,16 @@
                                            Foreground="Gray"
                                            HorizontalAlignment="Center" VerticalAlignment="Top"
                                            />
-                        <DataGrid x:Name="dgQueryResult" Grid.Row="1" 
-                                          ItemsSource="{Binding Path=ResultList}"
-                                          AutoGenerateColumns="True"
-                                          MaxHeight="250"
-                                          />
+                        <Grid Grid.Row="1">
+                            <DataGrid AutoGenerateColumns="True"
+                                      ItemsSource="{Binding Path=ResultList.DefaultView}"
+                                      FontSize="16"
+                                      AllowDrop="False"
+                                      IsReadOnly="True"
+                                      CanUserResizeRows="False"
+                                      CanUserResizeColumns="False"
+                                      />
+                        </Grid>
                     </Grid>
 
 
@@ -136,6 +152,7 @@
                                 FontSize="16"
                                 Padding="3,0,3,0"
                                 Command="{Binding ExecuteCmd}"
+                                CommandParameter="{Binding ElementName=gridError}"
                                 />
                     <Button x:Name="btnNextTask" DockPanel.Dock="Left"
                                 Content="Дальше" 
@@ -147,6 +164,39 @@
                                 
                                 />
                 </WrapPanel>
+
+                <Grid x:Name="gridError" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="3"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"
+                       Width="315"
+                       Margin="10, 10, 10, -100"
+                       >
+                    <Border Style="{StaticResource errorBorder}">
+                        <Grid>
+                            <Button Content="✖️" Foreground="Red"
+                                                    Height="20" Width="20"
+                                                    FontSize="12"
+                                                    VerticalAlignment="Top"
+                                                    HorizontalAlignment="Right"
+                                                    Background="{x:Null}"
+                                                    BorderBrush="{x:Null}"
+                                                    Command="{Binding HideError}"
+                                                    CommandParameter="{Binding ElementName=gridError}"
+                                                    />
+                            <TextBlock Text="ОШИБКА!"
+                                                       FontSize="16" Foreground="Red" 
+                                                       FontWeight="Bold"
+                                                       VerticalAlignment="Top"
+                                                       HorizontalAlignment="Left"
+                                                       />
+                            <TextBlock Text="{Binding Path=ErrorMsg, UpdateSourceTrigger=PropertyChanged}"
+                                                       FontSize="14" Foreground="Red"
+                                                       Margin="0,20,0,0"
+                                                       TextWrapping="Wrap"
+                                                       />
+                        </Grid>
+                    </Border>
+                </Grid>
             </Grid>
         </Border>
     </Grid>
