@@ -30,7 +30,6 @@ namespace SQLTrainApp.ViewModel
                 {
                     _complaintComment = value;
                 }
-                
             }
         }
 

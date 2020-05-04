@@ -26,7 +26,7 @@ namespace SQLTrainApp.ViewModel
         public bool EnableSkip { get; set; } = true; // IsEnable для кнопки Пропустить
         public string UserQuery { get; set; } // Запрос пользователя
 
-        public DataTable ResultList { get; set; } // Вывод в запроса
+        public DataTable ResultList { get; set; } // Вывод запроса
         public string ErrorMsg { get; set; }
 
         private int _rightAnswersCount = 0;
@@ -62,17 +62,19 @@ namespace SQLTrainApp.ViewModel
                         {
                             ResultList = (DataTable)values[0];
 
-                            ErrorMsg = (string)values[1];
-                            
-                            if (!IsRightResult)
+                            if ((string)values[1] == null)
                             {
-                                IsRightResult = ErrorMsg == null;
-                                if (IsRightResult)
+                                if (!IsRightResult)
                                 {
+                                    IsRightResult = true;
                                     _rightAnswersCount++;
                                 }
-                                else Animate(grid);
-                            }                    
+                            }
+                            else
+                            {
+                                ErrorMsg = (string)values[1];
+                                Animate(grid);
+                            }
                         }
                     }
 
@@ -143,8 +145,7 @@ namespace SQLTrainApp.ViewModel
                 return values;                
             }
 
-            return null;
-            
+            return null;            
         }
 
         private void Animate(Grid grid)

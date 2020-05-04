@@ -20,7 +20,8 @@
                            Text="Жалобы"
                            VerticalAlignment="Top" HorizontalAlignment="Center"
                            />
-                <StackPanel Grid.Row="1"  Orientation="Horizontal"
+                <StackPanel Grid.Row="1" Visibility="Hidden"
+                            Orientation="Horizontal"
                             Width="300" Margin="0,5">
                     <TextBox Text="{Binding Path=SearchedTask}"
                              FontSize="16"

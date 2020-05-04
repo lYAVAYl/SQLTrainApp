@@ -53,6 +53,7 @@
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <ComboBox x:Name="cbxEnableDBs"
                                       ItemsSource="{Binding EnableDBs}"
+                                      SelectedItem="{Binding SelectedDB}"
                                       MinWidth="70" Margin="5,0"
                                       FontSize="12"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Center"
@@ -67,8 +68,8 @@
                                               Margin="0,0,0,20">
                                         <TextBox x:Name="tbxTaskInfo"
                                                  Style="{StaticResource tbxEdit}"
-                                                 Text="{Binding Path=TaskInfo, ValidatesOnDataErrors=True, UpdateSourceTrigger=LostFocus}"
-                                                 FontSize="16" Padding="10"
+                                                 Text="{Binding Path=TaskInfo, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontSize="16" Margin="2" Padding="10"
                                                  />
                                     </ScrollViewer>
                                     <TextBlock Grid.Row="2"
@@ -86,7 +87,7 @@
                                                 <DataTemplate>
                                                     <Grid>
                                                         <Border Style="{StaticResource simpleBorder}"
-                                                                Margin="2" Padding="2">
+                                                                Margin="3" Padding="2,5">
                                                             <DockPanel>
                                                                 <TextBlock Text="{Binding Login}"
                                                                            FontWeight="Bold"
@@ -140,8 +141,8 @@
                                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                             <TextBox x:Name="tbxRightAnswer"
                                      Style="{StaticResource tbxEdit}"
-                                     FontSize="16" Padding="10"
-                                     Text="{Binding Path=RightQuery, ValidatesOnDataErrors=True, UpdateSourceTrigger=LostFocus}"
+                                     FontSize="16" Margin="2" Padding="10"
+                                     Text="{Binding Path=RightQuery, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                                      />
                         </ScrollViewer>
                         <TextBlock Grid.Row="1"
@@ -159,25 +160,38 @@
                               />
                 
                 <!--Вывод-->
-                <Border Grid.Column="2" Grid.Row="3"
-                            Style="{StaticResource simpleBorder}"
-                            Padding="5">
+                <Border x:Name="borderResult" Grid.Column="2" Grid.Row="3"
+                        Padding="3,0,3,3">
+                    <Border.Style>
+                        <Style BasedOn="{StaticResource simpleBorder}" TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsRightResult}" Value="True">
+                                    <Setter Property="BorderBrush" Value="Lime"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0"
-                                   Text="Вывод:"
-                                   FontSize="20" FontWeight="Bold"
-                                   Foreground="Gray"
-                                   HorizontalAlignment="Left" VerticalAlignment="Top"
-                                   />
-                        <DataGrid x:Name="dgQueryResult" Grid.Row="1"
-                                  ItemsSource="{Binding Path=ResultList}"
-                                  AutoGenerateColumns="True"
-                                  MaxHeight="160"
-                                  />
+                                           Text="Вывод:"
+                                           FontSize="20" FontWeight="Bold"
+                                           Foreground="Gray"
+                                           HorizontalAlignment="Center" VerticalAlignment="Top"
+                                           />
+                        <Grid Grid.Row="1">
+                            <DataGrid AutoGenerateColumns="True"
+                                      ItemsSource="{Binding Path=ResultList.DefaultView}"
+                                      FontSize="16"
+                                      AllowDrop="False"
+                                      IsReadOnly="True"
+                                      CanUserResizeRows="False"
+                                      CanUserResizeColumns="False"
+                                      />
+                        </Grid>
                     </Grid>
 
 
@@ -189,7 +203,8 @@
                                HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <Button x:Name="btnExecuteQuery" DockPanel.Dock="Left"
                             Content="Выполнить"  
-                            Command="{Binding ExecuteQuery}"
+                            Command="{Binding ExecuteCmd}"
+                            CommandParameter="{Binding ElementName=gridError}"
                             FontSize="16"
                             Margin="0,0,5,0"  Padding="3,0,3,0"                                
                                 />
@@ -207,6 +222,39 @@
                                 Command="{Binding CancelChanges}"
                                 />
                 </WrapPanel>
+                
+                <Grid x:Name="gridError" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="3"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"
+                       Width="315"
+                       Margin="10, 10, 10, -150"
+                       >
+                    <Border Style="{StaticResource errorBorder}">
+                        <Grid>
+                            <Button Content="✖️" Foreground="Red"
+                                                    Height="20" Width="20"
+                                                    FontSize="12"
+                                                    VerticalAlignment="Top"
+                                                    HorizontalAlignment="Right"
+                                                    Background="{x:Null}"
+                                                    BorderBrush="{x:Null}"
+                                                    Command="{Binding HideError}"
+                                                    CommandParameter="{Binding ElementName=gridError}"
+                                                    />
+                            <TextBlock Text="ОШИБКА!"
+                                                       FontSize="16" Foreground="Red" 
+                                                       FontWeight="Bold"
+                                                       VerticalAlignment="Top"
+                                                       HorizontalAlignment="Left"
+                                                       />
+                            <TextBlock Text="{Binding Path=ErrorMsg, UpdateSourceTrigger=PropertyChanged}"
+                                                       FontSize="14" Foreground="Red"
+                                                       Margin="0,20,0,0"
+                                                       TextWrapping="Wrap"
+                                                       />
+                        </Grid>
+                    </Border>
+                </Grid>
             </Grid>
         </Border>
         

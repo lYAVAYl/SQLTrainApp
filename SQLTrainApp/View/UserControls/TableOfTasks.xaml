@@ -20,7 +20,7 @@
                            Text="Задания"
                            VerticalAlignment="Top" HorizontalAlignment="Center"
                            />
-                <StackPanel Grid.Row="1"  Orientation="Horizontal"
+                <StackPanel Grid.Row="1"  Orientation="Horizontal" Visibility="Hidden"
                             Margin="0,5" 
                             HorizontalAlignment="Center">
                     <TextBox Text="{Binding Path=SearchedTask}"

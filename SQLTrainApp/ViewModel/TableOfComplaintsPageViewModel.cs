@@ -73,9 +73,9 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Complaint item)
             {
-                if (MessageBox.Show(item.ToString(), "Удалить?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"Вы действительно хотите удалить жалобу #{item.ComplaintID}?", "Удалить?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    //TrainSQL_Commands.DeleteTheme(item);
+                    TrainSQL_Commands.DeleteComplaint(item);
                     Remove(item);
                 }
             }

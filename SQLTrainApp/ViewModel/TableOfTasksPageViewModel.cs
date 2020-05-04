@@ -84,6 +84,8 @@ namespace SQLTrainApp.ViewModel
                     TrainSQL_Commands.DeleteTask(item);
                     Remove(item);
                 }
+
+
             }
         }));
 

@@ -23,7 +23,7 @@
                            Text="Содержание"
                            VerticalAlignment="Top" HorizontalAlignment="Center"
                            />
-                <StackPanel Grid.Row="1"  
+                <StackPanel Grid.Row="1"  Visibility="Hidden"
                             Orientation="Horizontal"
                             Margin="0,5"
                             HorizontalAlignment="Center">
