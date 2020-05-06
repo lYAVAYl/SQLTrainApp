@@ -184,7 +184,7 @@ namespace SQLTrainApp.ViewModel
             ResultList = null;
 
             if (task!=null)
-            {                
+            {
                 _sheme = TrainSQL_Commands.GetDbSheme(task.dbID);
 
                 TaskInfo = $"#{task.TaskID} " + task.TaskText;
@@ -199,15 +199,11 @@ namespace SQLTrainApp.ViewModel
                 if (tasks.Count() > 1)
                 {
                     TrainSQL_Commands.AddUserProgress(CurrentUser.Login, _rightAnswersCount, tasks.Count());
-                        
+                    
                     MessageBox.Show($"Ваш результат: {_rightAnswersCount}/{tasks.Count()}");
                 }
                 Mediator.Notify("LoadUserMainPage", CurrentUser.Login);
             }
-
-            
-
-            //MessageBox.Show("Загрузка следующего задания");
         }
 
     }

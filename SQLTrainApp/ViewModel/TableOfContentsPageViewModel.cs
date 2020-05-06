@@ -61,66 +61,6 @@ namespace SQLTrainApp.ViewModel
         {
             Mediator.Notify("LoadEditThemePage", 0);
         }));
-
-        #region ShitCode
-        //    public string SearchedChapter { get; set; }
-        //    public Visibility CanEdit { get; set; } = Visibility.Hidden;
-        //    public Theme SelectedTheme { get; set; }
-
-        //    public ObservableCollection<Theme> ContentList { get; set; }
-
-        //    public TableOfContentsPageViewModel()
-        //    {
-        //        ContentList = new ObservableCollection<Theme>(TrainSQL_Commands.GetAllThemes());
-        //        CanEdit = CurrentUser.Role == "Administrator" ? Visibility.Visible : Visibility.Hidden;
-        //    }
-
-        //    private ICommand _loadTheme;
-        //    public ICommand LoadTheme
-        //    {
-        //        get
-        //        {
-        //            return _loadTheme ?? (_loadTheme = new RelayCommand(x =>
-        //              {
-        //                  ShowTheme(x as Theme);
-        //              }));
-        //        }
-        //    }
-
-        //    private ICommand _editTheme;
-        //    public ICommand EditTheme
-        //    {
-        //        get
-        //        {
-        //            return _editTheme ?? (_editTheme = new RelayCommand(x =>
-        //              {
-        //                  if (x is Theme)
-        //                      Mediator.Notify("LoadEditThemePage", TrainSQL_Commands.GetThemeIndex(x as Theme));
-        //                  else
-        //                      Mediator.Notify("LoadEditThemePage", 0);
-
-        //              }));
-        //        }
-        //    }
-
-        //    private ICommand _deleteTheory;
-        //    public ICommand DeleteTheme
-        //    {
-        //        get
-        //        {
-        //            return _deleteTheory ?? (_deleteTheory = new RelayCommand(x =>
-        //            {
-        //                MessageBox.Show("Удаление");
-        //            }));
-        //        }
-        //    }
-
-        //    private void ShowTheme(Theme theme)
-        //    {
-        //        Mediator.Notify("LoadTheoryPage", TrainSQL_Commands.GetThemeIndex(theme));
-        //    }
-        #endregion
-
     }
 
     public class ContentsCollection : ObservableCollection<Theme>
@@ -140,7 +80,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Theme item)
             {
-                if (MessageBox.Show(item.ToString(), "Удалить?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"Вы действительно хотите удалить тему #{item.ThemeID}?", "Удалить?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     TrainSQL_Commands.DeleteTheme(item);
                     Remove(item);
@@ -161,7 +101,6 @@ namespace SQLTrainApp.ViewModel
             if (parameter is Theme item)
             {
                 Mediator.Notify("LoadTheoryPage", item.ThemeID);
-
             }
         }));
     }

@@ -79,14 +79,16 @@ namespace SQLTrainApp.ViewModel
                     Remove(item);
                 }
             }
-        }));        
-               
+        }));               
 
         public ICommand OpenItemCommand => _openItemCommand ?? (_openItemCommand = new RelayCommand(parameter =>
         {
             if (parameter is Complaint item)
             {
-                Mediator.Notify("LoadEditTaskPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
+                if(CurrentUser.Role == "Adminixtrator")
+                    Mediator.Notify("LoadEditTaskPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
+                else
+                    Mediator.Notify("LoadTaskDecisionPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
             }
         }));
 

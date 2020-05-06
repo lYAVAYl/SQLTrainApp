@@ -91,7 +91,7 @@ namespace SQLTrainApp.ViewModel
                         else
                         {
                             MessageBox.Show(ret.ToString());
-                            Mediator.Notify("LoadSignOnPage", "");
+                            Mediator.Notify("LoadSignOnPage", CurrentUser.Login);
                         }
                     }
                     else if(--ChancesNum==0)

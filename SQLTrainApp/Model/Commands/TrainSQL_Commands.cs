@@ -339,7 +339,7 @@ namespace SQLTrainApp.Model.Commands
                             }
 
                             if (error != null)
-                                error = $"Запрос не прошёл проверку на {i+1} базе данных";
+                                error = $"Запрос не прошёл проверку на {i + 1} базе данных";
                         }
                     }
                 }
@@ -655,17 +655,27 @@ namespace SQLTrainApp.Model.Commands
                 {
                     using (var context = new TrainSQL_Entities())
                     {
-                        userProgress = (from el in context.Progresses
-                                        where el.Login == login
-                                        orderby el.TestDate
-                                        select el).ToList();
-
-                        if (userProgress.Count > 14)
+                        if (context.Progresses.FirstOrDefault(x => x.Login == login) != null)
                         {
-                            userProgress.Reverse();
-                            userProgress = userProgress.Take(15).ToList();
-                            userProgress.Reverse();
-
+                            if (context.Progresses.Where(x => x.Login == login).Count() > 14)
+                            {
+                                userProgress = (from el in context.Progresses
+                                                where el.Login == login
+                                                orderby el.TestDate descending
+                                                select el).Take(15).ToList();
+                                userProgress.Reverse();
+                            }
+                            else
+                            {
+                                userProgress = (from el in context.Progresses
+                                                where el.Login == login
+                                                orderby el.TestDate
+                                                select el).ToList();
+                            }
+                        }
+                        else
+                        {
+                            AddUserProgress(login, 0, 5);
                         }
                     }
                 }
@@ -673,7 +683,6 @@ namespace SQLTrainApp.Model.Commands
                 {
                     MessageBox.Show(ex.ToString());
                 }
-
             }
 
             return userProgress;
@@ -688,35 +697,19 @@ namespace SQLTrainApp.Model.Commands
                 {
                     using (var context = new TrainSQL_Entities())
                     {
-                        if (IsUserExists(login))
+                        Progress progress = new Progress()
                         {
-                            Progress progress = new Progress()
-                            {
-                                Login = login,
-                                TestDate = DateTime.Now,
-                                RightAnswersQuantity = rigthAnswers,
-                                TotalQuastionsQuantity = totalQuestions
-                            };
+                            Login = login,
+                            TestDate = DateTime.Now,
+                            RightAnswersQuantity = rigthAnswers,
+                            TotalQuastionsQuantity = totalQuestions
+                        };
 
-                            if (context.Progresses.FirstOrDefault(x => x.Login == login) != null)
-                            {
-                                context.Progresses.Add(progress);
-                            }
-                            else
-                            {
-                                context.Progresses.Add(new Progress()
-                                {
-                                    Login = login,
-                                    TestDate = DateTime.Now.AddMinutes(-1),
-                                    RightAnswersQuantity = 0,
-                                    TotalQuastionsQuantity = totalQuestions
-                                });
-                                context.Progresses.Add(progress);
+                        context.Progresses.Add(progress);
 
-                            }
 
-                            context.SaveChanges();
-                        }
+                        context.SaveChanges();
+
                     }
                 }
                 catch (Exception ex)
