@@ -169,7 +169,7 @@
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Left"
                        Width="315"
-                       Margin="10, 10, 10, -100"
+                       Margin="10, 10, 10, -200"
                        >
                     <Border Style="{StaticResource errorBorder}">
                         <Grid>

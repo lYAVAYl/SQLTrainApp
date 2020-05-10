@@ -78,7 +78,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadSignInPage ?? (_loadSignInPage = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadSignInPage", "");
+                    Mediator.Inform("LoadSignInPage", "");
                 }));
             }
         }
@@ -122,7 +122,7 @@ namespace SQLTrainApp.ViewModel
                     }
                     else if (--ChancesNum == 0)
                     {
-                        Mediator.Notify("LoadSignOnPage", "");
+                        Mediator.Inform("LoadSignOnPage", "");
                     }
 
                 }));
@@ -139,7 +139,7 @@ namespace SQLTrainApp.ViewModel
             else
             {
                 TrainSQL_Commands.ChangeUserProperty(user, nameof(user.Password), UserPass1);
-                Mediator.Notify("LoadSignInPage", "");
+                Mediator.Inform("LoadSignInPage", "");
             }
         }
 

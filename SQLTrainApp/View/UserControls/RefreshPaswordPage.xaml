@@ -99,7 +99,7 @@
                                Padding="5,0"
                                />
                     <TextBox x:Name="tbxCode" 
-                             Text="{Binding Path=Code}"
+                             Text="{Binding Path=Code, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                              TextAlignment="Center"
                              FontSize="28" Width="150"
                              />

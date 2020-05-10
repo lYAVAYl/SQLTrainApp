@@ -44,7 +44,6 @@ namespace SQLTrainApp.ViewModel
         {
             tasks.Add(task);
             LoadTask(tasks[_index]);
-
         }
 
         private ICommand _executeCmd;
@@ -73,6 +72,8 @@ namespace SQLTrainApp.ViewModel
                             else
                             {
                                 ErrorMsg = (string)values[1];
+                                grid.IsEnabled = true;
+
                                 Animate(grid);
                             }
                         }
@@ -89,7 +90,6 @@ namespace SQLTrainApp.ViewModel
             {
                 return _hideError ?? (_hideError = new RelayCommand(x =>
                 {
-
                     if (x is Grid grid)
                     {
                         var opacityAnim = new DoubleAnimation()
@@ -97,11 +97,11 @@ namespace SQLTrainApp.ViewModel
                             From = 1.0,
                             To = 0.0,
                             Duration = new Duration(new TimeSpan(5 * 1000000))
-                        };
+                        };                        
 
                         grid.BeginAnimation(Grid.OpacityProperty, opacityAnim);
-
-                        grid.Margin = new Thickness(10, 10, 10, -100);
+                        grid.IsEnabled = false;
+                        grid.Margin = new Thickness(10, 10, 10, -200);
                     }
                 }));
             }
@@ -114,7 +114,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _sendCompliant ?? (_sendCompliant = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadSendComplaintPage", tasks[_index].TaskID);
+                    Mediator.Inform("LoadSendComplaintPage", tasks[_index].TaskID);
                 }));
             }
         }
@@ -202,7 +202,7 @@ namespace SQLTrainApp.ViewModel
                     
                     MessageBox.Show($"Ваш результат: {_rightAnswersCount}/{tasks.Count()}");
                 }
-                Mediator.Notify("LoadUserMainPage", CurrentUser.Login);
+                Mediator.Inform("LoadUserMainPage", CurrentUser.Login);
             }
         }
 

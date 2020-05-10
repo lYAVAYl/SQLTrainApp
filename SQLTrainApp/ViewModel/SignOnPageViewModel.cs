@@ -83,7 +83,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadSignInPage ?? (_loadSignInPage = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadSignInPage", "");
+                    Mediator.Inform("LoadSignInPage", "");
                 }));
             }
         }
@@ -95,7 +95,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadRefreshPasswordPage ?? (_loadRefreshPasswordPage = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadRefreshPasswordPage", "");
+                    Mediator.Inform("LoadRefreshPasswordPage", "");
                 }));
             }
         }
@@ -186,7 +186,7 @@ namespace SQLTrainApp.ViewModel
 
                 MessageBox.Show("На ваш email был отправлен код подтверждения регисрации");
 
-                Mediator.Notify("LoadConfirmEmailPage", new object[] { user, sentCode });
+                Mediator.Inform("LoadConfirmEmailPage", new object[] { user, sentCode });
             }
             else IsEnableBtn = false;
         }

@@ -138,7 +138,7 @@ namespace SQLTrainApp.ViewModel
                 if (TrainSQL_Commands.EditORAddTheme(_thisTheme)==null)
                 {
                     MessageBox.Show("Изменения сохранены!");
-                    Mediator.Notify("LoadTableOfContentsPage", "");
+                    Mediator.Inform("LoadTableOfContentsPage", "");
                 }
                 else
                 {
@@ -155,7 +155,7 @@ namespace SQLTrainApp.ViewModel
 
             if (result == wForms.DialogResult.Yes)
             {
-                Mediator.Notify("LoadTableOfContentsPage", "");
+                Mediator.Inform("LoadTableOfContentsPage", "");
             }
 
         }        

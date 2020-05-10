@@ -86,9 +86,9 @@ namespace SQLTrainApp.ViewModel
             if (parameter is Complaint item)
             {
                 if(CurrentUser.Role == "Adminixtrator")
-                    Mediator.Notify("LoadEditTaskPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
+                    Mediator.Inform("LoadEditTaskPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
                 else
-                    Mediator.Notify("LoadTaskDecisionPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
+                    Mediator.Inform("LoadTaskDecisionPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
             }
         }));
 
@@ -96,7 +96,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Complaint item)
             {
-                Mediator.Notify("LoadUserMainPage", item.Login);
+                Mediator.Inform("LoadUserMainPage", item.Login);
             }
         }));
 
@@ -104,7 +104,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Complaint item)
             {
-                Mediator.Notify("LoadTaskDecisionPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
+                Mediator.Inform("LoadTaskDecisionPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
             }
         }));
     }

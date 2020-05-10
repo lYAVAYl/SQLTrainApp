@@ -54,7 +54,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadSignOnPage ?? (_loadSignOnPage = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadSignOnPage", "");
+                    Mediator.Inform("LoadSignOnPage", "");
                 }));
             }
         }
@@ -66,7 +66,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadRefreshPasswordPage ?? (_loadRefreshPasswordPage = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadRefreshPasswordPage", "");
+                    Mediator.Inform("LoadRefreshPasswordPage", "");
                 }));
             }
         }
@@ -153,7 +153,7 @@ namespace SQLTrainApp.ViewModel
                 CurrentUser.Role = TrainSQL_Commands.GetUserRole(user);
                 CurrentUser.Photo = Helper.BytesToBitmapImage(user.Photo);
 
-                Mediator.Notify("LoadUserMainPage", CurrentUser.Login);
+                Mediator.Inform("LoadUserMainPage", CurrentUser.Login);
             }
             else Error = "Неверный логин или пароль";
 

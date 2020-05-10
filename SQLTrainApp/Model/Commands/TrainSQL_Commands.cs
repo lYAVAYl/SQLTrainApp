@@ -12,6 +12,12 @@ namespace SQLTrainApp.Model.Commands
 {
     public static class TrainSQL_Commands
     {
+        private static SqlConnectionStringBuilder connectionBuilder = new SqlConnectionStringBuilder()
+        {
+            DataSource = "DESKTOP-5D0552Q",
+            IntegratedSecurity = true
+        };
+
         public static bool IsUserExists(string login = "")
         {
             bool userExists = false;
@@ -254,118 +260,120 @@ namespace SQLTrainApp.Model.Commands
             DataTable resultTable = null; // DataTable для вывода
             string error = null; // Сообщение об ошибке
 
-            // Заполнение списка
-            try
+            if (userQuery.Length != 0)
             {
-                using (var context = new TrainSQL_Entities())
-                {
-                    int shemeID = context.TestDatabases.FirstOrDefault(x => x.dbID == task.dbID).ShemeID;
-                    testDBList = (from x in context.TestDatabases
-                                  where x.ShemeID == shemeID
-                                  select x.dbName).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-            if (testDBList == null || testDBList.Count == 0) return null;
-            mainDB = testDBList.FirstOrDefault(x => !char.IsDigit(x.Last())); // получение названия БД для вывода
-
-            if (mainDB != null)
-            {
-                DataTable userTable = new DataTable();
-                DataTable rightTable = new DataTable();
-
-                string connectionString = $"Data Source=DESKTOP-5D0552Q;Initial Catalog={mainDB};Integrated Security=True";
+                // Заполнение списка
                 try
                 {
-                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    using (var context = new TrainSQL_Entities())
                     {
-                        connection.Open();
-
-                        // Получить таблицу вывода
-                        resultTable = GetDataTable(userQuery, connection, connection.BeginTransaction());
-
-                        rightTable = GetDataTable(rightQuery, connection, connection.BeginTransaction());
-                        if (isChangingQuery)
-                        {
-                            SqlTransaction transaction = connection.BeginTransaction();
-                            string tbName = "";
-                            SqlCommand command;
-
-                            command = new SqlCommand(userQuery, connection);
-                            command.Transaction = transaction;
-
-                            if (userQuery.Contains("insert")
-                                || userQuery.Contains("update")
-                                || userQuery.Contains("delete")) command.ExecuteNonQuery();
-
-                            tbName = GetTableName(rightQuery.ToLower());
-                            command = new SqlCommand($"SELECT * FROM {tbName}", connection);
-                            command.Transaction = transaction;
-
-                            SqlDataReader reader = command.ExecuteReader();
-                            userTable.Load(reader);
-                            reader.Close();
-
-                            transaction.Rollback();
-                        }
-                        else
-                        {
-                            userTable = resultTable;
-                        }
-
-                        error = AreTablesTheSame(userTable, rightTable);
-
-                        connection.Close();
+                        int shemeID = context.TestDatabases.FirstOrDefault(x => x.dbID == task.dbID).ShemeID;
+                        testDBList = (from x in context.TestDatabases
+                                      where x.ShemeID == shemeID
+                                      select x.dbName).ToList();
                     }
-
-                    if (error != null)
-                    {
-                        if (isInsert) error = "Операция \"insert\" не выполнена";
-                        else if (isUpdate) error = "Операция \"update\" не выполнена";
-                        else if (isDelete) error = "Операция \"delete\" не выполнена";
-                    }
-                    else
-                    {
-                        if (!isChangingQuery)
-                        {
-                            int i = 1;
-                            for (; i < testDBList.Count() && error == null; i++)
-                            {
-                                error = CheckQuery(userQuery, rightQuery, testDBList[i]);
-                            }
-
-                            if (error != null)
-                                error = $"Запрос не прошёл проверку на {i + 1} базе данных";
-                        }
-                    }
-                }
-                catch (ObjectDisposedException ex)
-                {
-                    error = "Попытка выполнить оперции над удалённым объектом (ObjectDisposedException)!\n" + ex.Message;
-                }
-                catch (InvalidCastException ex)
-                {
-                    error = "Недопустимое приведение/преобразование (InvalidCastException)!\n" + ex.Message;
-                }
-                catch (SqlException ex)
-                {
-                    error = "Ошибка SQL!\n" + ex.Message;
-                }
-                catch (InvalidOperationException ex)
-                {
-                    error = "Состояние объекта блокирует вызов метода (InvalidOperationException)!\n" + ex.Message;
                 }
                 catch (Exception ex)
                 {
-                    error = "Ошибка dремени выполнения!" + ex.Message;
+                    MessageBox.Show(ex.ToString());
                 }
 
-            }
+                if (testDBList == null || testDBList.Count == 0) return null;
+                mainDB = testDBList.FirstOrDefault(x => !char.IsDigit(x.Last())); // получение названия БД для вывода
 
+                if (mainDB != null)
+                {
+                    DataTable userTable = new DataTable();
+                    DataTable rightTable = new DataTable();
+
+                    connectionBuilder.InitialCatalog = mainDB;
+                    try
+                    {
+                        using (SqlConnection connection = new SqlConnection(connectionBuilder.ConnectionString))
+                        {
+                            connection.Open();
+
+                            // Получить таблицу вывода
+                            resultTable = GetDataTable(userQuery, connection, connection.BeginTransaction());
+
+                            rightTable = GetDataTable(rightQuery, connection, connection.BeginTransaction());
+                            if (isChangingQuery)
+                            {
+                                SqlTransaction transaction = connection.BeginTransaction();
+                                string tbName = "";
+                                SqlCommand command;
+
+                                command = new SqlCommand(userQuery, connection);
+                                command.Transaction = transaction;
+
+                                if (userQuery.Contains("insert")
+                                    || userQuery.Contains("update")
+                                    || userQuery.Contains("delete")) command.ExecuteNonQuery();
+
+                                tbName = GetTableName(rightQuery.ToLower());
+                                command = new SqlCommand($"SELECT * FROM {tbName}", connection);
+                                command.Transaction = transaction;
+
+                                SqlDataReader reader = command.ExecuteReader();
+                                userTable.Load(reader);
+                                reader.Close();
+
+                                transaction.Rollback();
+                            }
+                            else
+                            {
+                                userTable = resultTable;
+                            }
+
+                            error = AreTablesTheSame(userTable, rightTable);
+
+                            connection.Close();
+                        }
+
+                        if (error != null)
+                        {
+                            if (isInsert) error = "Операция \"insert\" не выполнена";
+                            else if (isUpdate) error = "Операция \"update\" не выполнена";
+                            else if (isDelete) error = "Операция \"delete\" не выполнена";
+                        }
+                        else
+                        {
+                            if (!isChangingQuery)
+                            {
+                                int i = 1;
+                                for (; i < testDBList.Count() && error == null; i++)
+                                {
+                                    error = CheckQuery(userQuery, rightQuery, testDBList[i]);
+                                }
+
+                                if (error != null)
+                                    error = $"Запрос не прошёл проверку на {i + 1} базе данных";
+                            }
+                        }
+                    }
+                    catch (ObjectDisposedException ex)
+                    {
+                        error = "Попытка выполнить оперции над удалённым объектом (ObjectDisposedException)!\n" + ex.Message;
+                    }
+                    catch (InvalidCastException ex)
+                    {
+                        error = "Недопустимое приведение/преобразование (InvalidCastException)!\n" + ex.Message;
+                    }
+                    catch (SqlException ex)
+                    {
+                        error = "Ошибка SQL!\n" + ex.Message;
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        error = "Состояние объекта блокирует вызов метода (InvalidOperationException)!\n" + ex.Message;
+                    }
+                    catch (Exception ex)
+                    {
+                        error = "Ошибка dремени выполнения!" + ex.Message;
+                    }
+
+                }
+            }
 
             res = new object[] { resultTable, error };
 
@@ -434,8 +442,8 @@ namespace SQLTrainApp.Model.Commands
             DataTable userTable = new DataTable();
             DataTable rightTable = new DataTable();
 
-            string connectionString = $"Data Source=DESKTOP-5D0552Q;Initial Catalog={dbName};Integrated Security=True";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            connectionBuilder.InitialCatalog = dbName;
+            using (SqlConnection connection = new SqlConnection(connectionBuilder.ConnectionString))
             {
                 connection.Open();
 
@@ -570,6 +578,7 @@ namespace SQLTrainApp.Model.Commands
                     try
                     {
                         context.Users.Add(newUser);
+                        AddUserProgress(newUser.Login, 0, 5);
                         context.SaveChanges();
                     }
                     catch (Exception ex)
@@ -672,10 +681,6 @@ namespace SQLTrainApp.Model.Commands
                                                 orderby el.TestDate
                                                 select el).ToList();
                             }
-                        }
-                        else
-                        {
-                            AddUserProgress(login, 0, 5);
                         }
                     }
                 }

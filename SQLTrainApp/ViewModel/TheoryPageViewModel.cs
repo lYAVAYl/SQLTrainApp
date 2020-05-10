@@ -82,7 +82,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadTableOfContentsPage ?? (_loadTableOfContentsPage = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadTableOfContentsPage", "");
+                    Mediator.Inform("LoadTableOfContentsPage", "");
                 }));
             }
         }

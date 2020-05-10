@@ -51,7 +51,7 @@ namespace SQLTrainApp.ViewModel
         private ICommand _addItem;
         public ICommand AddItem => _addItem ?? (_addItem = new RelayCommand(parameter =>
         {
-            Mediator.Notify("LoadEditTaskPage", new Task()
+            Mediator.Inform("LoadEditTaskPage", new Task()
                                                     {                                                        
                                                         TaskText = "",
                                                         RightAnswer = ""
@@ -93,7 +93,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Task item)
             {
-                Mediator.Notify("LoadEditTaskPage", item);
+                Mediator.Inform("LoadEditTaskPage", item);
             }
         }));
 
@@ -101,7 +101,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Task item)
             {
-                Mediator.Notify("LoadTaskDecisionPage", item);
+                Mediator.Inform("LoadTaskDecisionPage", item);
             }
         }));
     }

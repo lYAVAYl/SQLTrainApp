@@ -40,7 +40,7 @@ namespace SQLTrainApp.ViewModel
 
                 List<Progress> progress = TrainSQL_Commands.GetUserProgress(UserLogin);
 
-                if (progress.Count() > 1)
+                if (progress!=null && progress.Count() > 1)
                 {
                     Items = new ObservableCollection<BaseCoordinate>();                    
 

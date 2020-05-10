@@ -174,7 +174,8 @@ namespace SQLTrainApp.ViewModel
         {
             if(obj is string)
             {
-                ChangeViewModel(new UserMainPageViewModel((string)obj));
+                PageViewModels[2] = new UserMainPageViewModel((string)obj);
+                ChangeViewModel(PageViewModels[2]);
             }
 
             UserPhoto = CurrentUser.Photo;
@@ -187,8 +188,8 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadTaskDecisionPage(object obj)
         {
-            if (obj is Task) PageViewModels[3] = new TaskDecisionPageViewModel((Task)obj);   
-            if(obj is int) PageViewModels[3] = new TaskDecisionPageViewModel((int)obj);
+            if (obj is Task) PageViewModels[3] = new TaskDecisionPageViewModel((Task)obj);
+            else if(obj is int) PageViewModels[3] = new TaskDecisionPageViewModel((int)obj);
 
             ChangeViewModel(PageViewModels[3]);        
         }
@@ -268,15 +269,17 @@ namespace SQLTrainApp.ViewModel
         /// <param name="obj"></param>
         private void LoadRefreshPasswordPage(object obj)
         {
-            ChangeViewModel(new RefreshPasswordViewModel());
+            PageViewModels[11] = new RefreshPasswordViewModel();
+            ChangeViewModel(PageViewModels[11]);
         }
         /// <summary>
         /// Загрузка страницы подтверждения емаила
         /// </summary>
         /// <param name="obj"></param>
         private void LoadConfirmEmailPage(object obj)
-        {            
-            ChangeViewModel(new ConfirmEmailViewModel(obj));
+        {
+            PageViewModels[12] = new ConfirmEmailViewModel(obj);
+            ChangeViewModel(PageViewModels[12]);
         }
 
 
@@ -292,28 +295,28 @@ namespace SQLTrainApp.ViewModel
             PageViewModels.Add(new EditTaskPageViewModel());            // 6 Изменение задания
             PageViewModels.Add(new EditThemePageViewModel());           // 7 Изменение теории
             PageViewModels.Add(new TheoryPageViewModel());              // 8 Теория главы
-            PageViewModels.Add(new TableOfComplaintsPageViewModel());       // 9 Список жалоб
-            PageViewModels.Add(new TableOfTasksPageViewModel());            // 10 Список заданий
+            PageViewModels.Add(new TableOfComplaintsPageViewModel());   // 9 Список жалоб
+            PageViewModels.Add(new TableOfTasksPageViewModel());        // 10 Список заданий
             PageViewModels.Add(new RefreshPasswordViewModel());         // 11 Обновление пароля
-            //PageViewModels.Add(new ConfirmEmailViewModel());            // 12 Подтверждение емаила
+            PageViewModels.Add(new ConfirmEmailViewModel());          // 12 Подтверждение емаила
 
             // Загрузка первой страницы
             CurrentPageViewModel = PageViewModels[0];
 
             // Установка команд
-            Mediator.Subscribe("LoadSignOnPage", LoadSignOnPage);
-            Mediator.Subscribe("LoadSignInPage", LoadSignInPage);
-            Mediator.Subscribe("LoadUserMainPage", LoadUserMainPage);
-            Mediator.Subscribe("LoadTaskDecisionPage", LoadTaskDecisionPage);
-            Mediator.Subscribe("LoadSendComplaintPage", LoadSendComplaintPage);
-            Mediator.Subscribe("LoadTableOfContentsPage", LoadTableOfContentsPage);
-            Mediator.Subscribe("LoadEditTaskPage", LoadEditTaskPage);
-            Mediator.Subscribe("LoadEditThemePage", LoadEditThemePage);
-            Mediator.Subscribe("LoadTheoryPage", LoadTheoryPage);
-            Mediator.Subscribe("LoadTableOfCompliantsPage", LoadTableOfComplaintsPage);
-            Mediator.Subscribe("LoadTableOfTasksPage", LoadTableOfTasksPage);
-            Mediator.Subscribe("LoadRefreshPasswordPage", LoadRefreshPasswordPage);
-            Mediator.Subscribe("LoadConfirmEmailPage", LoadConfirmEmailPage);
+            Mediator.Append("LoadSignOnPage", LoadSignOnPage);
+            Mediator.Append("LoadSignInPage", LoadSignInPage);
+            Mediator.Append("LoadUserMainPage", LoadUserMainPage);
+            Mediator.Append("LoadTaskDecisionPage", LoadTaskDecisionPage);
+            Mediator.Append("LoadSendComplaintPage", LoadSendComplaintPage);
+            Mediator.Append("LoadTableOfContentsPage", LoadTableOfContentsPage);
+            Mediator.Append("LoadEditTaskPage", LoadEditTaskPage);
+            Mediator.Append("LoadEditThemePage", LoadEditThemePage);
+            Mediator.Append("LoadTheoryPage", LoadTheoryPage);
+            Mediator.Append("LoadTableOfCompliantsPage", LoadTableOfComplaintsPage);
+            Mediator.Append("LoadTableOfTasksPage", LoadTableOfTasksPage);
+            Mediator.Append("LoadRefreshPasswordPage", LoadRefreshPasswordPage);
+            Mediator.Append("LoadConfirmEmailPage", LoadConfirmEmailPage);
         }
 
     }

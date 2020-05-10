@@ -45,7 +45,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _cancelCompliant ?? (_cancelCompliant = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadTaskDecisionPage", "");
+                    Mediator.Inform("LoadTaskDecisionPage", "");
                 }));
             }
         }
@@ -73,7 +73,7 @@ namespace SQLTrainApp.ViewModel
 
             if (TrainSQL_Commands.SendComplaint(complaint) == null)
             {
-                Mediator.Notify("LoadTaskDecisionPage", "");
+                Mediator.Inform("LoadTaskDecisionPage", "");
             }
             else
             {

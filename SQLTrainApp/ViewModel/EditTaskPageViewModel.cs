@@ -116,8 +116,8 @@ namespace SQLTrainApp.ViewModel
                         };
 
                         grid.BeginAnimation(Grid.OpacityProperty, opacityAnim);
-
-                        grid.Margin = new Thickness(10, 10, 10, -150);
+                        grid.IsEnabled = false;
+                        grid.Margin = new Thickness(10, 10, 10, -200);
                     }
                 }));
             }
@@ -143,6 +143,7 @@ namespace SQLTrainApp.ViewModel
                                 allCorrect = false;
 
                                 ErrorMsg = (string)values[1];
+                                grid.IsEnabled = true;
                                 Animate(grid);
                             }
                             else
@@ -192,7 +193,7 @@ namespace SQLTrainApp.ViewModel
                 if (TrainSQL_Commands.EditORAddTask(_task) == null)
                 {
                     MessageBox.Show("Изменения сохранены!");
-                    Mediator.Notify("LoadTableOfTasksPage", "");
+                    Mediator.Inform("LoadTableOfTasksPage", "");
                 }
                 else
                 {
@@ -219,7 +220,7 @@ namespace SQLTrainApp.ViewModel
 
             if (result == wForms.DialogResult.Yes)
             {
-                Mediator.Notify("LoadTableOfTasksPage", "");
+                Mediator.Inform("LoadTableOfTasksPage", "");
             }
 
         }

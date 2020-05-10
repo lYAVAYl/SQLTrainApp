@@ -41,18 +41,21 @@ namespace SQLTrainApp.ViewModel
 
         private User user = new User();
 
-        public ConfirmEmailViewModel(object obj)
+        public ConfirmEmailViewModel(object obj = null)
         {
-            var values = obj as object[];
-            if(values!=null && values.Length == 2)
+            if (obj != null)
             {
-                user = values[0] as User;
-                if (user != null)
+                var values = obj as object[];
+                if (values != null && values.Length == 2)
                 {
-                    UserLogin = user.Login;
-                    UserEmail = user.UserEmail;
+                    user = values[0] as User;
+                    if (user != null)
+                    {
+                        UserLogin = user.Login;
+                        UserEmail = user.UserEmail;
+                    }
+                    _rightCode = values[1].ToString();
                 }
-                _rightCode = values[1].ToString();
             }
                 
         }
@@ -64,7 +67,7 @@ namespace SQLTrainApp.ViewModel
             {
                 return _loadSignOnPage ?? (_loadSignOnPage = new RelayCommand(x =>
                 {
-                    Mediator.Notify("LoadSignOnPage", "");
+                    Mediator.Inform("LoadSignOnPage", "");
                 }));
             }
         }
@@ -87,16 +90,16 @@ namespace SQLTrainApp.ViewModel
 
                         object ret = TrainSQL_Commands.AddUser(user);
                         if(ret == null)
-                            Mediator.Notify("LoadUserMainPage", "");
+                            Mediator.Inform("LoadUserMainPage", "");
                         else
                         {
                             MessageBox.Show(ret.ToString());
-                            Mediator.Notify("LoadSignOnPage", CurrentUser.Login);
+                            Mediator.Inform("LoadSignOnPage", CurrentUser.Login);
                         }
                     }
                     else if(--ChancesNum==0)
                     {
-                        Mediator.Notify("LoadSignOnPage", "");
+                        Mediator.Inform("LoadSignOnPage", "");
                     }
 
                 }));

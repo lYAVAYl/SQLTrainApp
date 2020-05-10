@@ -5,39 +5,39 @@ namespace SQLTrainApp.Model.Logic
 {
     public static class Mediator
     {
-        private static IDictionary<string, List<Action<object>>> pl_dict =
+        private static IDictionary<string, List<Action<object>>> pageDictionary =
            new Dictionary<string, List<Action<object>>>();
 
-        public static void Subscribe(string token, Action<object> callback)
+        public static void Append(string uiName, Action<object> action)
         {
-            if (!pl_dict.ContainsKey(token))
+            if (!pageDictionary.ContainsKey(uiName))
             {
                 var list = new List<Action<object>>();
-                list.Add(callback);
-                pl_dict.Add(token, list);
+                list.Add(action);
+                pageDictionary.Add(uiName, list);
             }
             else
             {
-                bool found = false;
-                foreach (var item in pl_dict[token])
-                    if (item.Method.ToString() == callback.Method.ToString())
-                        found = true;
-                if (!found)
-                    pl_dict[token].Add(callback);
+                bool contains = false;
+                foreach (var item in pageDictionary[uiName])
+                    if (item.Method.ToString() == action.Method.ToString())
+                        contains = true;
+                if (!contains)
+                    pageDictionary[uiName].Add(action);
             }
         }
 
-        public static void Unsubscribe(string token, Action<object> callback)
+        public static void Finish(string uiName, Action<object> action)
         {
-            if (pl_dict.ContainsKey(token))
-                pl_dict[token].Remove(callback);
+            if (pageDictionary.ContainsKey(uiName))
+                pageDictionary[uiName].Remove(action);
         }
 
-        public static void Notify(string token, object args = null)
+        public static void Inform(string uiName, object args = null)
         {
-            if (pl_dict.ContainsKey(token))
-                foreach (var callback in pl_dict[token])
-                    callback(args);
+            if (pageDictionary.ContainsKey(uiName))
+                foreach (var action in pageDictionary[uiName])
+                    action(args);
         }
     }
 }

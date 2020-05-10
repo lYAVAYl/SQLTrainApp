@@ -48,18 +48,13 @@ namespace SQLTrainApp.ViewModel
         {
             IsAdmin = CurrentUser.Role == "Administrator"; // сделать админом
 
-            // загрузка ToC должна производиться из класса, отвечающего за работу с данными
-            // из конструктора это делать не рекомендуется
             ContentList = new ContentsCollection(TrainSQL_Commands.GetAllThemes());
-
-            // и вообще лучше это делать асинхронно, чтобы не морозить интерфейс, пока идет загрузка
-            //_ = LoadTableOfContentsAsync();
         }
 
         private ICommand _addItem;
         public ICommand AddItem => _addItem ?? (_addItem = new RelayCommand(parameter =>
         {
-            Mediator.Notify("LoadEditThemePage", 0);
+            Mediator.Inform("LoadEditThemePage", 0);
         }));
     }
 
@@ -92,7 +87,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Theme item)
             {
-                Mediator.Notify("LoadEditThemePage", item.ThemeID);
+                Mediator.Inform("LoadEditThemePage", item.ThemeID);
             }
         }));
 
@@ -100,7 +95,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Theme item)
             {
-                Mediator.Notify("LoadTheoryPage", item.ThemeID);
+                Mediator.Inform("LoadTheoryPage", item.ThemeID);
             }
         }));
     }
