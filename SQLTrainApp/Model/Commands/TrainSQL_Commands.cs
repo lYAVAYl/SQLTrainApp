@@ -135,17 +135,16 @@ namespace SQLTrainApp.Model.Commands
 
                 if (mainDB != null)
                 {
-                    string connectionString;
                     try
                     {
                         if (isChangingQuery)
                         {
-                            connectionString = $"Data Source=DESKTOP-5D0552Q;Initial Catalog={mainDB};Integrated Security=True";
-                            using (SqlConnection connection = new SqlConnection(connectionString))
+                            connectionBuilder.InitialCatalog = mainDB;
+                            using (SqlConnection connection = new SqlConnection(connectionBuilder.ConnectionString))
                             {
                                 connection.Open();
 
-                                resultTable = GetDataTable(query, connection, connection.BeginTransaction());
+                                resultTable = GetDataTable(query, connection);
 
                                 connection.Close();
                             }
@@ -154,13 +153,14 @@ namespace SQLTrainApp.Model.Commands
                         {
                             for (int i = 0; i < testDBList.Count && error == null; i++)
                             {
-                                connectionString = $"Data Source=DESKTOP-5D0552Q;Initial Catalog={testDBList[i].dbName};Integrated Security=True";
+                                connectionBuilder.InitialCatalog = testDBList[i].dbName;
+
                                 DataTable checkingDT;
-                                using (SqlConnection connection = new SqlConnection(connectionString))
+                                using (SqlConnection connection = new SqlConnection(connectionBuilder.ConnectionString))
                                 {
                                     connection.Open();
 
-                                    checkingDT = GetDataTable(query, connection, connection.BeginTransaction());
+                                    checkingDT = GetDataTable(query, connection);
 
                                     if (testDBList[i].dbName == currTable)
                                     {
@@ -294,9 +294,9 @@ namespace SQLTrainApp.Model.Commands
                             connection.Open();
 
                             // Получить таблицу вывода
-                            resultTable = GetDataTable(userQuery, connection, connection.BeginTransaction());
+                            resultTable = GetDataTable(userQuery, connection);
 
-                            rightTable = GetDataTable(rightQuery, connection, connection.BeginTransaction());
+                            rightTable = GetDataTable(rightQuery, connection);
                             if (isChangingQuery)
                             {
                                 SqlTransaction transaction = connection.BeginTransaction();
@@ -332,9 +332,9 @@ namespace SQLTrainApp.Model.Commands
 
                         if (error != null)
                         {
-                            if (isInsert) error = "Операция \"insert\" не выполнена";
-                            else if (isUpdate) error = "Операция \"update\" не выполнена";
-                            else if (isDelete) error = "Операция \"delete\" не выполнена";
+                            if (isInsert) error = "Операция \"insert\" выполнена неверно или вовсе не выполнена";
+                            else if (isUpdate) error = "Операция \"update\" выполнена неверно или вовсе не выполнена";
+                            else if (isDelete) error = "Операция \"delete\" выполнена неверно или вовсе не выполнена";
                         }
                         else
                         {
@@ -447,48 +447,55 @@ namespace SQLTrainApp.Model.Commands
             {
                 connection.Open();
 
-                userTable = GetDataTable(userQuery, connection, connection.BeginTransaction());
-                rightTable = GetDataTable(rightQuery, connection, connection.BeginTransaction());
+                userTable = GetDataTable(userQuery, connection);
+                rightTable = GetDataTable(rightQuery, connection);
 
                 result = AreTablesTheSame(userTable, rightTable);
 
                 connection.Close();
             }
 
-
             return result;
         }
 
-        static DataTable GetDataTable(string query, SqlConnection connection, SqlTransaction transaction = null)
+        /// <summary>
+        /// Получить результат запроса в виде таблицы
+        /// </summary>
+        /// <param name="query">Запрос</param>
+        /// <param name="connection">Строка подключения</param>
+        /// <param name="transaction">Транзакция</param>
+        /// <returns></returns>
+        static DataTable GetDataTable(string query, SqlConnection connection)
         {
-            DataTable resultDT = new DataTable();
-            string tbName = "";
-            SqlCommand command;
-            bool isTransactionOn = transaction != null;
-
-
-            query = query.ToLower();
+            DataTable resultDT = new DataTable(); // Результирующая таблица
+            string tbName = ""; // Название таблицы, к которой выполняется запрос
+            SqlCommand command; // Команда выборки
+            SqlTransaction transaction = null; // Транзакция
+            query = query.ToLower(); // Перевод запроса в нижний регистр
+            // Проверка, стоит ли выполнять запрос в транзакции
             bool isChangingQuery = query.Contains("insert")
                                    || query.Contains("update")
                                    || query.Contains("delete");
 
             command = new SqlCommand(query, connection);
-            command.Transaction = transaction;
 
-            if (isTransactionOn && isChangingQuery)
+            if (isChangingQuery)
             {
-                command.ExecuteNonQuery();
+                transaction = connection.BeginTransaction(); // Новая транзакция
+                command.Transaction = transaction; // Присвоение транзакции
 
-                tbName = GetTableName(query.ToLower());
+                command.ExecuteNonQuery(); // Выполнение изменения таблицы
+
+                tbName = GetTableName(query); // Получение названия отредактированной таблицы
                 command = new SqlCommand($"SELECT * FROM {tbName}", connection);
                 command.Transaction = transaction;
             }
 
-            SqlDataReader reader = command.ExecuteReader();
-            resultDT.Load(reader);
+            SqlDataReader reader = command.ExecuteReader(); // Выполнение выборки
+            resultDT.Load(reader); // Загрузка результатов в таблицу
             reader.Close();
 
-            transaction.Rollback();
+            transaction?.Rollback(); // Откат транзакции
 
             return resultDT;
         }

@@ -66,6 +66,7 @@ namespace SQLTrainApp.ViewModel
         private List<TestDatabas> testDBs;
         private bool allCorrect = false;
         private string lastCorrectVersion;
+        private string lastCorrectDB;
 
         public EditTaskPageViewModel(Task task = null)
         {
@@ -150,6 +151,7 @@ namespace SQLTrainApp.ViewModel
                             {
                                 allCorrect = true;
                                 lastCorrectVersion = RightQuery;
+                                lastCorrectDB = SelectedDB;
                             }
                         }
 
@@ -175,7 +177,7 @@ namespace SQLTrainApp.ViewModel
         }
         private void Save()
         {
-            if (lastCorrectVersion!=RightQuery)
+            if (lastCorrectVersion!=RightQuery || lastCorrectDB != SelectedDB)
             {
                 MessageBox.Show("Выполните запрос без ошибок для сохрания задания");
                 IsEnableBtn = false;

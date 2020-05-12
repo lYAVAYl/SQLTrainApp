@@ -43,7 +43,7 @@
                              Text="{Binding Path=ThemeName, 
                                             ValidatesOnDataErrors=True, 
                                             UpdateSourceTrigger=LostFocus}"
-                             FontSize="18"                             
+                             FontSize="18" MaxLength="150"                  
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch" 
                              Height="50"                           

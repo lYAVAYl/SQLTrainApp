@@ -184,7 +184,7 @@ namespace SQLTrainApp.ViewModel
                 EmailConfirm emailConfirm = new EmailConfirm();
                 object sentCode = emailConfirm.SendConfirmCode(this.UserEmail);
 
-                MessageBox.Show("На ваш email был отправлен код подтверждения регисрации");
+                MessageBox.Show("На ваш email был отправлен код подтверждения регистрации");
 
                 Mediator.Inform("LoadConfirmEmailPage", new object[] { user, sentCode });
             }

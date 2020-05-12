@@ -23,6 +23,16 @@
                            Text="Содержание"
                            VerticalAlignment="Top" HorizontalAlignment="Center"
                            />
+                <Button x:Name="btnAddChapter" Grid.Row="0"
+                            Content="➕" 
+                            Foreground="Green" BorderBrush="Green" Background="{x:Null}"
+                            FontSize="20"
+                            Command="{Binding AddItem}"
+                            Padding="0" ToolTip="Добавить"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Margin="200,0,0,0"
+                            />
+                
                 <StackPanel Grid.Row="1"  Visibility="Hidden"
                             Orientation="Horizontal"
                             Margin="0,5"
@@ -35,13 +45,7 @@
                             FontSize="14"
                             Command="{Binding SearchTheme}"
                             />
-                    <Button x:Name="btnAddChapter"
-                            Content="➕" 
-                            Foreground="Green" BorderBrush="Green" Background="{x:Null}"
-                            FontSize="20"
-                            Command="{Binding AddItem}"
-                            Padding="0" ToolTip="Добавить"
-                            />
+                    
                 </StackPanel>
 
                 <Grid Grid.Row="2">

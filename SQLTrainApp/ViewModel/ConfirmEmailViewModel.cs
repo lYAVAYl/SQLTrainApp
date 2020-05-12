@@ -90,7 +90,7 @@ namespace SQLTrainApp.ViewModel
 
                         object ret = TrainSQL_Commands.AddUser(user);
                         if(ret == null)
-                            Mediator.Inform("LoadUserMainPage", "");
+                            Mediator.Inform("LoadUserMainPage", UserLogin);
                         else
                         {
                             MessageBox.Show(ret.ToString());

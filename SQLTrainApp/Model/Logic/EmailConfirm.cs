@@ -10,8 +10,8 @@ namespace SQLTrainApp.Model.Logic
 {
     public class EmailConfirm
     {
-        string emailFromName = "yavay@pain-nagato.ru";
-        string emailFromPass = "1234Fr";
+        string emailFromName = "jo.eng@yandex.ru";
+        string emailFromPass = "1234FrEmail";
 
         public object SendConfirmCode(string sendToEmail)
         {

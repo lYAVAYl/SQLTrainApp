@@ -99,7 +99,7 @@ namespace SQLTrainApp.ViewModel
                 case nameof(ThemeName):
                     if (string.IsNullOrEmpty(ThemeName))
                     {
-                        error = "Отсутствует Тема";
+                        error = "Отсутствует Название темы";
                     }
                     break;
                 case nameof(ThemeInfo):

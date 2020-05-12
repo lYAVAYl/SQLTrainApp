@@ -85,7 +85,7 @@ namespace SQLTrainApp.ViewModel
         {
             if (parameter is Complaint item)
             {
-                if(CurrentUser.Role == "Adminixtrator")
+                if(CurrentUser.Role == "Administrator")
                     Mediator.Inform("LoadEditTaskPage", TrainSQL_Commands.GetTaskByID(item.TaskID));
                 else
                     Mediator.Inform("LoadTaskDecisionPage", TrainSQL_Commands.GetTaskByID(item.TaskID));

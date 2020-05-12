@@ -20,7 +20,17 @@
                            Text="Задания"
                            VerticalAlignment="Top" HorizontalAlignment="Center"
                            />
-                <StackPanel Grid.Row="1"  Orientation="Horizontal" Visibility="Hidden"
+                <Button x:Name="btnAddTask" Grid.Row="0"
+                            Content="➕" 
+                            Foreground="Green" BorderBrush="Green" Background="{x:Null}"
+                            FontSize="20"
+                            Command="{Binding AddItem}"
+                            Padding="0" ToolTip="Добавить"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Margin="150,0,0,0"
+                            />
+                <StackPanel Grid.Row="1" Visibility="Hidden"
+                            Orientation="Horizontal" 
                             Margin="0,5" 
                             HorizontalAlignment="Center">
                     <TextBox Text="{Binding Path=SearchedTask}"
@@ -30,14 +40,7 @@
                             Content="Найти"
                             FontSize="14"
                             Command="{Binding FindTask}"
-                            />
-                    <Button x:Name="btnAddTask"
-                            Content="➕" 
-                            Foreground="Green" BorderBrush="Green" Background="{x:Null}"
-                            FontSize="20"
-                            Command="{Binding AddItem}"
-                            Padding="0" ToolTip="Добавить"
-                            />
+                            />                    
                 </StackPanel>
 
                 <Grid Grid.Row="2">
