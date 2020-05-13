@@ -43,10 +43,12 @@ namespace SQLTrainApp.ViewModel
                 OnPropertyChanged();
             }
         }
-        
+        public Visibility IsVisible { get; set; } = Visibility.Hidden;
+
         public TableOfContentsPageViewModel()
         {
             IsAdmin = CurrentUser.Role == "Administrator"; // сделать админом
+            if (IsAdmin) IsVisible = Visibility.Visible;
 
             ContentList = new ContentsCollection(TrainSQL_Commands.GetAllThemes());
         }

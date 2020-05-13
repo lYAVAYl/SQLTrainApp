@@ -41,11 +41,15 @@ namespace SQLTrainApp.ViewModel
             }
         }
 
+        public Visibility IsVisible { get; set; } = Visibility.Hidden;
+
         public TableOfTasksPageViewModel()
         {
             IsAdmin = CurrentUser.Role == "Administrator"; // сделать админом
+            if (IsAdmin) IsVisible = Visibility.Visible;
 
             TaskList = new TasksCollection(TrainSQL_Commands.GetAllTasks());
+
         }
 
         private ICommand _addItem;

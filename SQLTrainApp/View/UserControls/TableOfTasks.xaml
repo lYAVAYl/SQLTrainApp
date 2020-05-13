@@ -25,6 +25,7 @@
                             Foreground="Green" BorderBrush="Green" Background="{x:Null}"
                             FontSize="20"
                             Command="{Binding AddItem}"
+                        Visibility="{Binding Path=IsVisible}"
                             Padding="0" ToolTip="Добавить"
                         VerticalAlignment="Center" HorizontalAlignment="Center"
                         Margin="150,0,0,0"
