@@ -64,14 +64,14 @@
                            FontSize="20" Foreground="Gray"
                            HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="26" Margin="0,0,0,0.333" Width="60"
                            />
-                <StackPanel Grid.Column="1" Grid.Row="4" Grid.RowSpan="3">
-                    <TextBox x:Name="tbxLogin" 
+                <StackPanel Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2">
+                    <TextBox x:Name="tbxLogin" Margin="0,0,15,0"
                              Text="{Binding Path=UserLogin, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                              FontSize="20"                         
                              />
                     <TextBlock Text="{Binding Path=ErrorCollection[UserLogin]}" 
                                FontSize="12" Foreground="Red"
-                               VerticalAlignment="Center"
+                               VerticalAlignment="Center" Margin="0,0,5,0"
                                />
                 </StackPanel>
 

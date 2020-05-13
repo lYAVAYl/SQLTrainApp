@@ -39,7 +39,7 @@ namespace SQLTrainApp.ViewModel
             get => _login;
             set
             {
-                if (value.Length!=0)
+                if (value.Length != 0)
                 {
                     if (Helper.ValidateInputLogin(value.Last()))
                         _login = value;
@@ -61,10 +61,12 @@ namespace SQLTrainApp.ViewModel
             set => _pass2 = value;
 
         }
+        public BitmapImage UserPhoto { get; set; } = new BitmapImage();
+
 
         private BitmapImage _defaultPhoto = new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg"));
         private byte[] _userPhoto = null;
-        public BitmapImage UserPhoto { get; set; } = new BitmapImage();
+        
 
         public SignOnPageViewModel()
         {
@@ -217,11 +219,22 @@ namespace SQLTrainApp.ViewModel
                     }
                     else if (UserLogin.Length > 30)
                     {
-                        error = "Длина логина - не более 30 символов";
+                        error = "Длина логина - не более 30 символов"; 
                     }
                     else if (int.TryParse(UserLogin, out int n))
                     {
                         error = "Логин не может состоять из одних цифр";
+                    }
+                    else
+                    {
+                        int i = 0;
+                        for (; i < UserLogin.Length; i++)
+                        {
+                            if (!char.IsDigit(UserLogin[i]) && !char.IsLetter(UserLogin[i])) break;
+                        }
+                        
+                        if (i < UserLogin.Length) 
+                            error = "Разрешены только цифры и буквы латинского алфавита";
                     }
                     break;
                 case nameof(UserPass1):
@@ -255,8 +268,7 @@ namespace SQLTrainApp.ViewModel
                                 error = "Более 3 подряд идущих символов запрещены";
                         }
 
-                        ErrorCollection[nameof(UserPass2)] = UserPass2 != UserPass1 ? "Пароли не совпадают":null;
-                        
+                        ErrorCollection[nameof(UserPass2)] = UserPass2 != UserPass1 ? "Пароли не совпадают":null;                    
 
                     }
                     break;
