@@ -5,6 +5,9 @@ using System.Windows.Media.Imaging;
 
 namespace SQLTrainApp.Model.Logic
 {
+    /// <summary>
+    /// Информация о текущем пользователе
+    /// </summary>
     public static class CurrentUser
     {
         public static string Email { get; set; } = "";
@@ -23,7 +26,5 @@ namespace SQLTrainApp.Model.Logic
         {
             return $"{Login} \n{Email} \n{Role} \n";
         }
-
-       
     }
 }

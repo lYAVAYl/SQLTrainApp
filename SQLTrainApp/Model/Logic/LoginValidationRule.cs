@@ -8,6 +8,9 @@ using System.Windows.Controls;
 
 namespace SQLTrainApp.Model.Logic
 {
+    /// <summary>
+    /// Правила валидации логина
+    /// </summary>
     public class LoginValidationRule : ValidationRule
     {
         public int MinCharacters { get; set; }

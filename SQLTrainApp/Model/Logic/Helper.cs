@@ -13,23 +13,32 @@ namespace SQLTrainApp.Model.Logic
 {
     public static class Helper
     {
-
+        // валидация логина (только буквы латинского алфавита или цифры, пробелы запрещены)
         public static bool ValidateInputLogin(char c)
         {
             return !char.IsWhiteSpace(c) && (char.IsDigit(c) ||
                     ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')));
         }
+
+        // валидация пароля (только буквы латинского алфавита или цифры, пробелы запрещены)
         public static bool ValidateInputPassword(char c)
         {
             return !char.IsWhiteSpace(c) && (char.IsDigit(c) || c == '_'
                     || ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')));
         }
 
+        /// <summary>
+        /// Конвертация byte[] в тип BitmapImage
+        /// </summary>
+        /// <param name="bitmapBytes">массив байтов</param>
+        /// <returns></returns>
         public static BitmapImage BytesToBitmapImage(byte[] bitmapBytes)
         {
+            // если массив пуст, то вернуть стандартную картинку
             if (bitmapBytes == null) 
                 return new BitmapImage(new Uri("pack://application:,,,/Resources/defaultPhoto.jpg"));
 
+            // byte[] -> BitmapImage
             using (var ms = new MemoryStream(bitmapBytes))
             {
                 var bitmapimage = new BitmapImage();
@@ -42,6 +51,11 @@ namespace SQLTrainApp.Model.Logic
             }
         }
 
+        /// <summary>
+        /// Конвертация BitmapImage в тип byte[]
+        /// </summary>
+        /// <param name="fileName">Путь к картинке</param>
+        /// <returns></returns>
         public static byte[] ConvertImageToByteArray(string fileName)
         {
             Bitmap bitMap = new Bitmap(fileName);
@@ -54,6 +68,11 @@ namespace SQLTrainApp.Model.Logic
             }
         }
 
+        /// <summary>
+        /// Диалоговое окно с выбором файла 
+        /// </summary>
+        /// <param name="filter">Фильтры файлов</param>
+        /// <returns></returns>
         public static string FindFile(string filter)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -63,7 +82,6 @@ namespace SQLTrainApp.Model.Logic
             if (result == DialogResult.OK)
                 return dialog.FileName;
             else return null;
-
         }
     }
 }

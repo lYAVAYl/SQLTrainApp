@@ -12,12 +12,20 @@ namespace SQLTrainApp.Model.Commands
 {
     public static class TrainSQL_Commands
     {
+        /// <summary>
+        /// Строка подключения к БД
+        /// </summary>
         private static SqlConnectionStringBuilder connectionBuilder = new SqlConnectionStringBuilder()
         {
             DataSource = "DESKTOP-5D0552Q",
             IntegratedSecurity = true
         };
 
+        /// <summary>
+        /// Проверка на существование пользователя по логину
+        /// </summary>
+        /// <param name="login">Логин пользователя</param>
+        /// <returns></returns>
         public static bool IsUserExists(string login = "")
         {
             bool userExists = false;
@@ -35,6 +43,12 @@ namespace SQLTrainApp.Model.Commands
 
             return userExists;
         }
+
+        /// <summary>
+        /// Проверка, зарегистрирован ли пользователь с таким email
+        /// </summary>
+        /// <param name="email">email пользователя</param>
+        /// <returns></returns>
         public static bool IsEmailRegistered(string email = "")
         {
             bool emailRegistered = false;
@@ -53,8 +67,11 @@ namespace SQLTrainApp.Model.Commands
             return emailRegistered;
         }
 
-
-
+        /// <summary>
+        /// Получить 
+        /// </summary>
+        /// <param name="dbID"></param>
+        /// <returns></returns>
         public static Sheme GetDbSheme(int dbID = 0)
         {
             Sheme sheme = null;
@@ -78,6 +95,10 @@ namespace SQLTrainApp.Model.Commands
             return sheme;
         }
 
+        /// <summary>
+        /// Получить список тестовых баз данных
+        /// </summary>
+        /// <returns></returns>
         public static List<TestDatabas> GetDatabases()
         {
             List<TestDatabas> testDBs = null;
@@ -98,27 +119,55 @@ namespace SQLTrainApp.Model.Commands
             return testDBs;
         }
 
+        /// <summary>
+        /// Проверка задания
+        /// </summary>
+        /// <param name="query">Запрос пользователя</param>
+        /// <param name="dbID">ID тестовой базы данных, к который нужно выполнить запрос</param>
+        /// <returns></returns>
         public static object TaskChecking(string query = "", int dbID = 0)
         {
+            // Результат теста запроса
             object[] res = null;
+
+            // Проверка, не является ли запрос пустой строкой
             if (query != "" && dbID != 0)
             {
                 query = query.ToLower().Trim();
-                List<TestDatabas> testDBList = new List<TestDatabas>(); // Список имён тестовых БД
+
+                // Список имён тестовых БД
+                List<TestDatabas> testDBList = new List<TestDatabas>(); 
+
+                // Есть ли в запросе слово для редактирования таблицы
                 bool isInsert = query.Contains("insert");
                 bool isUpdate = query.Contains("update");
                 bool isDelete = query.Contains("delete");
+
+                // Условие, изменят ли запрос пользователя таблицу или нет
                 bool isChangingQuery = isInsert || isUpdate || isDelete;
-                string mainDB = null; // название БД, по которой строится DataTable
+
+                // Название БД, по которой строится DataTable
+                string mainDB = null;
+
+                // Текущая таблица
                 string currTable = null;
-                DataTable resultTable = null; // DataTable для вывода
-                string error = null; // Сообщение об ошибке
+
+                // DataTable для вывода
+                DataTable resultTable = null;
+
+                // Сообщение об ошибке
+                string error = null; 
 
                 try
                 {
                     using (var context = new TrainSQL_Entities())
                     {
+                        // ID схемы тестовой БД
                         int shemeID = context.TestDatabases.FirstOrDefault(x => x.dbID == dbID).ShemeID;
+
+                        // Список тестовых БД
+                        // есть несколько БД с одинаковой схемой, но разными данными,
+                        // что позволяет проверять корректность запроса, а не сам результат его выполнения
                         testDBList = (from x in context.TestDatabases
                                       where x.ShemeID == shemeID
                                       select x).ToList();
@@ -130,13 +179,15 @@ namespace SQLTrainApp.Model.Commands
                 }
 
                 if (testDBList.Count == 0) return null;
-                mainDB = testDBList.FirstOrDefault(x => !char.IsDigit(x.dbName.Last())).dbName; // получение названия БД для вывода
+                // Получить название БД для вывода результата пользователю
+                mainDB = testDBList.FirstOrDefault(x => !char.IsDigit(x.dbName.Last())).dbName;
                 currTable = testDBList.FirstOrDefault(x => x.dbID == dbID).dbName;
 
                 if (mainDB != null)
                 {
                     try
                     {
+                        // Проверка, меняет ли запрос таблицу в БД
                         if (isChangingQuery)
                         {
                             connectionBuilder.InitialCatalog = mainDB;
@@ -206,45 +257,17 @@ namespace SQLTrainApp.Model.Commands
 
             return res;
         }
-
-
-        public static string OutputDataTable(DataTable dt)
-        {
-            string result = "";
-            if (dt != null)
-            {
-                foreach (DataColumn column in dt.Columns)
-                    result += $"\t{column.ColumnName}";
-
-                result += "\n";
-                // перебор всех строк таблицы
-                foreach (DataRow row in dt.Rows)
-                {
-                    // получаем все ячейки строки
-                    var cells = row.ItemArray;
-                    foreach (object cell in cells)
-                        result += $"\t{cell}";
-                    result += "\n";
-                }
-            }
-
-            return result;
-        }
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
 
         #region CheckQuery
+        /// <summary>
+        /// Проверка запроса пользователя с ожидаемым 
+        /// </summary>
+        /// <param name="userQuery"></param>
+        /// <param name="task"></param>
+        /// <returns></returns>
         public static object IsCorrectQuery(string userQuery, TrainSQL_DAL.Task task)
         {
             object res = null;
@@ -295,8 +318,9 @@ namespace SQLTrainApp.Model.Commands
 
                             // Получить таблицу вывода
                             resultTable = GetDataTable(userQuery, connection);
-
+                            // Получить ожидаемую тублицу
                             rightTable = GetDataTable(rightQuery, connection);
+
                             if (isChangingQuery)
                             {
                                 SqlTransaction transaction = connection.BeginTransaction();
@@ -439,7 +463,9 @@ namespace SQLTrainApp.Model.Commands
         private static string CheckQuery(string userQuery, string rightQuery, string dbName)
         {
             string result = null;
+            // DataTable пользователя
             DataTable userTable = new DataTable();
+            // DataTable от правильного запроса
             DataTable rightTable = new DataTable();
 
             connectionBuilder.InitialCatalog = dbName;
@@ -479,6 +505,7 @@ namespace SQLTrainApp.Model.Commands
 
             command = new SqlCommand(query, connection);
 
+            // Запрос менят таблицу в БД -> проверка через транзакцию
             if (isChangingQuery)
             {
                 transaction = connection.BeginTransaction(); // Новая транзакция
@@ -511,6 +538,7 @@ namespace SQLTrainApp.Model.Commands
             string error = "";
             int dif;
 
+            // Сравнение кол-ва столбцов запроса пользователя с ожидаемым кол-вом столбцов
             if (userTbl.Columns.Count != rightTbl.Columns.Count)
             {
                 error += "\nНеверное количество столбцов. ";
@@ -524,6 +552,7 @@ namespace SQLTrainApp.Model.Commands
                 else error += "Меньше на " + dif;
             }
 
+            // Сравнение кол-ва строк запроса пользователя с ожидаемым кол-вом строк
             if (userTbl.Rows.Count != rightTbl.Rows.Count)
             {
                 error += "\nНеверное количество элементов. ";
@@ -538,9 +567,10 @@ namespace SQLTrainApp.Model.Commands
 
             }
 
-
+            // Если ошибки нет, значит кол-во столбцов и строк совпадает
             if (error == "")
             {
+                // Проверка самих элементов полученного запроса с ожидаемыми элементами
                 for (int i = 0; i < userTbl.Rows.Count; i++)
                 {
                     for (int c = 0; c < userTbl.Columns.Count; c++)
@@ -558,6 +588,11 @@ namespace SQLTrainApp.Model.Commands
 
 
         #region User
+        /// <summary>
+        /// Посик пользователя по логину
+        /// </summary>
+        /// <param name="login">Логин пользователя</param>
+        /// <returns></returns>
         public static User FindUser(string login = "")
         {
             User user = null;
@@ -576,6 +611,11 @@ namespace SQLTrainApp.Model.Commands
             return user;
         }
 
+        /// <summary>
+        /// Добавление польхователя
+        /// </summary>
+        /// <param name="newUser">Новый пользователь</param>
+        /// <returns></returns>
         public static object AddUser(User newUser = null)
         {
             if (newUser != null)
@@ -601,6 +641,11 @@ namespace SQLTrainApp.Model.Commands
             return new ArgumentNullException();
         }
 
+        /// <summary>
+        /// Роль пользователя
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <returns></returns>
         public static string GetUserRole(User user)
         {
             string roleName = "";
@@ -661,6 +706,11 @@ namespace SQLTrainApp.Model.Commands
             return new ArgumentNullException();
         }
 
+        /// <summary>
+        /// Получить прогресс пользователя
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         public static List<Progress> GetUserProgress(string login = "")
         {
             List<Progress> userProgress = null;
@@ -700,6 +750,13 @@ namespace SQLTrainApp.Model.Commands
             return userProgress;
         }
 
+        /// <summary>
+        /// Добавить прогресс пользователю
+        /// </summary>
+        /// <param name="login">Логин</param>
+        /// <param name="rigthAnswers">Кол-во верно решённых заданий</param>
+        /// <param name="totalQuestions">Общее число заданий в тесте</param>
+        /// <returns></returns>
         public static object AddUserProgress(string login = "", int rigthAnswers = 0, int totalQuestions = 0)
         {
             object res = null;
@@ -736,6 +793,11 @@ namespace SQLTrainApp.Model.Commands
 
 
         #region Themes
+        /// <summary>
+        /// Существует ли тема
+        /// </summary>
+        /// <param name="themeID">ID темы</param>
+        /// <returns></returns>
         public static bool IsThemeExists(int themeID = 0)
         {
             bool isExists = false;
@@ -757,6 +819,11 @@ namespace SQLTrainApp.Model.Commands
             return isExists;
         }
 
+        /// <summary>
+        /// Редактировать/Добавить тему
+        /// </summary>
+        /// <param name="newTheme">Новая тема</param>
+        /// <returns></returns>
         public static object EditORAddTheme(Theme newTheme = null)
         {
             object res = null;
@@ -788,6 +855,11 @@ namespace SQLTrainApp.Model.Commands
             return res;
         }
 
+        /// <summary>
+        /// Показать тему
+        /// </summary>
+        /// <param name="index">Индекс темы</param>
+        /// <returns></returns>
         public static Theme ShowTheme(int index = -1)
         {
             Theme theme = null;
@@ -810,6 +882,11 @@ namespace SQLTrainApp.Model.Commands
             return theme;
         }
 
+        /// <summary>
+        /// Получить тему по ID
+        /// </summary>
+        /// <param name="themeID">ID темы</param>
+        /// <returns></returns>
         public static Theme GetThemeByThemeID(int themeID)
         {
             Theme theme = null;
@@ -833,6 +910,11 @@ namespace SQLTrainApp.Model.Commands
 
         }
 
+        /// <summary>
+        /// Получить индекс темы
+        /// </summary>
+        /// <param name="themeID">ID темы</param>
+        /// <returns></returns>
         public static int GetThemeIndex(int themeID = 0)
         {
             int index = 0;
@@ -847,6 +929,11 @@ namespace SQLTrainApp.Model.Commands
             return index;
         }
 
+        /// <summary>
+        /// Удалить тему
+        /// </summary>
+        /// <param name="theme">Тема</param>
+        /// <returns></returns>
         public static object DeleteTheme(Theme theme = null)
         {
             object result = null;
@@ -871,6 +958,10 @@ namespace SQLTrainApp.Model.Commands
             return result;
         }
 
+        /// <summary>
+        /// Получить список тем
+        /// </summary>
+        /// <returns></returns>
         public static List<Theme> GetAllThemes()
         {
             List<Theme> result = null;
@@ -894,6 +985,11 @@ namespace SQLTrainApp.Model.Commands
 
         #region Tasks
 
+        /// <summary>
+        /// Получить список случайных заданий для теста
+        /// </summary>
+        /// <param name="count">Кол-во заданий в тесте</param>
+        /// <returns></returns>
         public static List<TrainSQL_DAL.Task> GetTestList(int count = 0)
         {
             List<TrainSQL_DAL.Task> result = null;
@@ -904,15 +1000,20 @@ namespace SQLTrainApp.Model.Commands
                 {
                     using (var context = new TrainSQL_Entities())
                     {
+                        // Случайный номер задания
                         int rand = new Random().Next(context.Tasks.ToList().Count());
+                        // Само задание
                         TrainSQL_DAL.Task task = context.Tasks.ToList()[rand];
+                        // Добавить задание в список заданий
                         result.Add(task);
 
                         while (result.Count < 5)
                         {
+                            // Получить новое задание
                             rand = new Random().Next(context.Tasks.ToList().Count());
                             task = context.Tasks.ToList()[rand];
 
+                            // Если задания нет в списке, то добавить
                             if (!result.Contains(task))
                                 result.Add(task);
                         }
@@ -927,6 +1028,10 @@ namespace SQLTrainApp.Model.Commands
             return result;
         }
 
+        /// <summary>
+        /// Получить список всех заданий
+        /// </summary>
+        /// <returns></returns>
         public static List<TrainSQL_DAL.Task> GetAllTasks()
         {
             List<TrainSQL_DAL.Task> result = null;
@@ -946,6 +1051,11 @@ namespace SQLTrainApp.Model.Commands
             return result;
         }
 
+        /// <summary>
+        /// Существет ли задание
+        /// </summary>
+        /// <param name="taskID">ID задания</param>
+        /// <returns></returns>
         public static bool IsTaskExists(int taskID = 0)
         {
             bool isExists = false;
@@ -967,6 +1077,11 @@ namespace SQLTrainApp.Model.Commands
             return isExists;
         }
 
+        /// <summary>
+        /// Удалить задание
+        /// </summary>
+        /// <param name="task">Задание</param>
+        /// <returns></returns>
         public static object DeleteTask(TrainSQL_DAL.Task task = null)
         {
             object result = null;
@@ -993,6 +1108,11 @@ namespace SQLTrainApp.Model.Commands
             return result;
         }
 
+        /// <summary>
+        /// Редактировать/Добавить задание
+        /// </summary>
+        /// <param name="newTask">Задание</param>
+        /// <returns></returns>
         public static object EditORAddTask(TrainSQL_DAL.Task newTask = null)
         {
             object res = null;
@@ -1029,7 +1149,12 @@ namespace SQLTrainApp.Model.Commands
 
             return res;
         }
-
+        
+        /// <summary>
+        /// Получить задание по ID
+        /// </summary>
+        /// <param name="taskID">ID задания</param>
+        /// <returns></returns>
         public static TrainSQL_DAL.Task GetTaskByID(int taskID = 0)
         {
             TrainSQL_DAL.Task task = null;
@@ -1054,6 +1179,11 @@ namespace SQLTrainApp.Model.Commands
 
 
         #region Complaints
+        /// <summary>
+        /// Отправить жалобу
+        /// </summary>
+        /// <param name="complaint">Жалоба</param>
+        /// <returns></returns>
         public static object SendComplaint(Complaint complaint = null)
         {
             if (complaint != null)
@@ -1077,17 +1207,22 @@ namespace SQLTrainApp.Model.Commands
             return null;
         }
 
-        public static object DeleteComplaint(Complaint theme = null)
+        /// <summary>
+        /// Удалить жалобу
+        /// </summary>
+        /// <param name="complaint">Жалоба</param>
+        /// <returns></returns>
+        public static object DeleteComplaint(Complaint complaint = null)
         {
             object res = null;
 
-            if (theme != null)
+            if (complaint != null)
             {
                 try
                 {
                     using (var context = new TrainSQL_Entities())
                     {
-                        var item = context.Complaints.FirstOrDefault(x => x.ComplaintID == theme.ComplaintID);
+                        var item = context.Complaints.FirstOrDefault(x => x.ComplaintID == complaint.ComplaintID);
                         if (item != null)
                         {
                             context.Complaints.Remove(item);
@@ -1104,6 +1239,10 @@ namespace SQLTrainApp.Model.Commands
             return res;
         }
 
+        /// <summary>
+        /// Получить список всех жалоб
+        /// </summary>
+        /// <returns></returns>
         public static List<Complaint> GetAllComplaints()
         {
             List<Complaint> result = null;
@@ -1122,6 +1261,11 @@ namespace SQLTrainApp.Model.Commands
             return result;
         }
 
+        /// <summary>
+        /// Получить список жалоб от 1 пользователя
+        /// </summary>
+        /// <param name="login">Логин</param>
+        /// <returns></returns>
         public static List<Complaint> GetComplaintsByLogin(string login = "")
         {
             List<Complaint> result = null;
@@ -1143,6 +1287,11 @@ namespace SQLTrainApp.Model.Commands
             return result;
         }
 
+        /// <summary>
+        /// Получить жалобы по заданию
+        /// </summary>
+        /// <param name="taskID">ID задания</param>
+        /// <returns></returns>
         public static List<Complaint> GetComplaintsByTask(int taskID = 0)
         {
             List<Complaint> result = null;

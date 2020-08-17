@@ -22,8 +22,9 @@ namespace SQLTrainApp.ViewModel
         public string UserEmail { get; set; }
         public string UserRole { get; set; }
 
+        // коллекция данных, для вывода на графике (линия прогресса, дата прохождения теста)
         public ObservableCollection<BaseCoordinate> Items { get; set; }
-        public int CanWidth { get; set; }
+        public int CanWidth { get; set; } // размер графика
 
         private User _user;
 
@@ -31,21 +32,27 @@ namespace SQLTrainApp.ViewModel
         {
             if (login != "")
             {
+                // поиск пользователя в БД
                 _user = TrainSQL_Commands.FindUser(login);
 
+                // получение данных пользователя
                 UserPhoto = Helper.BytesToBitmapImage(_user.Photo);
                 UserLogin = _user.Login;
                 UserEmail = _user.UserEmail;
                 UserRole = TrainSQL_Commands.GetUserRole(_user);
 
+                // прогресс пользователя
                 List<Progress> progress = TrainSQL_Commands.GetUserProgress(UserLogin);
 
+                // проверка, прошёл ли пользователь хотя бы 1 тест
                 if (progress!=null && progress.Count() > 1)
                 {
-                    Items = new ObservableCollection<BaseCoordinate>();                    
+                    Items = new ObservableCollection<BaseCoordinate>();
 
+                    // построение графика прогресса пользователя
                     for (int i = 0; i < progress.Count - 1; i++)
                     {
+                        // создание новой линии
                         LineVM line = new LineVM()
                         {
                             X1 = i * 70,
@@ -54,15 +61,18 @@ namespace SQLTrainApp.ViewModel
                             Y2 = 210 - progress[i + 1].RightAnswersQuantity * 32
                         };
 
+                        // выбор цвета линии на графике
                         if (line.Y1 > line.Y2)
-                            line.StrokeColor = Brushes.Lime;
+                            line.StrokeColor = Brushes.Lime; // зелёный - результаты улучшились
                         else if (line.Y1 < line.Y2)
-                            line.StrokeColor = Brushes.Red;
+                            line.StrokeColor = Brushes.Red; // красный - результаты ухудшились
                         else
-                            line.StrokeColor = Brushes.Gold;
+                            line.StrokeColor = Brushes.Gold; // жёлтый - - результаты не изменились
 
+                        // добавление линии в коллекцию
                         Items.Add(line);
 
+                        // добавление даты прохождения теста
                         Items.Add(new TextBlockVM()
                         {
                             Left = 70 * i + 40,
