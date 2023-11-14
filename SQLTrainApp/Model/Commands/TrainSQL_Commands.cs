@@ -17,7 +17,7 @@ namespace SQLTrainApp.Model.Commands
         /// </summary>
         private static SqlConnectionStringBuilder connectionBuilder = new SqlConnectionStringBuilder()
         {
-            DataSource = "DESKTOP-5D0552Q",
+            DataSource = "DESKTOP-D2LLRE5\\SQLEXPRESS",
             IntegratedSecurity = true
         };
 
@@ -247,7 +247,7 @@ namespace SQLTrainApp.Model.Commands
                     }
                     catch (Exception ex)
                     {
-                        error = "Ошибка dремени выполнения!" + ex.Message;
+                        error = "Ошибка времени выполнения!" + ex.Message;
                     }
 
                 }
