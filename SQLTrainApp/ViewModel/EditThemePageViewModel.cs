@@ -116,9 +116,9 @@ namespace SQLTrainApp.ViewModel
             else ErrorCollection.Add(columnName, error);
 
 
-            IsEnableBtn = ErrorCollection[nameof(ThemeID)] == null
-                          && ErrorCollection[nameof(ThemeName)] == null
-                          && ErrorCollection[nameof(ThemeInfo)] == null;
+            IsEnableBtn = (!ErrorCollection.TryGetValue(nameof(ThemeID), out string themeID) || themeID == null)
+                          && (!ErrorCollection.TryGetValue(nameof(ThemeName), out string themeName) || themeName == null)
+                          && (!ErrorCollection.TryGetValue(nameof(ThemeInfo), out string themeInfo) || themeInfo == null);
 
             OnPropertyChanged(nameof(ErrorCollection));
 

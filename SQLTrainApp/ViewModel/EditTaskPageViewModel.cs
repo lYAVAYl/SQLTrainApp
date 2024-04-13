@@ -252,8 +252,8 @@ namespace SQLTrainApp.ViewModel
             else ErrorCollection.Add(columnName, error);
 
 
-            IsEnableBtn = ErrorCollection[nameof(TaskInfo)] == null
-                          && ErrorCollection[nameof(RightQuery)] == null
+            IsEnableBtn = (!ErrorCollection.TryGetValue(nameof(TaskInfo), out string taskInfo) || taskInfo == null)
+                          && (!ErrorCollection.TryGetValue(nameof(RightQuery), out string rightQuery) || rightQuery == null)
                           && allCorrect;
 
             OnPropertyChanged(nameof(ErrorCollection));

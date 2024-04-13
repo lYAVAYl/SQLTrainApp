@@ -81,6 +81,8 @@ namespace SQLTrainApp.ViewModel
                         });
                     }
 
+                    OnPropertyChanged(nameof(Items));
+
                     CanWidth = 75 * progress.Count();
                 }
             }

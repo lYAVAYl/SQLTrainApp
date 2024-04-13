@@ -17,7 +17,7 @@ namespace SQLTrainApp.Model.Commands
         /// </summary>
         private static SqlConnectionStringBuilder connectionBuilder = new SqlConnectionStringBuilder()
         {
-            DataSource = "DESKTOP-D2LLRE5\\SQLEXPRESS",
+            DataSource = "DESKTOP-L3ANRNO\\SQLEXPRESS01",
             IntegratedSecurity = true
         };
 
